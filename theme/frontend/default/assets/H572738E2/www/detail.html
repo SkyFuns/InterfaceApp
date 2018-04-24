@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>车险报价</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link rel="stylesheet" type="text/css" href="css/mui.css"/>
+    <style>
+    	.body{
+    		background: transparent;
+    	}
+    	.line{
+    		 height:1px;
+			 width:100%;
+			 background:#C0C0C0;
+    	}
+    	.span-car{
+    		font-size:14px;
+    		width: 100%;
+    		line-height: 38px;
+    		padding-left: 10px;
+    	}
+    	.back-color{
+    		padding-top: 2px;
+    		width:100%;
+    		background-color: #C0C0C0;
+    		line-height: 55px;
+    	}
+    	.span-drop{
+    		padding-left: 10px;
+    		font-size: 17px;
+    	}
+    	.business-information {
+			width:100%;
+			padding: 10px;
+    	}
+    	.business-span-left{
+    		float: left;
+    	}
+		.business-span-right{
+    		float: right;
+    	}
+    	.span-car-info{
+    		display: block;
+    		width: 100%; 
+    	 	float:left;
+    	}	
+    	
+    	.tr-cen{
+    		text-align: center;
+    		line-height: 28px;
+    		height: 50px;
+			
+    	}
+    	
+    	.table-views{
+    		width: 175px;
+    	}
+    	
+	.circle { 
+                position: fixed; 
+                bottom: -10px; 
+                width: 100%;
+                height: 65px;
+                z-index: 99; 
+                opacity: 0.8;
+       	 	} 
+
+    </style>
+</head>
+<body>
+	<!-- 主界面不动、菜单移动 -->
+	<!-- 侧滑导航根容器 -->
+	<div class="mui-off-canvas-wrap mui-draggable mui-slide-in">
+	  <!-- 菜单容器 -->
+
+
+
+	  <!-- 主页面容器 -->
+	  <div class="mui-inner-wrap">
+	    <!-- 主页面标题 -->
+
+	    <header class="mui-bar mui-bar-nav">
+	        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	        <h1 class="mui-title">查询详情</h1>
+	    </header>
+	    <div class="mui-content mui-scroll-wrapper">
+
+	      <div class="mui-scroll">
+	        <!-- 主界面具体展示内容 -->
+	        
+	        
+	        <center style="font-weight:600; line-height: 50px;" <center><font color="#000000" size="4" >苏A12345</font></center>
+	        
+		        <div class="span-car">
+		        	<span style="display: block; width: 100%; float:left;" >品牌型号 : &nbsp;
+			       		野马MUST2.3T 跑车
+			       	</span>
+			       	<span style="display: block; width: 100%; float:left;" >车架号:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			       		 12312312312313
+			       	</span>
+			       	<span style="display: block; width: 100%; float:left;">发动机号 :&nbsp;&nbsp;
+			       		 H5123123
+			       	</span>
+			       	<span style="display: block;">注册日期 :&nbsp;&nbsp;
+			       		 2016-09-05
+			       	</span>
+			       	<span style="display: block;">车主姓名 :&nbsp;&nbsp;
+			       		 童年
+			       	</span>
+	        		
+	        	</div>
+	        
+	        <div class="line"></div>
+	        
+	        
+	        <div class="business-information">
+			  	<span class="business-span-left"><font color="#99999">录入时间：2018-02-05</font></span>&nbsp;
+			  	<span class="business-span-right"><font color="#99999">业务员：郭梅</font></span>
+			</div>
+	        	
+			<div class="back-color">
+			  	<span class="back-color span-drop">去年投保信息</span>
+			</div>
+			
+			<div class="back-color-details" style="overflow">
+				<div class="span-car">
+		        	<span  class="span-car-info"  >商业险到期时间 : 
+			       		2018-06-03 23:59:59
+			       	</span>
+			       	<span class="span-car-info"  >交强险到期时间 : 
+			       		2018-06-03 23:59:59
+			       	</span>
+			       	<span class="span-car-info" >上年投保公司 :
+			       			人保车险
+			       	</span>
+			       	<span class="span-car-info">交强险保单号 :
+			       			PDAA201712312321312312
+			       	</span>
+			       	<span class="span-car-info">商业险保单号 :
+			       		 PDZA201712312321312312
+			       	</span>
+			       	<button type="button" class="mui-btn mui-btn-green" style="margin-left: -80px; margin-top: 69px; line-height: 35px; box-shadow:0px 0 10px #999999" disabled>未到期</button>
+	        	</div>
+
+	        	<table border="1" bordercolor="#C0C0C0" style="margin-left: 10px; margin-bottom: 80px;" >
+	        		<tr class="tr-cen">
+	        			<th class="table-views">险种</th>
+	        			<th class="table-views">保险金额/责任限额</th>
+	        		</tr>
+	        		<tr class="tr-cen">
+	        			<td>交强险/车船税</td>
+	        			<td>投保</td>
+	        		</tr>
+	        		<tr  class="tr-cen">
+	        			<td>交强险/车船税</td>
+	        			<td>82,000(不计免赔)</td>
+	        		</tr>
+	        		<tr class="tr-cen">
+	        			<td>第三者责任险</td>
+	        			<td>1,000,000(不计免赔)</td>
+	        		</tr>
+	        		<tr class="tr-cen" >
+	        			<td>交强险/车船税</td>
+	        			<td>投保</td>
+	        		</tr>
+	        		<tr class="tr-cen" >
+	        			<td>交强险/车船税</td>
+	        			<td>投保</td>
+	        		</tr>
+	        		<tr class="tr-cen" >
+	        			<td>交强险/车船税</td>
+	        			<td>投保</td>
+	        		</tr>
+	        		<tr class="tr-cen" >
+	        			<td>交强险/车船税</td>
+	        			<td>投保</td>
+	        		</tr>
+	        		<tr class="tr-cen" >
+	        			<td>交强险/车船税</td>
+	        			<td>投保</td>
+	        		</tr>
+	        		<tr class="tr-cen" >
+	        			<td>交强险/车船税</td>
+	        			<td>投保</td>
+	        		</tr>
+	        		<tr class="tr-cen" >
+	        			<td>交强险/车船税</td>
+	        			<td>投保</td>
+	        		</tr>
+	        		<tr class="tr-cen" >
+	        			<td>交强险/车船税</td>
+	        			<td>投保</td>
+	        		</tr>
+	        		<tr class="tr-cen" >
+	        			<td>交强险/车船税</td>
+	        			<td>投保</td>
+	        		</tr>
+	        		<tr class="tr-cen" >
+	        			<td>交强险/车船税</td>
+	        			<td>投保</td>
+	        		</tr>
+	        	</table>
+			</div>	
+	      </div>
+	    </div>  
+
+	    <div class="mui-off-canvas-backdrop"></div>	
+	  </div>
+	</div>
+	
+	
+	<div class="tab-center">
+		<div class="circle"> 
+		<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block">去报价</button>
+		</div> 
+	</div>
+    <script src="js/mui.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+    mui.init()
+    </script>
+    <script>
+    	(function($){
+			$(".mui-scroll-wrapper").scroll({
+				bounce: false,//滚动条是否有弹力默认是true
+				indicators: false, //是否显示滚动条,默认是true
+			});
+		})(mui);
+		
+		mui(document.body).on('tap', '.mui-btn', function(e) {
+		    mui(this).button('loading');
+		    setTimeout(function() {
+		        mui(this).button('reset');
+		    }.bind(this), 2000);
+		});
+		
+    </script>
+</body>
+</html>

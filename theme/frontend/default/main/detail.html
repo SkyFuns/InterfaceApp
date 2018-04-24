@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>车险报价</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link rel="stylesheet" type="text/css" href="__THEMES__/css/mui.css"/>
+    <style>
+    	.body{
+    		background: transparent;
+    	}
+    	.line{
+    		 height:1px;
+			 width:100%;
+			 background:#C0C0C0;
+    	}
+    	.span-car{
+    		font-size:14px;
+    		width: 100%;
+    		line-height: 38px;
+    		padding-left: 10px;
+    	}
+    	.back-color{
+    		width:100%;
+    		background-color: #C0C0C0;
+    		padding: 10px 0px;
+    		height:45px;
+    	}
+    	.span-drop{
+    		padding-left: 10px;
+    		font-size: 13px;
+    	}
+    	.business-information {
+			width:100%;
+			padding: 10px;
+    	}
+    	.business-span-left{
+    		float: left;
+    	}
+		.business-span-right{
+    		float: right;
+    	}
+    	.span-car-info{
+    		display: block;
+    		width: 100%;
+    	 	float:left;
+    	}
+
+    	.tr-cen{
+    		text-align: center;
+    		line-height: 28px;
+    		height: 50px;
+
+    	}
+
+    	.table-views{
+    		width: 175px;
+    	}
+
+	.circle {
+                position: fixed;
+                bottom: -10px;
+                width: 100%;
+                height: 65px;
+                z-index: 99;
+                opacity: 0.8;
+       	 	}
+
+    </style>
+</head>
+<body>
+	<!-- 主界面不动、菜单移动 -->
+	<!-- 侧滑导航根容器 -->
+	<div class="mui-off-canvas-wrap mui-draggable mui-slide-in">
+	  <!-- 菜单容器 -->
+
+
+
+	  <!-- 主页面容器 -->
+	  <div class="mui-inner-wrap">
+	    <!-- 主页面标题 -->
+
+	    <header class="mui-bar mui-bar-nav">
+	        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	        <h1 class="mui-title">查询详情</h1>
+	    </header>
+	    <div class="mui-content mui-scroll-wrapper">
+
+	      <div class="mui-scroll">
+	        <!-- 主界面具体展示内容 -->
+
+	        <center style="font-weight:600; line-height: 50px;" <center><font color="#000000" size="4" >{$renewal.carInfo.license_no}</font></center>
+
+		        <div class="span-car">
+		        	<span style="display: block; width: 100%; float:left;" >品牌型号 : &nbsp;
+			       		{$renewal.carInfo.model}
+			       	</span>
+			       	<span style="display: block; width: 100%; float:left;" >车架号:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			       		 {$renewal.carInfo.vin_no}
+			       	</span>
+			       	<span style="display: block; width: 100%; float:left;">发动机号 :&nbsp;&nbsp;
+			       		 {$renewal.carInfo.engine_no}
+			       	</span>
+			       	<span style="display: block;">注册日期 :&nbsp;&nbsp;
+			       		 <span id="enroll_date">{$renewal.carInfo.enroll_date}</span>
+			       	</span>
+			       	<span style="display: block;">车主姓名 :&nbsp;&nbsp;
+			       		 {$renewal.ownerInfo.owner}
+			       	</span>
+
+	        	</div>
+
+	        <div class="line"></div>
+
+
+<!-- 	        <div class="business-information">
+			  	<span class="business-span-left"><font color="#99999">录入时间：2018-02-05</font></span>&nbsp;
+			  	<span class="business-span-right"><font color="#99999">业务员：郭梅</font></span>
+			</div> -->
+
+			<div class="back-color">
+			  	<span class="back-color span-drop">去年投保信息</span>
+			</div>
+
+			<div class="back-color-details" style="overflow">
+				<div class="span-car">
+					{if $renewal.policyBI}
+		        	<span  class="span-car-info">商业险到期时间 :
+			       		<span id="business_end_time">{$renewal.policyBI.end_date}</span>
+			       	</span>
+			       	{/if}
+			       	{if $renewal.policyCI}
+			       	<span class="span-car-info"  >交强险到期时间 :
+			       		{$renewal.policyCI.end_date}
+			       	</span>
+			       	{/if}
+			       	{if $renewal.policyBI}
+			       	<span class="span-car-info" >上年投保公司 :
+			       		{$renewal.policyBI.insurance_company}
+			       	</span>
+			       	{/if}
+			       	{if $renewal.policyCI}
+			       	<span class="span-car-info">交强险保单号 :
+			       			{$renewal.policyCI.policy_no}
+			       	</span>
+			       	{/if}
+			       	{if $renewal.policyBI}
+			       	<span class="span-car-info">商业险保单号 :
+			       		 {$renewal.policyBI.policy_no}
+			       	</span>
+			       	{/if}
+			       	<!-- <button type="button" class="mui-btn mui-btn-green" style="margin-left: -80px; margin-top: 69px; line-height: 35px; box-shadow:0px 0px 10px #999999" disabled>未到期</button> -->
+	        	</div>
+
+	        	<table border="1" bordercolor="#C0C0C0" style=" width:100%;  margin-bottom: 80px; font-size: 13px; font-family:'微软雅黑';" >
+	        		<tr class="tr-cen">
+	        			<th class="table-views">险种</th>
+	        			<th class="table-views">保险金额/保险费用</th>
+	        		</tr>
+
+	        		{if $renewal.policyCI}
+	        		<tr class="tr-cen">
+	        			<td>交强险/车船税</td>
+	        			<td>投保</td>
+	        		</tr>
+	        		{/if}
+	        		{if $renewal.policyBI}
+					{foreach $renewal.policyBI.items as $vo}
+	        		<tr  class="tr-cen">
+	        			<td>{$vo.item_name}</td>
+	        			<td>{$vo.amount} / {$vo.premium}</td>
+	        		</tr>
+	        		{/foreach}
+	        		{/if}
+	        	</table>
+			</div>
+	      </div>
+	    </div>
+	    <div class="mui-off-canvas-backdrop"></div>
+	  </div>
+	</div>
+
+	<div class="tab-center">
+		<div class="circle">
+			<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block">去报价</button>
+		</div>
+	</div>
+    <script src="__THEMES__/js/mui.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+    mui.init({
+		  pullRefresh : {
+		    container:".mui-content",//下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+		    down : {
+		      height:50,//可选,默认50.触发下拉刷新拖动距离,
+		      auto: false,//可选,默认false.首次加载自动下拉刷新一次
+		      contentdown : "下拉刷新",//可选，在下拉可刷新状态时，下拉刷新控件上显示的标题内容
+		      contentover : "释放立即刷新",//可选，在释放可刷新状态时，下拉刷新控件上显示的标题内容
+		      contentrefresh : "正在刷新...",//可选，正在刷新状态时，下拉刷新控件上显示的标题内容
+		      callback :downFn //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+		    }
+		  }
+		});
+
+		function downFn(){
+			/*AJAX业务逻辑*/
+
+			setTimeout(function () {
+              mui('.mui-content').pullRefresh().endPulldownToRefresh(); //关闭顶部下拉
+          }, 1500);
+		}
+    </script>
+    <script>
+
+
+
+    	mui.alert('自动带出续保险种','续保成功','关闭',function (e) {
+
+//alert(getDayNumber('2012-03-13','2018-03-08'));
+    	   e.index
+    	},'div');
+
+    	(function($){
+
+			$(".mui-scroll-wrapper").scroll({
+				bounce: false,//滚动条是否有弹力默认是true
+				indicators: false, //是否显示滚动条,默认是true
+			});
+		})(mui);
+
+		mui(document.body).on('tap', '.mui-btn', function(e) {
+		    mui(this).button('报价中');
+		    setTimeout(function() {
+		        mui(this).button('reset');
+		    }.bind(this), 2000);
+
+			mui.openWindow({
+  				id:'offer.html',
+				url:'{:url("Main/offer")}',
+			});
+
+		});
+
+
+		 function getDayNumber(date1,date2){
+			var year1 =  date1.substr(0,4);
+			var year2 =  date2.substr(0,4);
+			var month1 = date1.substr(5,2);
+			var month2 = date2.substr(5,2);
+			var day1 = date1.substr(8,2);
+			var day2 = date2.substr(8,2);
+			temp1 = year1+"/"+month1+"/"+day1;
+			temp2 = year2+"/"+month2+"/"+day2;
+			var dateaa= new Date(temp1);
+			var datebb = new Date(temp2);
+			var date = datebb.getTime() - dateaa.getTime();
+			var time = Math.floor(date / (1000 * 60 * 60 * 24));
+			var new_year = (year2-year1) * 365 - time;
+			return new_year;
+		 }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>完善算价信息</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="__THEMES__/css/mui.min.css" rel="stylesheet" />
+		<style>
+
+			.mui-title{
+				font-family: "微软雅黑";
+				font-size:medium;
+				font-weight: 700;
+			}
+			body{
+				font-family: "微软雅黑";
+				font-size:small;
+				font-weight: 700;
+			}
+
+			.notice{
+				width: 100%;
+				margin-top: 10px;
+				margin-left: 10px;
+			}
+			.carinfo{
+				width: 100%;
+				height: 202px;
+				margin-top: 20px;
+			}
+			.circle{
+			    position: fixed;
+			    bottom: -10px;
+			    width: 100%;
+			    height: 65px;
+			    z-index: 99;
+			    opacity: 0.8;
+			}
+		</style>
+	</head>
+
+	<body>
+
+
+
+
+		<!-- 主界面移动、菜单不动 -->
+		<div class="mui-off-canvas-wrap mui-draggable">
+		  <!-- 主页面容器 -->
+		  <div class="mui-inner-wrap">
+		    <!-- 主页面标题 -->
+		    <header class="mui-bar mui-bar-nav">
+		    	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    	<h1 class="mui-title">完善算价信息</h1>
+			</header>
+		    <div class="mui-content mui-scroll-wrapper">
+		      <div class="mui-scroll">
+		        <!-- 主界面具体展示内容 -->
+		         	<div class="notice">
+		         		<span class="title">未查询到相关续保数据，请手动录入必要信息进行算价</span>
+		         	</div>
+		         	<div class="carinfo">
+		         		<form class="mui-input-group">
+						    <div class="mui-input-row">
+						        <label>车牌号码</label>
+						    <input type="text" class="mui-input-clear" placeholder="请输入车牌号码" id="license_no">
+						    </div>
+						    <div class="mui-input-row">
+						        <label>品牌型号</label>
+						        <input type="text" class="mui-input-clear" placeholder="请输入品牌型号" id="model">
+						    </div>
+						    <div class="mui-input-row">
+						        <label>车辆识别代码</label>
+						        <input type="text" class="mui-input-clear" placeholder="请输入车辆识别代码" id="vin_no">
+						    </div>
+						    <div class="mui-input-row">
+						        <label>发动机号</label>
+						        <input type="text" class="mui-input-clear" placeholder="请输入发动机号" id="engine_no">
+						    </div>
+						    <div class="mui-input-row">
+						        <label>注册日期</label>
+						        <input type="text" class="mui-input-clear" placeholder="请输入注册日期" id="enroll_date">
+						    </div>
+
+						</form>
+
+		         	</div>
+
+		      </div>
+		    </div>
+		    <div class="mui-off-canvas-backdrop"></div>
+		  </div>
+		</div>
+		<div class="tab-center">
+			<div class="circle">
+				<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block" id="nextstep" onclick="SendPage()">下一步</button>
+			</div>
+		</div>
+
+
+		<script src="__THEMES__/js/mui.min.js"></script>
+		<script src="__THEMES__/js/jquery_3.3.1.js"></script>
+		<script type="text/javascript">
+			mui.init()
+
+			function SendPage()
+			{
+				var object = new Object();
+
+
+				var license_no = $("#license_no").val();
+				if(license_no == "")
+				{
+					alert('车牌号不能为空');
+					return;
+				}
+				else
+				{
+					object.license_no = license_no;
+				}
+				var model = $("#model").val();
+				if(model == "")
+				{
+					alert('品牌型号不能为空');
+					return;
+				}
+				else
+				{
+					object.model = model;
+				}
+				var vin_no = $("#vin_no").val();
+				if(vin_no == "")
+				{
+					alert('车架号不能为空');
+					return;
+				}
+				else
+				{
+					object.vin_no = vin_no;
+				}
+				var engine_no = $("#engine_no").val();
+				if(engine_no == "")
+				{
+					alert('发动机号不能为空');
+					return;
+				}
+				else
+				{
+					object.engine_no = engine_no;
+				}
+				var enroll_date = $("#enroll_date").val();
+				if(enroll_date == "")
+				{
+					alert('注册日期不能为空');
+					return;
+				}
+				else
+				{
+					object.enroll_date = enroll_date;
+				}
+
+				$.post('/main/submit_driving',{'carinfo':object},function(msg){
+					if(msg.status !=0)
+					{
+						alert(msg.content);
+					}
+
+					mui.openWindow({
+           				 url:'{:url("Main/offer")}',
+					});
+				});
+			}
+
+		</script>
+	</body>
+
+</html>

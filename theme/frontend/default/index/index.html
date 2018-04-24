@@ -1,0 +1,352 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>主页</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="__THEMES__/css/mui.css" rel="stylesheet" />
+		<script src="__THEMES__/js/mui.min.js"></script>
+
+		<style>
+			.body{
+				height: 1000px;
+			}
+
+			.notice{
+				position: relative;
+				width: 100%;
+				margin-top: 20px;
+				height: 50px;
+				background-color: #FFFFFF;
+			}
+
+			.mui-icon-chat{
+				margin-left: 32px;
+				margin-top: 15px;
+			}
+			.notice-font{
+				font-size: 15px;
+				font-family: simhei;
+				padding-left: 20px;
+				margin-left: 15px;
+			}
+
+			.persion_info{
+				width: 100%;
+				height: 100px;
+				margin-top: 10px;
+				background-color: #FFFFFF;
+				margin-top: 20px;
+
+			}
+			#divcss5{
+				margin-top: 10px;
+				}
+			#divcss5 img{
+					border-radius:50%;
+					width: 50px;
+					height: 55px;
+					margin-left: 30px;
+					margin-top: 20px;
+				}
+			.user-info{
+
+				padding: 30px 100px;
+				font-size: 15px;
+				margin-top: -90px;
+			}
+
+			.username{
+				font-family:"微软雅黑";
+			}
+
+			.integral_info{
+				font-family: "微软雅黑";
+			}
+
+			.mui-btn{
+				float: right;
+				margin-right: 55px;
+				margin-top: -65px;
+				height: 30px;
+
+			}
+
+			.mui-btn .mui-icon{
+				font-size: 16px;
+			}
+
+			.mui-grid-view.mui-grid-9{
+				margin-top: 20px;
+				background-color: #FFFFFF;
+			}
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell{
+				border-right:3px solid #eee;
+				border-bottom:3px solid #eee;
+				width:33.33%;
+			}
+
+
+		</style>
+
+	</head>
+
+	<body>
+
+
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">主页</h1>
+		</header>
+
+		<!-- 主界面菜单同时移动 -->
+		    <!-- 侧滑导航根容器 -->
+		    <div class="mui-off-canvas-wrap mui-draggable">
+		        <!-- 主页面容器 -->
+		        <div class="mui-inner-wrap">
+
+		            <!-- 底部菜单选项 -->
+		           	<nav class="mui-bar mui-bar-tab">
+			        	<a class="mui-tab-item mui-active" id ='1'>
+			    	    	<span class="mui-icon mui-icon-home"></span>
+			    	        <span class="mui-tab-label">主页</span>
+			    	    </a>
+			    	    <a class="mui-tab-item" id ='2'>
+			    	    	<span class="mui-icon mui-icon-paperplane"></span>
+			    	        <span class="mui-tab-label">车险报价</span>
+			    	    </a>
+			    	    <a class="mui-tab-item" id ='3'>
+			    	        <span class="mui-icon mui-icon-compose"></span>
+			    	        <span class="mui-tab-label">报价记录</span>
+			    	    </a>
+			    	    <a class="mui-tab-item" id ='4'>
+			    	        <span class="mui-icon mui-icon-paperclip"></span>
+			    	        <span class="mui-tab-label">知识库</span>
+			    	    </a>
+			    	    <a class="mui-tab-item" id ='5'>
+			    	        <span class="mui-icon mui-icon-contact"></span>
+			    	        <span class="mui-tab-label">个人中心</span>
+			    	    </a>
+			    	</nav>
+
+
+		            <!-- 主页面内容容器 -->
+		            <div class="mui-content mui-scroll-wrapper">
+		                <div class="mui-scroll">
+		                    <!-- 主界面具体展示内容 -->
+
+		                    <!-- 顶部图片轮播 -->
+		                    <div id="slider" class="mui-slider" >
+		                      <div class="mui-slider-group mui-slider-loop">
+		                        <!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+		                        <div class="mui-slider-item mui-slider-item-duplicate">
+		                          <a href="#">
+		                            <img src="__THEMES__/images/1.png">
+		                          </a>
+		                        </div>
+		                        <!-- 第一张 -->
+		                        <div class="mui-slider-item">
+		                          <a href="#">
+		                            <img src="__THEMES__/images/1.png">
+		                          </a>
+		                        </div>
+		                        <!-- 第二张 -->
+		                        <div class="mui-slider-item">
+		                          <a href="#">
+		                            <img src="__THEMES__/images/1.png">
+		                          </a>
+		                        </div>
+
+		                        <!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+		                    	<div class="mui-slider-item mui-slider-item-duplicate">
+		                          <a href="#">
+		                            <img src="__THEMES__/images/1.png">
+		                          </a>
+		                        </div>
+		                    </div>
+		                      <div class="mui-slider-indicator">
+		                        <div class="mui-indicator mui-active"></div>
+		                        <div class="mui-indicator"></div>
+		                      </div>
+		                    </div>
+
+		                    <!-- 用户提示信息 -->
+		                    <div class="notice">
+		                    	<span class="mui-icon mui-icon-chat"><font  class="notice-font">恭喜：车牌川AZ12312312</font></span>
+		                    </div>
+
+		                   	<!-- 欢迎信息 -->
+		                    <div class="persion_info">
+		                    	<a href="#">
+		                            <div id="divcss5"><img src="__THEMES__/images/head.png" /></div>
+		                       </a>
+		                        <div class="user-info">
+			                        	<span class="username">{$username}</span>
+			                        	<span>欢迎你！</span></br>
+			                       		<span class="integral_info">我的积分：<span style="color: red;">0</span></span>
+		                    	</div>
+								<button type="button" class="mui-btn mui-btn-danger mui-btn-outlined">
+		            				<span class="mui-icon mui-icon-compose">签到</span>
+								</button>
+		                    </div>
+
+
+
+		                    <!-- 中部菜单选项 -->
+		                   	<ul class="mui-table-view mui-grid-view mui-grid-9">
+			                   	<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id ='1'>
+			                   	    <a href="#">
+			                   	        <span class="mui-icon mui-icon-home"></span>
+			                   	        <div class="mui-media-body">主页</div>
+			                   	    </a>
+			                   	</li>
+			                   	<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id ='2'>
+			                   	    <a href="#">
+			                   	        <span class="mui-icon mui-icon-email"><span class="mui-badge mui-badge-red">5</span></span>
+			                   	        <div class="mui-media-body">车险出单</div>
+			                   	    </a>
+			                   	</li>
+			                   	<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id ='3' >
+			                   	    <a href="#">
+			                   	        <span class="mui-icon mui-icon-chatbubble"></span>
+			                   	        <div class="mui-media-body">非车出单</div>
+			                   	    </a>
+			                   	</li>
+			                   	<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id ='4'>
+			                   	    <a href="#">
+			                   	        <span class="mui-icon mui-icon-location"></span>
+			                   	        <div class="mui-media-body">积分商城</div>
+			                   	    </a>
+			                   	</li>
+			                   	<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id ='5'>
+			                   	    <a href="#">
+			                   	        <span class="mui-icon mui-icon-search"></span>
+			                   	        <div class="mui-media-body">我的客户</div>
+			                   	    </a>
+			                   	</li>
+			                   	<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id ='6'>
+			                   	    <a href="#">
+			                   	        <span class="mui-icon mui-icon-phone"></span>
+			                   	        <div class="mui-media-body">积分管理</div>
+			                   	    </a>
+			                   	</li>
+		                   	</ul>
+		                </div>
+		            </div>
+		       	 <div class="mui-off-canvas-backdrop"></div>
+		        </div>
+		    </div>
+
+
+		<script type="text/javascript">
+			mui.init({
+			  pullRefresh : {
+			    container:".mui-content",//下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+			    down : {
+			      height:50,//可选,默认50.触发下拉刷新拖动距离,
+			      auto: false,//可选,默认false.首次加载自动下拉刷新一次
+			      contentdown : "下拉刷新",//可选，在下拉可刷新状态时，下拉刷新控件上显示的标题内容
+			      contentover : "释放立即刷新",//可选，在释放可刷新状态时，下拉刷新控件上显示的标题内容
+			      contentrefresh : "正在刷新...",//可选，正在刷新状态时，下拉刷新控件上显示的标题内容
+			      callback :downFn //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+			    }
+			  }
+			});
+
+		function downFn(){
+			/*AJAX业务逻辑*/
+			setTimeout(function () {
+              mui('.mui-content').pullRefresh().endPulldownToRefresh(); //关闭顶部下拉
+          }, 1500);
+		}
+		</script>
+
+		<script>
+
+			(function($){
+				$(".mui-scroll-wrapper").scroll({
+					bounce: false,//滚动条是否有弹力默认是true
+					indicators: false, //是否显示滚动条,默认是true
+				});
+			})(mui);
+
+			mui(".mui-bar-tab").on('tap','.mui-tab-item',function(){
+
+				var id = this.getAttribute("id");
+				var url = urls(id);
+				windosopen(url);
+			});
+
+
+
+			mui(".mui-table-view").on('tap','.mui-table-view-cell',function(){
+
+				var id = this.getAttribute("id");
+				var url = urls(id);
+			  	windosopen(url);
+			});
+
+
+			function urls(id)
+			{
+				//传值给详情页面，通知加载新数据
+				if(id == 1)
+				{
+					var url = '{:url("Index/index")}';
+				}
+				else if(id == 2 )
+				{
+					var url = '{:url("Main/index")}';
+				}
+				else if(id == 3 )
+				{
+					var url = '{:url("Main/offer_record")}';
+				}
+				else if(id == 4 )
+				{
+					var url = '#';
+				}
+				else if(id == 5 )
+				{
+					var url = '#';
+				}
+				else if(id == 6 )
+				{
+					var url = '#';
+				}
+				return url;
+			}
+
+			function windosopen(url)
+			{
+				mui.openWindow({
+				    url:url,
+				    styles:{
+				      top:'mui-inner-wrap mui-transitioning',//新页面顶部位置
+				      bottom:'mui-off-canvas-backdrop',//新页面底部位置
+				      width:'100%',//新页面宽度，默认为100%
+				      height:'100%',//新页面高度，默认为100%
+				    },
+				    extras:{},
+				    createNew:false,//是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+				    show:{
+				      autoShow:true,//页面loaded事件发生后自动显示，默认为true
+				      aniShow:'slide-in-right',//页面显示动画，默认为”slide-in-right“；
+				      duration:'100'//页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
+				    },
+				    waiting:{
+				      autoShow:true,//自动显示等待框，默认为true
+				      title:'正在加载...',//等待对话框上显示的提示内容
+				      options:{}
+				    }
+				})
+			}
+
+
+
+		</script>
+
+
+	</body>
+
+</html>

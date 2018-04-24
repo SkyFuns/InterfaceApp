@@ -1,0 +1,1628 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>选择险种</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="__THEMES__/css/mui.min.css" rel="stylesheet" />
+		<link href="__THEMES__/css/mui.dtpicker.css" rel="stylesheet" />
+		<link href="__THEMES__/css/mui.picker.css" rel="stylesheet" />
+		<link href="__THEMES__/css/mui.poppicker.css" rel="stylesheet" />
+		<link href="__THEMES__/css/layer.css" rel="stylesheet" />
+    	<link href="__THEMES__/layui/css/layui.css" rel="stylesheet" media="all">
+		<style>
+			.mui-switch.mui-active{
+				border-color: #dd524d;
+				background-color: #dd524d;
+
+			}
+
+			.mui-bar-nav~.mui-content{
+				padding-top:60px;
+			}
+
+			.span-car{
+
+	    		font-size:12px;
+	    		width: 100%;
+	    		height: 120px;
+	    		padding-left: 12px;
+
+    		}
+
+			.mui-btn-outlined{
+				position: relative;
+				float: right;
+				margin-top: -38px;
+				margin-right: 30px;
+			}
+
+			.car_change{
+
+				width: 100%;
+				height: 60px;
+				padding-top: 15px;
+
+			}
+
+			.car_change span{
+				margin-top: 0px;
+				margin-right:-70px;
+
+			}
+
+
+			.line{
+				height:1px;
+				width:100%;
+				background:#C0C0C0;
+				margin-top:15px;
+    		}
+
+    		.mui-icon-forward{
+    			position: relative;
+    			width: 100px;
+    			float: right;
+    			margin-right: -56px;
+    			margin-top: -2px;
+    		}
+
+			.car_info{
+
+				width: 100%;
+				height: 30px;
+				margin-top:2px;
+				margin-left: 12px;
+			}
+			.line_1{
+    			height:1px;
+				width:100%;
+				background:#fcfcfc;
+
+    		}
+			.car_info_s{
+				padding-top: 10px;
+			}
+			.car_info_vehicle{
+				display: block;
+				font-size: 12px;
+				margin-left: 12px;
+			}
+
+			.change_car{
+				background-color: #DDDDDD;
+				margin-top: 10px;
+				padding-top: 15px;
+				width: 100%;
+				height: 50px;
+			}
+
+			.chang_car.line{
+				margin-left: 10px;
+				border-right: 3px solid #DD524D;
+			}
+			.change_car.info{
+
+				padding-left: 10px;
+			}
+			.change_car.change_time{
+
+				width: 160px;
+				height: 100%;
+				padding-left: 8px;
+				padding-top: 9px;
+				margin-left: 100px;
+				margin-top: -28px;
+				border: 1px solid #dd524d80;
+				border-radius: 6px;
+				color: #DD524D;
+
+			}
+			.calendar{
+
+				transform:translateY(-2px);
+				width: 22px;
+			}
+
+
+			.car_info_select{
+				margin-left: 210px;
+				color: #dd524d;
+				float: right;
+			}
+
+			.mui-switch.mui-switch-mini{
+
+				float: right;
+				margin-top: -28px;
+			}
+
+			.jiaoqiang{
+				margin-top: 10px;
+			}
+
+			.shangye{
+				margin-top: 0px;
+			}
+
+			.item{
+				width: 100%;
+				height: 100%;
+				margin-top: 10px;
+				font-size: 14px;
+				overflow: hidden;
+			}
+
+			.offer_models{
+				width: 100%;
+				height: 600px;
+				margin-top: 10px;
+				font-size: 14px;
+				#border: 1px solid red;
+			}
+
+			.offer_models_item{
+				width: 100%;
+				height: 30px;
+				padding: 10px;
+			}
+
+			.item_info{
+
+				width: 100%;
+				height: 100%;
+				padding: 10px;
+	     		line-height: 60px;
+	     		border-bottom: 1px solid #fcfcfc;
+	     		position:relative;
+	     		padding: 0 12px;
+	     		color: #666;
+	         	background: #f2f2f2;
+	         	-webkit-transform: translateX(0px);
+
+			}
+
+
+
+			.mui-icon.mui-icon-forward{
+				color: #dd524d;
+			}
+
+			.mui-checkbox input[type=checkbox], .mui-radio input[type=radio]{
+				top:0px;
+				right: 100px;
+				padding-left:72px;
+				margin-top:-3px;
+				right: 87px;
+			}
+			.mui-radio input[type='checkbox']:checked:before {
+				content: '\e442';
+
+			}
+			.mui-radio input[type='radio']:checked:before {
+				content: '\e442';
+
+			}
+
+			.mui-checkbox, .mui-radio{
+				padding-left:50px;
+			}
+			.mui-checkbox input[type=checkbox]:checked:before, .mui-radio input[type=radio]:checked:before{
+				color: #dd524d;
+			}
+
+			.forehead{
+				float: right;
+			}
+			.forehead_info{
+				color: #dd524d;
+			}
+
+			.circle {
+                position: fixed;
+                bottom: -10px;
+                width: 100%;
+                height: 65px;
+                z-index: 99;
+                opacity: 0.8;
+       	 	}
+       	 	.confirm_model{
+       	 		position: fixed;
+                bottom: -10px;
+                width: 100%;
+                height: 65px;
+                z-index: 99;
+                opacity: 0.8;
+       	 	}
+
+       	 	.layui-tab-brief>.layui-tab-title .layui-this{
+       	 		color:#dd524d;
+       	 	}
+
+       	 	.layui-tab-brief>.layui-tab-more li.layui-this:after, .layui-tab-brief>.layui-tab-title .layui-this:after{
+       	 		border-bottom:2px solid #dd524d;
+       	 	}
+
+       	 	.radio_inline.mui-radio{
+       	 		float: right;
+       	 		margin-right:-38px;
+       	 	}
+       	 	.mui-table-view{
+       	 		background-color: #f6f6f6;
+       	 	}
+
+       	 	.mui-table-view-radio .mui-table-view-cell .mui-navigate-right:after{
+       	 		color:#dd524d;
+
+       	 	}
+
+       	 	.checkbox_span{
+       	 		margin-left: 14px;
+
+       	 	}
+
+       	 	.user_span{
+       	 		font-size: 12px;
+       	 		width: 100%;
+       	 		display: block;
+       	 	}
+
+       	 	.span_username{
+
+       	 		padding-left: 15px;
+
+       	 	}
+
+
+       	 	.span_idcard{
+
+       	 		padding-left: 6px;
+
+       	 	}
+
+       	 	.span_phone{
+       	 		padding-left: 28px;
+       	 	}
+
+       	 	.layui-m-layerchild.layui-m-anim-scale{
+       	 		font-family:"微软雅黑";
+       	 		border-radius:8px;
+       	 	}
+       	 	.add_items_button{
+       	 		float: right;
+       	 		width: 100%;
+       	 		height: 50px;
+       	 	}
+
+          .mui-checkbox input[type=checkbox]:before, .mui-radio input[type=radio]:before{
+
+            font-size:21px;
+
+          }
+
+          .add_items_spans{
+            display: block;
+
+          }
+
+          .item_infos{
+            padding: 15px 33px;
+          }
+
+          .item_infos div{
+
+          	width: 100%;
+            margin: 18px 0px;
+
+          }
+
+
+     	.del_items{
+
+     		position: absolute;
+     		top: 0;
+     		right: -80px;
+     		text-align: center;
+     		background: #e7a7a8;
+     		color: #fff;
+     		width: 80px
+     	}
+
+     	.span-userinfo{
+     		padding-left: 12px;
+     	}
+     	.layui-m-layerchild.layui-m-anim-up{
+     		background-color: #f6f6f6;
+     		overflow: scroll;
+     	}
+
+     	.layui-m-layer2 .layui-m-layercont i{
+     		background-color:#dd524d;
+
+     	}
+     	.layui-m-layer2 .layui-m-layercont p{
+     		color:#dd524d;
+
+     	}
+     	.mui-table-view-cell>a:not(.mui-btn){
+     		white-space:unset;
+     	}
+
+		</style>
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav">
+	        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	        <h1 class="mui-title">选择险种</h1>
+	    </header>
+
+
+		<!-- 主界面不动、菜单移动 -->
+		<!-- 侧滑导航根容器 -->
+		<div class="mui-off-canvas-wrap mui-draggable mui-slide-in">
+
+		  <!-- 主页面容器 -->
+		  <div class="mui-inner-wrap">
+
+		    <!-- 主页面标题 -->
+		    <header class="mui-bar mui-bar-nav">
+		      <a class="mui-icon mui-action-menu mui-icon-bars mui-pull-left" href="#offCanvasSide"></a>
+		      <h1 class="mui-title">标题</h1>
+		    </header>
+
+
+		    <div class="mui-content mui-scroll-wrapper" id="elem">
+		      <div class="mui-scroll">
+		        	<!-- 主界面具体展示内容 -->
+			        <div class="span-car">
+			        	<span style="display: block; width: 100%; float:left;" >车牌号:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				       		 <span id="brand_license">{$renewal.carInfo.license_no}</span>
+				       	</span>
+
+			        	<span style="display: block; width: 100%; float:left;" >车架号 : &nbsp;&nbsp;&nbsp;&nbsp;
+				       		<span id= "brand_vin">{$renewal.carInfo.vin_no}</span>
+				       	</span>
+
+				       	<span style="display: block; width: 100%; float:left;">品牌型号 :&nbsp;&nbsp;
+				       		<span id = "brand_model">{$renewal.carInfo.model}</span>
+				       	</span>
+				       	<span style="display: block;">注册日期 :&nbsp;&nbsp;
+				       		<span id="brand_registdate">{$renewal.carInfo.enroll_date}</span>
+				       	</span>
+
+				       	<button type="button" class="mui-btn mui-btn-danger mui-btn-outlined" id="editor_car" style="margin-right: 10px;margin-top: -67px;">
+		            		<span class="mui-icon mui-icon-compose"><span class="mui-icon-compose-model">编辑型号</span></span>
+						</button>
+
+				       	<div class="car_change">
+				       		<span class="car_change span" style="color: #DD524D;">已换车？点此修改车型</span>
+							<a><span class="mui-icon mui-icon-forward" style="margin-right:-66px"></span></a>
+							<div class="line"></div>
+				       	</div>
+		        	</div>
+
+		        	<div class="span-userinfo">
+		        		{if isset($renewal.ownerInfo)}
+		        		<span class="user_span">车主姓名: <span class="span_username" id="span_username">{$renewal.ownerInfo.owner}</span></span>
+		        		<span class="user_span">身份证/机构代码:<span class="span_idcard" id="span_idcard">{$renewal.ownerInfo.identify_no}</span></span>
+		        		<span class="user_span">手机号:<span class="span_phone" id="span_phone">18357436594</span></span>
+		        		{else/}
+		        		<span class="user_span">车主姓名: <span class="span_username" id="span_username"></span></span>
+		        		<span class="user_span">身份证/机构代码:<span class="span_idcard" id="span_idcard"></span></span>
+		        		<span class="user_span">手机号:<span class="span_phone" id="span_phone"></span></span>
+		        		{/if}
+		        		<button type="button" class="mui-btn mui-btn-danger mui-btn-outlined" id="editor_user" style="margin: -37px 10px; padding: 4px;">
+		            		<span class="mui-icon mui-icon-compose"><span class="mui-icon-compose-model">编辑车主信息</span></span>
+						</button>
+						<div class="line"></div>
+		        	</div>
+        			<div class="car_info">
+		       			<span class="car_info_s">报价车型</span>
+		       			<span class="car_info_select">请选择<a><span class="mui-icon mui-icon-forward"></span></a></span>
+
+		       		</div>
+		       		<span class="car_info_vehicle" id="car_info_vehicle"></span>
+		       		<input type= "hidden" id="car_infos">
+		       		<div class="line_1"></div>
+		        	<div class="change_car">
+		        		<a class="chang_car line"></a>
+		        		<span class="change_car info">过户车</span>
+		        		<div class="change_car change_time" id="change_selection">
+
+		        			<img src="__THEMES__/images/calendar.png"  id="calendar" class="calendar"/>
+		        			<span id="guohu_time"></span>
+		        		</div>
+		        		<div class="mui-switch mui-switch-mini" id="mySwitch">
+						  	<div class="mui-switch-handle"></div>
+						</div>
+		        	</div>
+
+
+		        	<div class="change_car jiaoqiang" style="display:block;">
+		        		<a class="chang_car line"></a>
+		        		<span class="change_car info">交强险</span>
+		        		<div class="change_car change_time" id="jiaoqiang_selection">
+		        			<img src="__THEMES__/images/calendar.png"  id="calendar" class="calendar"/>
+		        			<span id="jiaoqiang_time">
+		        				{if isset($renewal.policyCI.end_date)}
+		        					{$renewal.policyCI.end_date}
+		        				{/if}
+		        			</span>
+		        		</div>
+		        		{if isset($renewal.policyCI)}
+		        			<div class="mui-switch mui-switch-mini jiaoqiang mui-active" id="jiaoqiang">
+		        		{else/}
+		        			<div class="mui-switch mui-switch-mini jiaoqiang" id="jiaoqiang">
+		        		{/if}
+						  <div class="mui-switch-handle"></div>
+						</div>
+		        	</div>
+		        	<div class="line_1"></div>
+
+		        	<div class="change_car shangye">
+		        		<a class="chang_car line"></a>
+		        		<span class="change_car info">商业险</span>
+		        		<div class="change_car change_time" id="shangye_selection">
+		        			<img src="__THEMES__/images/calendar.png"  id="calendar" class="calendar"/>
+		        			<span id="shangye_time">
+		        			{if isset($renewal.policyBI.end_date)}
+		        				{$renewal.policyBI.end_date}
+		        			{/if}
+		        			</span>
+		        		</div>
+		        		{if isset($renewal.policyBI)}
+		        			<div class="mui-switch mui-switch-mini mui-active" id="shangye">
+		        		{else/}
+		        			<div class="mui-switch mui-switch-mini" id="shangye">
+		        		{/if}
+						  <div class="mui-switch-handle"></div>
+						</div>
+		        	</div>
+		        	<input type="hidden" id="discoutprice">
+		        	<div class="item">
+
+		        			<!--为防止出现第一个没有找到DIV的BUG-->
+		        			<div class="item_info" style="display: block;" id="dd">
+								<div class="del_items"></div>
+							</div>
+							{if isset($tvdi)}
+								<div class="item_info" style="display: block;" id="TVDI">
+							{else/}
+				        		<div class="item_info" style="display: none;" id="TVDI">
+				        	{/if}
+
+
+			        			<span class="item_ins">机动车损失险</span>
+			                    <span class="radio_inline mui-checkbox">
+			                    	{if isset($tvdi_ndsi)}
+			                        	<input name="radio1" type="checkbox" id="tvdi_ndsi" checked>
+			                    	{else/}
+			                    		<input name="radio1" type="checkbox" id="tvdi_ndsi">
+			                    	{/if}
+			                    	<span class="checkbox_span">不计免赔</span>
+			                    </span>
+			                    {if isset($tvdi)}
+				        		<div class="mui-switch mui-switch-mini mui-active" id= "TVDI_SWITCH" style="margin-top: 15px; margin-right:-9px">
+								  	<div class="mui-switch-handle" id="tvdi_mui-switch-handle"></div>
+								</div>
+								{else/}
+								<div class="mui-switch mui-switch-mini" id= "TVDI_SWITCH" style="margin-top: 15px; margin-right:-9px">
+								  	<div class="mui-switch-handle" id="tvdi_mui-switch-handle"></div>
+								</div>
+								{/if}
+								<div class="del_items">删除</div>
+
+							</div>
+
+							{if isset($ttbli)}
+								<div class="item_info" style="display: block;" id="TTBLI">
+							{else/}
+				        		<div class="item_info" style="display: none;" id="TTBLI">
+				        	{/if}
+									<span class="item_ins">三者责任保险</span>
+					        		<span class="radio_inline mui-checkbox">
+					        			{if isset($ttbli_ndsi)}
+				                      	<input name="radio1" type="checkbox" id="ttbli_ndsi" checked>
+				                      	{else/}
+				                    		<input name="radio1" type="checkbox" id="ttbli_ndsi">
+				                    	{/if}
+				                      	<span class="checkbox_span">不计免赔</span>
+			               			</span>
+					        		<div class="forehead ttbli_preuim">
+					        			{if isset($ttbli)}
+					        				{if $ttbli_amount eq 1}
+						        				<span class="forehead_info" id="ttbli_preuim"><span id="ttblipreuim">100</span>万</span>
+						        			{else/}
+						        				<span class="forehead_info" id="ttbli_preuim"><span id="ttblipreuim">{$ttbli_amount}</span>万</span>
+						        			{/if}
+						        		{else/}
+						        			<span class="forehead_info" id="ttbli_preuim">不投保</span>
+						        		{/if}
+						        		<span class="mui-icon mui-icon-arrowdown" style="font-size: 21px; margin: 4px -3px auto; color: #dd524d;"></span>
+					        		</div>
+					        		<div class="del_items">删除</div>
+								</div>
+
+
+
+
+							{if isset($tcpli_driver)}
+								<div class="item_info" style="display: block;" id="TCPLI_DRIVER">
+							{else/}
+								<div class="item_info" style="display: none;" id="TCPLI_DRIVER">
+							{/if}
+					        		<span class="item_ins">司机座位保险</span>
+			                        <span class="radio_inline mui-checkbox">
+			                        	{if isset($tcpli_driver_ndsi)}
+			                            <input name="radio1" type="checkbox" id="driver_ndsi" checked>
+			                            {else/}
+				                    		<input name="radio1" type="checkbox" id="driver_ndsi">
+				                    	{/if}
+			                            <span  class="checkbox_span">不计免赔</span>
+			                        </span>
+
+					        		<div class="forehead driver_preuim">
+					        			{if isset($tcpli_driver)}
+					        				{if $tcpli_driver_amount eq 1}
+						        				<span class="forehead_info" id="driver_preuim">1万</span>
+					        				{else/}
+					        					<span class="forehead_info" id="driver_preuim">{$tcpli_driver_amount}万</span>
+					        				{/if}
+						        		{else/}
+						        			<span class="forehead_info" id="driver_preuim">不投保</span>
+						        		{/if}
+						        		<span class="mui-icon mui-icon-arrowdown" style="font-size: 21px; margin: 4px -3px auto; color: #dd524d;"></span>
+					        		</div>
+					        		<div class="del_items">删除</div>
+								</div>
+
+							{if isset($tcpli_passenger)}
+								<div class="item_info" style="display: block;" id="TCPLI_PASSENGER">
+							{else/}
+								<div class="item_info" style="display: none;" id="TCPLI_PASSENGER">
+							{/if}
+					        		<span class="item_ins">乘客座位保险</span>
+			                        <span class="radio_inline mui-checkbox">
+			                        	{if isset($tcpli_passenger_ndsi)}
+			                            	<input name="radio1" type="checkbox" id="passengers_ndsi" checked>
+			                            {else/}
+				                    		<input name="radio1" type="checkbox" id="passengers_ndsi">
+				                    	{/if}
+			                            <span class="checkbox_span">不计免赔</span>
+			                        </span>
+
+					        		<div class="forehead passengers_preuim">
+					        			{if isset($tcpli_passenger)}
+						        			<span class="forehead_info" id="passengers_preuim">{$tcpli_passenger_amount}万</span>
+						        		{else/}
+						        			<span class="forehead_info" id="passengers_preuim">不投保</span>
+						        		{/if}
+						        		<span class="mui-icon mui-icon-arrowdown" style="font-size: 21px; margin: 4px -3px auto; color: #dd524d;"></span>
+					        		</div>
+					        		<div class="del_items">删除</div>
+								</div>
+
+							{if isset($twcdmvi)}
+								<div class="item_info" style="display: block;" id="TWCDMVI">
+							{else/}
+								<div class="item_info" style="display: none;" id="TWCDMVI">
+							{/if}
+					        		<span class="item_ins">全车盗抢保险</span>
+					        		<span class="radio_inline mui-checkbox">
+					        			{if isset($twcdmvi_ndsi)}
+			                            <input name="radio1" type="checkbox" id="pilfer_ndsi" checked>
+			                           	{else/}
+				                    		<input name="radio1" type="checkbox" id="pilfer_ndsi">
+				                    	{/if}
+			                            <span class="checkbox_span">不计免赔</span>
+			                        </span>
+			                        {if isset($twcdmvi)}
+					        		<div class="mui-switch mui-switch-mini mui-active" id= "pilfer_switch" style="margin-top: 15px; margin-right:-9px">
+									  	<div class="mui-switch-handle"></div>
+									</div>
+									{else /}
+									<div class="mui-switch mui-switch-mini" id= "pilfer_switch" style="margin-top: 15px; margin-right:-9px">
+									  	<div class="mui-switch-handle"></div>
+									</div>
+									{/if}
+									<div class="del_items">删除</div>
+								</div>
+
+							{if isset($bsdi)}
+								<div class="item_info" style="display: block;" id="BSDI">
+							{else/}
+								<div class="item_info" style="display: none;" id="BSDI">
+							{/if}
+					        		<span class="item_ins">车身划痕保险</span>
+
+					        		<span class="radio_inline mui-checkbox">
+					        			{if isset($bsdi_ndsi)}
+			                            <input name="radio1" type="checkbox" id="scratch_ndsi" checked>
+			                            {else/}
+				                    		<input name="radio1" type="checkbox" id="scratch_ndsi">
+				                    	{/if}
+			                            <span class="checkbox_span">不计免赔</span>
+			                        </span>
+
+					        		<div class="forehead scratch_preuim">
+					        		{if isset($bsdi)}
+						        		<span class="forehead_info" id="scratch_preuim">{$bsdi_amount}</span>
+						        	{else/}
+						        		<span class="forehead_info" id="scratch_preuim">不投保</span>
+						        	{/if}
+						        		<span class="mui-icon mui-icon-arrowdown" style="font-size: 21px; margin: 4px -3px auto; color: #dd524d;"></span>
+					        		</div>
+					        		<div class="del_items">删除</div>
+								</div>
+
+							{if isset($bgai)}
+								<div class="item_info" style="display: block;" id="BGAI">
+							{else/}
+								<div class="item_info" style="display: none;" id="BGAI">
+							{/if}
+					        		<span class="item_ins">玻璃破碎保险</span>
+					        		<span class="radio_inline mui-checkbox">
+					        			{if isset($bgai_ndsi)}
+			                            <input name="radio1" type="checkbox" id="glass_ndsi" checked>
+			                            {else/}
+				                    		<input name="radio1" type="checkbox" id="glass_ndsi">
+				                    	{/if}
+			                            <span class="checkbox_span">不计免赔</span>
+			               			</span>
+
+					        		<div class="forehead glass_preuim">
+						        		<span class="forehead_info" id="glass_preuim">不投保</span>
+						        		<span class="mui-icon mui-icon-arrowdown" style="font-size: 21px; margin: 4px -3px auto; color: #dd524d;"></span>
+					        		</div>
+					        		<div class="del_items">删除</div>
+								</div>
+
+						{if isset($sloi)}
+							<div class="item_info" style="display: block;" id="SLOI">
+						{else/}
+							<div class="item_info" style="display: none;" id="SLOI">
+						{/if}
+			        		<span class="item_ins">自燃损失保险</span>
+
+			        		<span class="radio_inline mui-checkbox">
+			        			{if isset($sloi_ndsi)}
+	                            	<input name="radio1" type="checkbox" id="combustion_ndsi" checked>
+	                            {else/}
+	                            <input name="radio1" type="checkbox" id="combustion_ndsi">
+	                           	{/if}
+	                            <span class="checkbox_span">不计免赔</span>
+	                        </span>
+	                        {if isset($sloi)}
+			        		<div class="mui-switch mui-switch-mini mui-active" id= "combustion_switch" style="margin-top: 15px; margin-right:-9px">
+							  	<div class="mui-switch-handle"></div>
+							</div>
+							{else/}
+							<div class="mui-switch mui-switch-mini" id= "combustion_switch" style="margin-top: 15px; margin-right:-9px">
+							  	<div class="mui-switch-handle"></div>
+							</div>
+							{/if}
+							<div class="del_items">删除</div>
+						</div>
+						{if isset($vwtli)}
+							<div class="item_info" style="display: block;" id="VWTLI">
+						{else/}
+							<div class="item_info" style="display: none;" id="VWTLI">
+						{/if}
+			        		<span class="item_ins">涉水行驶保险</span>
+
+			        		<span class="radio_inline mui-checkbox">
+			        			{if isset($vwtli_ndsi)}
+	                            <input name="radio1" type="checkbox" id="wade_ndsi" checked>
+	                            {else/}
+	                            <input name="radio1" type="checkbox" id="wade_ndsi">
+	                           	{/if}
+	                            <span class="checkbox_span">不计免赔</span>
+	                        </span>
+	                        {if isset($vwtli)}
+			        		<div class="mui-switch mui-switch-mini mui-active" id= "wade_switch" style="margin-top: 15px; margin-right:-9px">
+							  	<div class="mui-switch-handle"></div>
+							</div>
+							{else/}
+							<div class="mui-switch mui-switch-mini" id= "wade_switch" style="margin-top: 15px; margin-right:-9px">
+							  	<div class="mui-switch-handle"></div>
+							</div>
+							{/if}
+							<div class="del_items">删除</div>
+						</div>
+
+
+						{if isset($mvlinftpsi)}
+							<div class="item_info" style="display: block;" id="MVLINFTPSI">
+								<span class="item_ins">车损无法找到第三方险</span>
+				        		<div class="mui-switch mui-switch-mini mui-active" id = "unable_switch" style="margin-top: 15px; margin-right:-9px">
+								  	<div class="mui-switch-handle"></div>
+								</div>
+								<div class="del_items">删除</div>
+							</div>
+						{else/}
+							<div class="item_info" style="display: none;" id="MVLINFTPSI">
+								<span class="item_ins">车损无法找到第三方险</span>
+				        		<div class="mui-switch mui-switch-mini" id = "unable_switch" style="margin-top: 15px; margin-right:-9px">
+								  	<div class="mui-switch-handle"></div>
+								</div>
+								<div class="del_items">删除</div>
+							</div>
+						{/if}
+
+						{if isset($stsfs)}
+							<div class="item_info" style="display: block;" id="STSFS">
+						{else/}
+							<div class="item_info" style="display: none;" id="STSFS">
+						{/if}
+			        		<span class="item_ins">指定修理厂险</span>
+			        		<div class="forehead garage_preuim">
+				        		<span class="forehead_info" id="garage_preuim">不投保</span>
+				        		<span class="mui-icon mui-icon-arrowdown" id = "garage_switch" style="font-size: 21px; margin: 4px -3px auto; color: #dd524d;"></span>
+			        		</div>
+			        		<div class="del_items">删除</div>
+						</div>
+
+						{if isset($rdcci)}
+							<div class="item_info" style="display: block;" id="RDCCI">
+						{else/}
+							<div class="item_info" style="display: none;" id="RDCCI">
+						{/if}
+			                	<span class="item_ins">修理补偿险</span>
+			                  	<div class="forehead garage_preuim">
+			                    	<span class="forehead_info" id="garage_preuim">不投保</span>
+			                    	<span class="mui-icon mui-icon-arrowdown" id = "rdcci_switch" style="font-size: 21px; margin: 4px -3px auto; color: #dd524d;"></span>
+			                  	</div>
+			                  	<div class="del_items">删除</div>
+			            </div>
+
+			            <div class="item_info">
+	  						<div class="add_items_button" style="margin:46px -40px;">
+	  							<button type="button" class="mui-btn mui-btn-danger mui-btn-outlined" id="save_items">
+	  		            			<span class="mui-icon mui-icon-compose"><span class="mui-icon-compose-model">增加险种</span></span>
+	  							</button>
+	  						</div>
+			            </div>
+		       		</div>
+		      	</div>
+		    </div>
+		    <div class="mui-off-canvas-backdrop"></div>
+		  </div>
+		</div>
+
+		<div class="tab-center">
+			<div class="circle">
+				<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block" id="nextstep" onclick="SendPage()">下一步</button>
+			</div>
+		</div>
+
+		<script src="__THEMES__/js/mui.min.js"></script>
+		<script src="__THEMES__/js/mui.picker.js"></script>
+		<script src="__THEMES__/js/mui.dtpicker.js"></script>
+		<script src="__THEMES__/js/mui.poppicker.js"></script>
+		<script src="__THEMES__/js/layer.js"></script>
+		<script src="__THEMES__/layui/layui.js"></script>
+		<script src="__THEMES__/js/zepto.js"></script>
+		<script src="__THEMES__/js/zepto.touchWipe.js"></script>
+		<script type="text/javascript">
+
+		mui.init({
+			  pullRefresh : {
+			    container:".mui-content",//下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+			    down : {
+			      height:50,//可选,默认50.触发下拉刷新拖动距离,
+			      auto: false,//可选,默认false.首次加载自动下拉刷新一次
+			      contentdown : "下拉刷新",//可选，在下拉可刷新状态时，下拉刷新控件上显示的标题内容
+			      contentover : "释放立即刷新",//可选，在释放可刷新状态时，下拉刷新控件上显示的标题内容
+			      contentrefresh : "正在刷新...",//可选，正在刷新状态时，下拉刷新控件上显示的标题内容
+			      callback :downFn //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+			    }
+			  }
+		});
+
+		$('.item_info').touchWipe({itemDelete: '.del_items'});
+
+		mui(document.body).on('tap', '.del_items', function(e) {
+
+			var itmes = this.parentNode.id;
+
+			var r = document.getElementById(itmes);
+			r.style.display = 'none';
+		});
+
+		function downFn(){
+
+			setTimeout(function () {
+
+              mui('.mui-content').pullRefresh().endPulldownToRefresh(); //关闭顶部下拉
+          }, 1500);
+		}
+
+		mui(document.body).on('tap', '#editor_car', function(e) {
+
+			var model = document.getElementById('brand_model').innerHTML;
+			mui.prompt('请输入正确的品牌型号',model,'品牌型号',['取消','确认'],function (e) {
+			    if(e.value.length != 0)
+			    {
+			    	if(e.index == 1)
+				   	{
+				   		document.getElementById('brand_model').innerHTML = e.value;
+				   	}
+			    }
+			},'div');
+		});
+
+		mui(document.body).on('tap', '#editor_user', function(e) {
+
+
+			var span_username = document.getElementById('span_username').innerHTML;
+			var span_idcard = document.getElementById('span_idcard').innerHTML;
+			var span_phone = document.getElementById('span_phone').innerHTML;
+
+
+			var str = '<div class="span-userinfo" style="width:350px; height:150px";>' +
+		        		'<span class="user_span" style="color:#5a5a5a">车主姓名: <input type="text" id="save_username" value="'+span_username+'" style="width:38%;height:10px;margin-left:20px;color:#878787"></span></span>'+
+		        		'<span class="user_span" style="color:#5a5a5a">身份证号码:<input type="text" id="save_idcard" value="'+span_idcard+'" style="width:38%;height:10px;margin-left:10px;color:#878787"></span></span>'+
+		        		'<span class="user_span" style="color:#5a5a5a">手机号:<input type="text"  id="save_phone" value="'+span_phone+'" style="width:38%;height:10px;margin-left:33px;color:#878787"></span></span>'+
+		        		'<button type="button" class="mui-btn mui-btn-danger mui-btn-outlined" id="click_save" style="float:right;margin-right:12px;margin-top:-47px;">'+
+		            		'<span class="mui-icon mui-icon-compose"><span class="mui-icon-compose-model">保存</span></span>'+
+						'</button>'+
+		        	'</div>';
+
+		    var save_userinfo = layer.open({
+			  	type: 1,
+			  	title: '<span style="color:#5a5a5a">编辑车主信息</span>',
+			  	shadeClose: false,
+			  	shade: 0.8,
+			  	content:str
+			});
+
+		    mui(document.body).on('tap', '#click_save', function(e) {
+
+		    	document.getElementById('span_username').innerHTML = document.getElementById('save_username').value;
+				document.getElementById('span_idcard').innerHTML = document.getElementById('save_idcard').value;
+				document.getElementById('span_phone').innerHTML = document.getElementById('save_phone').value;
+				layer.close(save_userinfo);
+		    })
+		});
+
+
+		mui(document.body).on('tap', '.car_info', function(e) {
+
+			var jiazai = layer.open({
+
+					type: 2,
+					content:'加载中',
+					anim: 'up',
+					style: 'left:0; top:0;border: none;padding:9px'
+				});
+
+			$.post('/main/vehicle',{'model':$("#brand_model").text(),'vin':$("#brand_vin").text()},function(msg){
+				layer.close(jiazai);
+				if(msg.status == 1)
+				{
+					layui_open(msg.title);
+					return;
+				}
+
+				$model_str = "";
+				var app = msg.content.rows;
+
+				for(e in app)
+				{
+					if(!("vehicleModelcode" in app[e]))
+					{
+						$model_str += '<li class="mui-table-view-cell" value ='+app[e]['vehicleId']+'\/'+app[e]['vehicleName']+'\/'+app[e]['vehicleAlias']+'\/'+app[e]['vehicleDisplacement']+'\/'+app[e]['vehiclePrice']+'\/'+app[e]['vehicleSeat']+'>';
+					}
+					else
+					{
+						$model_str += '<li class="mui-table-view-cell"  value ="'+app[e]['vehicleId']+'\/'+app[e]['vehicleName']+'\/'+app[e]['vehicleAlias']+'\/'+app[e]['vehicleDisplacement']+'\/'+app[e]['vehiclePrice']+'\/'+app[e]['vehicleSeat']+'\/'+app[e]['vehicleModelcode']+'">';
+					}
+					$model_str+= '<a class="mui-navigate-right">'+app[e]['vehicleName']+'/'+app[e]['vehicleAlias']+'/'+app[e]['vehicleDisplacement']+'/'+app[e]['vehiclePrice']+'</a>';
+			    	$model_str +='</li>';
+				}
+		            var pageii = layer.open({
+					type: 1
+					,title:'选择报价车型'
+					,content: '<div id="layer_open"><header class="mui-bar mui-bar-nav">'+
+			        '<a class="mui-icon mui-icon-left-nav mui-pull-left" id="a_layer_open"></a>'+
+			    	'</header>'+
+
+					  '<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">'+
+							  '<legend>选择报价车型</legend>'+
+							'</fieldset>'+
+							'<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">'+
+								'<div class="layui-tab-content" style="height: 100px;">'+
+								    '<div class="layui-tab-item layui-show">'+
+									    '<div class="offer_models">'+
+									    	'<ul class="mui-table-view mui-table-view-radio models" style="font-size:11px;">'+
+												$model_str+
+											'</ul>'+
+									    '</div>'+
+								    '</div>'+
+								'</div>'+
+							'</div>'+
+							'<div class="tab-center">'+
+								'<div class="confirm_model">'+
+									'<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block" id="button_model">确认车型</button>'+
+								'</div>'+
+							'</div></div><input type="hidden" id ="detail"><input type="hidden" id ="new_carinfo">'
+					    ,anim: 'up'
+					  ,style: 'position:fixed; left:0; top:0; width:100%; height:100%; border: none; -webkit-animation-duration: .5s; animation-duration: .5s;'
+					});
+					mui(document.body).on('tap', '#a_layer_open', function(e) {
+
+						layer.close(pageii);
+					});
+
+					var list = document.querySelector('.models');
+					list.addEventListener('selected',function(e){
+
+						document.getElementById('new_carinfo').value = e.detail.el.getAttribute('value');
+						document.getElementById('detail').value = e.detail.el.innerText;
+
+					});
+
+					mui(document.body).on('tap', '#button_model', function(e) {
+						var detail = document.getElementById('detail').value;
+						document.getElementById('car_info_vehicle').innerHTML = detail;
+
+						var new_carinfo = document.getElementById('new_carinfo').value;
+						document.getElementById('car_infos').value = new_carinfo;
+						layer.close(pageii);
+					});
+
+			});
+
+
+
+		});
+
+		switch_item('TVDI_SWITCH','tvdi_ndsi');
+		switch_item('pilfer_switch','pilfer_ndsi');
+		switch_item('combustion_switch','combustion_ndsi');
+		switch_item('wade_switch','wade_ndsi');
+
+		function switch_item(id,item)
+		{
+			document.getElementById(id).addEventListener("toggle",function(event){
+			  	if(event.detail.isActive){
+			    	document.getElementById(item).checked = true;
+			  	}else{
+			   		document.getElementById(item).checked = false;
+			  	}
+			});
+		}
+
+		function selectitems(info,preuim,item)
+		{
+			mui(document.body).on('tap', '.'+info+'', function(e) {
+
+				preuim.show(function (selectItems) {
+					if(selectItems[0].text == '不投保')
+					{
+						document.getElementById(item).checked = false;
+					}
+					else
+					{
+						document.getElementById(item).checked = true;
+					}
+			    	document.getElementById(info).innerText = selectItems[0].text
+				})
+			});
+		}
+
+		var ttbli_preuim = new mui.PopPicker();
+		 	ttbli_preuim.setData([
+			 	{value:'0',text:'不投保'},
+			 	{value:'50000',text:'5万'},
+			 	{value:'100000',text:'10万'},
+			 	{value:'150000',text:'15万'},
+			 	{value:'200000',text:'20万'},
+			 	{value:'300000',text:'30万'},
+			 	{value:'500000',text:'50万'},
+			 	{value:'1000000',text:'100万'},
+			 	{value:'2000000',text:'200万'},
+			 	{value:'5000000',text:'500万'}
+		 	]);
+
+		 function ttblis($ttblipreuim)
+		 {
+		 	if($ttblipreuim.text() == '5')
+			{
+				var ttbli = '50000';
+			}else if($ttblipreuim.text() == '10')
+			{
+				var ttbli = '100000';
+			}else if($ttblipreuim.text() == '15')
+			{
+				var ttbli = '150000';
+			}else if($ttblipreuim.text() == '20')
+			{
+				var ttbli = '200000';
+			}else if($ttblipreuim.text() == '30')
+			{
+				var ttbli = '300000';
+			}else if($ttblipreuim.text() == '50')
+			{
+				var ttbli = '500000';
+			}else if($ttblipreuim.text() == '100')
+			{
+				var ttbli = '1000000';
+			}else if($ttblipreuim.text() == '150')
+			{
+				var ttbli = '1500000';
+			}else if($ttblipreuim.text() == '20')
+			{
+				var ttbli = '2000000';
+			}else if($ttblipreuim.text() == '1')
+			{
+				var ttbli = '1000000';
+			}
+			return ttbli;
+		 }
+
+		var ttblipreuim = ttblis($("#ttblipreuim"));
+
+		ttbli_preuim.pickers[0].setSelectedValue(ttblipreuim, 200);
+		var driver_preuim =  new mui.PopPicker();
+		 	driver_preuim.setData([{value:'0',text:'不投保'},
+		 	{value:'10000',text:'1万'},
+		 	{value:'20000',text:'2万'},
+		 	{value:'30000',text:'3万'},
+		 	{value:'40000',text:'4万'},
+		 	{value:'50000',text:'5万'},
+		 	{value:'100000',text:'10万'},
+		 	{value:'200000',text:'20万'},
+		 	{value:'500000',text:'50万'}
+		 	]);
+
+		var scratch_preuim =  new mui.PopPicker();
+		 	scratch_preuim.setData([{value:'0',text:'不投保'},
+		 	{value:'2000',text:'2000元'},
+		 	{value:'5000',text:'5000元'},
+		 	{value:'10000',text:'1万'},
+		 	{value:'20000',text:'2万'}
+		 	]);
+
+		var glass_preuim =  new mui.PopPicker();
+		 	glass_preuim.setData([{value:'0',text:'不投保'},
+		 	{value:'domestic',text:'国产玻璃'},
+		 	{value:'import',text:'进口玻璃'}
+		 	]);
+
+
+		var garage_preuim =  new mui.PopPicker();
+		 	garage_preuim.setData([{value:'0',text:'不投保'},
+		 	{value:'domestic',text:'国产'},
+		 	{value:'import',text:'进口'}
+		 	]);
+
+		selectitems('ttbli_preuim',ttbli_preuim,'ttbli_ndsi');
+		selectitems('driver_preuim',driver_preuim,'driver_ndsi');
+		selectitems('passengers_preuim',driver_preuim,'passengers_ndsi');
+		selectitems('scratch_preuim',scratch_preuim,'scratch_ndsi');
+		selectitems('glass_preuim',glass_preuim,'glass_ndsi');
+
+		mui(document.body).on('tap', '.garage_preuim', function(e) {
+			garage_preuim.show(function (selectItems) {
+				var garage_preuim = document.getElementById('garage_preuim');
+				garage_preuim.innerText = selectItems[0].text
+			});
+		});
+
+		function dtpicker(id,check_id)
+		{
+			document.getElementById(id).addEventListener("toggle",function(event){
+			  	if(event.detail.isActive)
+			  	{
+					var value = document.getElementById(check_id).innerText;
+					var dtpicker = new mui.DtPicker({
+				    	type: "date",//设置日历初始视图模式
+				    	value: value,
+				    	beginDate: new Date(1900, 02, 8),//设置开始日期
+				    	endDate: new Date(2018, 08, 8),//设置结束日期
+				    	labels: ['年份', '月', '日'],//设置默认标签区域提示语
+					});
+					dtpicker.show(function(e) {
+					    document.getElementById(check_id).innerText = e;
+					});
+			  	}
+			  	else
+			  	{
+			  		document.getElementById(check_id).innerText = '';
+			  	}
+			});
+		}
+
+		dtpicker('jiaoqiang','jiaoqiang_time');
+		dtpicker('shangye','shangye_time');
+		dtpicker('mySwitch','guohu_time');
+
+		layui.use('element', function(){
+			var element = layui.element;
+		  	element.on('tab(docDemoTabBrief)', function(data){
+		   		if(data.index == 0)
+		   		{
+		   			var model = document.getElementById('brand_model').innerHTML;
+/*		   			alert(model);*/
+		   			/****品牌型号AJAX请求接口*****/
+
+
+		   		}
+			});
+		});
+
+		var param = { //这是要传的数据
+                userId: 'userId11111111111',
+                toKen: 'toKen',
+                userRole: 'userRole'
+            };
+
+
+		function layui_open(content)
+		{
+			layer.open({
+				content: "<font color='#dd524d'>" + content + "</font>"
+			});
+		}
+
+
+	    mui(document.body).on('tap', '#new_equipment', function(e) {
+
+		    var str = '';
+		    var itiems = layer.open({
+			        type: 1,
+			        anim: 'up',
+			        content: str,
+			        style: 'position:fixed; left:0; top:0; width:100%; height:100%; border: none; -webkit-animation-duration: .5s; animation-duration: .5s;'
+		    });
+	    });
+
+	    function ave_items(dom_id){
+
+      		var mycars = new Array();
+      		mycars['TVDI'] = '机动损失保险';
+      		mycars['TTBLI'] = '三者损失保险';
+      		mycars['TCPLI_DRIVER'] = '司机座位保险';
+      		mycars['TCPLI_PASSENGER'] = '乘客座位保险';
+      		mycars['TWCDMVI'] = '盗抢责任保险';
+      		mycars['BSDI'] = '车身划痕保险';
+      		mycars['BGAI'] = '玻璃破碎保险';
+      		mycars['SLOI'] = '自燃损失保险';
+      		mycars['VWTLI'] = '涉水损失保险';
+      		mycars['STSFS'] = '指定专修厂险';
+      		mycars['RDCCI'] = '修理补偿保险';
+      		mycars['MVLINFTPSI'] = '第三方预约险';
+
+      		var di = document.getElementById(dom_id);
+
+      		if(di.style.display == 'block')
+	      	{
+				return '';
+	      	}
+	      	else
+	      	{
+	      		for( e in mycars )
+	      		{
+	      			if( e == dom_id )
+	      			{
+	      				return '<div class="item_infos div">'+
+		                    '<span>'+ mycars[e] +
+		                    '</span>'+
+		                    '<span class="radio_inline mui-checkbox">'+
+		                      '<input name="checkbox_items" type="checkbox" value="item_'+e+'">'+
+		                      '<span class="checkbox_span">是否投保'+
+		                      '</span>'+
+		                    '</span>'+
+		                  '</div>'+
+		                  '<div class="line_1"></div>';
+	      			}
+	      		}
+	      	}
+      	}
+
+	    mui(document.body).on('tap', '#save_items', function(e) {
+
+	    	var item_tvdis = ave_items('TVDI')
+	    	var item_ttblis = ave_items('TTBLI');
+	    	var item_tcpli_drivers = ave_items('TCPLI_DRIVER');
+	    	var item_tcpli_passengers = ave_items('TCPLI_PASSENGER');
+	    	var item_twcdmvis = ave_items('TWCDMVI');
+		    var item_bsdis = ave_items('BSDI');
+		    var item_bgais = ave_items('BGAI');
+	      	var item_solis = ave_items('SLOI');
+	      	var item_vwtlis = ave_items('VWTLI');
+	      	var item_stsfs = ave_items('STSFS');
+	      	var item_rdccis = ave_items('RDCCI');
+	      	var item_mvlinftpsis = ave_items('MVLINFTPSI');
+
+
+	      if(item_tvdis == "" && item_ttblis == "" && item_tcpli_drivers == "" && item_tcpli_passengers == "" && item_twcdmvis == "" && item_bsdis == "" && item_solis == "" && item_bgais == ""  && item_vwtlis == "" && item_stsfs == "" && item_rdccis == "" &&  item_mvlinftpsis == "")
+	      {
+	          layui_open('已经选择了全险种');
+	          return;
+	      }
+	    	var str = '<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">'+
+	            '<legend>选择险种信息</legend>'+
+	          '</fieldset>'+
+	                '<div class="item_infos">'+
+	                	item_tvdis+
+	                	item_ttblis+
+	                	item_tcpli_drivers+
+	                	item_tcpli_passengers+
+	                	item_twcdmvis+
+	                  	item_bsdis+
+	                  	item_solis+
+	                  	item_bgais+
+	                  	item_vwtlis+
+	                  	item_stsfs+
+	                  	item_rdccis+
+	                  	item_mvlinftpsis+
+	                '</div>'+
+	                '<div class="tab-center">'+
+	                '</div><div class="confirm_model" style = "position:relative">'+
+	                  '<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block" id="button_items">确认险种</button>'+
+	                '</div></div><input type="hidden" id ="detail">';
+
+	    	var itiems = layer.open({
+	    		  	type: 1,
+	          		anim: 'up',
+					content: str,
+	          		style: 'position:fixed; left:0; top:0; width:100%; height:100%; border: none; -webkit-animation-duration: .5s; animation-duration: .5s;'
+			});
+
+	        mui(document.body).on('tap', '#button_items', function(e) {
+	              obj = document.getElementsByName("checkbox_items");
+	              check_val = [];
+	              for(k in obj){
+	                if(obj[k].checked) {
+	                  switch(obj[k].value)
+	                  {
+	                  	case 'item_TVDI':
+		                    document.getElementById('TVDI').style.display = "block";
+		                    //document.getElementById('TVDI').className = 'mui-switch mui-switch-mini mui-active';
+		                    document.getElementById('TVDI').style.transform = "translateX(0px)";
+		                    //document.getElementById('tvdi_mui-switch-handle').style.transform = "translate(16px, 0px)";
+
+	                    break;
+	                    case 'item_TTBLI':
+		                    document.getElementById('TTBLI').style.display = "block";
+		                    document.getElementById('TTBLI').style.transform = "translateX(0px)";
+	                    break;
+	                    case 'item_TCPLI_DRIVER':
+		                    document.getElementById('TCPLI_DRIVER').style.display = "block";
+		                    document.getElementById('TCPLI_DRIVER').style.transform = "translateX(0px)";
+	                    break;
+	                    case 'item_TCPLI_PASSENGER':
+		                    document.getElementById('TCPLI_PASSENGER').style.display = "block";
+		                    document.getElementById('TCPLI_PASSENGER').style.transform = "translateX(0px)";
+	                    break;
+	                    case 'item_TWCDMVI':
+		                    document.getElementById('TWCDMVI').style.display = "block";
+		                    document.getElementById('TWCDMVI').style.transform = "translateX(0px)";
+	                    break;
+	                    case 'item_BSDI':
+	                    	document.getElementById('BSDI').style.display = "block";
+	                    	document.getElementById('BSDI').style.transform = "translateX(0px)";
+	                    break;
+	                    case 'item_SLOI':
+	                    	document.getElementById('SLOI').style.display = "block";
+	                    	document.getElementById('SLOI').style.transform = "translateX(0px)";
+	                    break;
+	                    case 'item_BGAI':
+	                    	document.getElementById('BGAI').style.display = "block";
+	                    	document.getElementById('BGAI').style.transform = "translateX(0px)";
+	                    break;
+	                    case 'item_NIELI':
+	                    	document.getElementById('NIELI').style.display = "block";
+	                    	document.getElementById('NIELI').style.transform = "translateX(0px)";
+	                    break;
+	                    case 'item_VWTLI':
+	                    	document.getElementById('VWTLI').style.display = "block";
+	                    	document.getElementById('VWTLI').style.transform = "translateX(0px)";
+	                    break;
+	                    case 'item_STSFS':
+	                    	document.getElementById('STSFS').style.display = "block";
+	                    	document.getElementById('STSFS').style.transform = "translateX(0px)";
+	                    break;
+	                    case 'item_RDCCI':
+	                    	document.getElementById('RDCCI').style.display = "block";
+	                    	document.getElementById('RDCCI').style.transform = "translateX(0px)";
+	                    break;
+	                    case 'item_MVLINFTPSI':
+	                    	document.getElementById('MVLINFTPSI').style.display = "block";
+	                    	document.getElementById('MVLINFTPSI').style.transform = "translateX(0px)";
+	                    break;
+	                  }
+	                }
+	              }
+	              layer.close(itiems);
+	        });
+
+		});
+
+
+        function SendPage(pageId, linkUrl, pageParam) {
+
+        	var $auto = new Object();
+        	var $user = new Object();
+        	var $mvtalci= new Object();
+        	var $business = new Object();
+        	var $change = new Object();
+
+        	$auto.MODEL = $('#brand_model').html();
+			$auto.LICENSE_NO = $('#brand_license').html();
+			$auto.VIN_NO = $('#brand_vin').html();
+			$auto.ENROLL_DATE = $('#brand_registdate').html();
+			$auto.OWNER = $('#span_username').html();
+			$auto.IDENTIFY_NO = $('#span_idcard').html();
+			$auto.MOBILE = $('#span_phone').html();
+			$auto.ENGINE_NO = '{$renewal.carInfo.engine_no}';
+			$auto.CAR_DATA = $('#car_infos').val();
+			$auto.CAR_DATA_CLIENT = $('#car_info_vehicle').html();
+			$change.change_start_time = $('#guohu_time').html();
+			$mvtalci.mvtalci_start_time = $('#jiaoqiang_time').html();
+			$business.business_start_time = $('#shangye_time').html();
+
+			$business.business_items = Object();
+			/**
+			 * 车损险险种
+			 * [$tvdi_switch description]
+			 * @type {[type]}
+			 */
+
+			var isActive = document.getElementById("TVDI_SWITCH").classList.contains("mui-active");
+			if(isActive){
+			  $business.business_items.tvdi = 1;
+			}
+			else
+			{
+				$business.business_items.tvdi = 0;
+			}
+			$tvdi_ndsi = $("#tvdi_ndsi");
+			if($tvdi_ndsi.is(':checked')) {
+
+
+				$business.business_items.tvdi_ndsi = 1;
+
+				if($("#car_info_vehicle").text() == "")
+				{
+					layui_open('车辆信息不能为空');
+					return;
+				}
+				$.post('/main/discoutPirce',{'auto':$auto,'business':$business},function(msg){
+
+					if(msg.status != 0)
+					{
+						layui_open(msg.content);
+						return;
+					}
+
+					$("#discoutprice").val(msg.content);
+
+
+				});
+
+			}
+			else
+			{
+				$business.business_items.tvdi_ndsi = 0;
+			}
+
+			$business.TVDI_INSURANCE_AMOUNT = $("#discoutprice").val();
+
+			/**
+			 * 三者险种
+			 * [$ttbli_preuim description]
+			 * @type {[type]}
+			 */
+			$ttbli_preuim = $("#ttbli_preuim").html();
+
+			if($ttbli_preuim == "不投保")
+			{
+				$business.business_items.ttbli = 0;
+			}
+			else
+			{
+				$business.business_items.ttbli = 1;
+				var ttblipreuim = ttblis($("#ttblipreuim"));
+				$business.TTBLI_INSURANCE_AMOUNT = ttblipreuim;
+			}
+
+			$ttbli_ndsi = $("#ttbli_ndsi");
+			if($ttbli_ndsi.is(':checked')) {
+				$business.business_items.ttbli_ndsi = 1;
+			}
+			else
+			{
+				$business.business_items.ttbli_ndsi = 0;
+			}
+
+			/**
+			 * 司机险种
+			 * [$driver_preuim description]
+			 * @type {[type]}
+			 */
+			$driver_preuim = $("#driver_preuim").html();
+			if($driver_preuim == "不投保")
+			{
+				$business.business_items.tcpli_driver = 0;
+			}
+			else
+			{
+				$business.business_items.tcpli_driver = 1;
+				$driverpreuim = $("#driver_preuim").text();
+				$business.TCPLI_INSURANCE_DRIVER_AMOUNT = $driverpreuim;
+			}
+
+			$driver_ndsi = $("#driver_ndsi");
+			if($driver_ndsi.is(':checked')) {
+				$business.business_items.tcpli_driver_ndsi = 1;
+			}
+			else
+			{
+				$business.business_items.tcpli_driver_ndsi = 0;
+			}
+
+			/**
+			 * 乘客险种
+			 * [$passengers_preuim description]
+			 * @type {[type]}
+			 */
+			$passengers_preuim = $("#passengers_preuim").text();
+
+			if($passengers_preuim == "不投保")
+			{
+				$business.business_items.tcpli_passenger = 0;
+			}
+			else
+			{
+				$business.business_items.tcpli_passenger = 1;
+				$business.TCPLI_INSURANCE_PASSENGER_AMOUNT = $passengers_preuim;
+				$business.TCPLI_PASSENGER_COUNT = 4;
+			}
+
+			$passengers_ndsi = $("#passengers_ndsi");
+			if($passengers_ndsi.is(':checked')) {
+
+				$business.business_items.tcpli_passenger_ndsi = 1;
+			}
+			else
+			{
+				$business.business_items.tcpli_passenger_ndsi = 0;
+			}
+
+			/**
+			 * 盗抢险险种
+			 * [$tvdi_switch description]
+			 * @type {[type]}
+			 */
+			var isActive = document.getElementById("pilfer_switch").classList.contains("mui-active");
+			if(isActive){
+			  $business.business_items.twcdmvi = 1;
+
+			  $business.TWCDMVI_INSURANCE_AMOUNT = $("#discoutprice").val();
+			}else{
+			  $business.business_items.twcdmvi = 0;
+			}
+
+			$pilfer_ndsi = $("#pilfer_ndsi");
+			if($pilfer_ndsi.is(':checked')) {
+				$business.business_items.twcdmvi_ndsi = 1;
+			}
+			else
+			{
+				$business.business_items.twcdmvi_ndsi = 0;
+			}
+
+
+
+			$passengers_preuim = $("#scratch_preuim").text();
+
+			if($passengers_preuim == "不投保")
+			{
+				$business.business_items.bsdi = 0;
+			}
+			else
+			{
+				$business.business_items.bsdi = 1;
+				$business.BSDI_INSURANCE_AMOUNT = $passengers_preuim;
+			}
+
+			$pilfer_ndsi = $("#scratch_ndsi");
+			if($pilfer_ndsi.is(':checked')) {
+				$business.business_items.bsdi_ndsi = 1;
+			}
+			else
+			{
+				$business.business_items.bsdi_ndsi = 0;
+			}
+
+			$glass_preuim = $("#glass_preuim").html();
+			if($glass_preuim == "不投保")
+			{
+				$business.business_items.bgai = 0;
+			}
+			else
+			{
+				$business.business_items.bgai = 1;
+				$business.GLASS_ORIGIN = $glass_preuim;
+			}
+
+			$glass_ndsi = $("#glass_ndsi");
+			if($glass_ndsi.is(':checked')) {
+				$business.business_items.bgai_ndsi = 1;
+			}
+			else
+			{
+				$business.business_items.bgai_ndsi = 0;
+			}
+
+			var isActive = document.getElementById("combustion_switch").classList.contains("mui-active");
+			if(isActive){
+			  $business.business_items.sloi = 1;
+			  $business.SLOI_INSURANCE_AMOUNT = $("#discoutprice").val();
+			}else{
+			  $business.business_items.sloi = 0;
+			}
+
+
+			$combustion_ndsi = $("#combustion_ndsi");
+			if($combustion_ndsi.is(':checked')) {
+				$business.business_items.sloi_ndsi = 1;
+			}
+			else
+			{
+				$business.business_items.sloi_ndsi = 0;
+			}
+
+			var isActive = document.getElementById("wade_switch").classList.contains("mui-active");
+			if(isActive){
+			  $business.business_items.vwtli = 1;
+			}else{
+			  $business.business_items.vwtli = 0;
+			}
+
+			$wade_ndsi = $("#wade_ndsi");
+			if($wade_ndsi.is(':checked')) {
+				$business.business_items.vwtli_ndsi = 1;
+			}
+			else
+			{
+				$business.business_items.vwtli_ndsi = 0;
+			}
+
+
+			$garage_preuim = $("#garage_preuim").text();
+
+			if($garage_preuim == "不投保")
+			{
+				$business.business_items.stsfs = 0;
+			}
+			else
+			{
+				$business.business_items.stsfs = $garage_preuim;
+			}
+
+			$.post('/main/preuim',{'auto':$auto,'mvtalci':$mvtalci,'business':$business,'change':$change},function(msg){
+
+				if(msg.status == 0)
+				{
+					mui.openWindow({
+                		url: '{:url("Main/calculate")}',
+           			});
+           			return;
+				}
+				layui_open(msg.content);
+			});
+
+        }
+
+		</script>
+
+	</body>
+
+</html>

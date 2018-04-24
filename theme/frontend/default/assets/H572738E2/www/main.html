@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>车险报价</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link rel="stylesheet" type="text/css" href="css/mui.min.css"/>
+    <style>
+    	
+    	.mui-content-padded{
+    		margin: 26px;
+    	}
+    	
+    	.mui-segmented-control{
+    		border: none;
+    	}
+    	
+    	.mui-segmented-control .mui-control-item.mui-active {
+    		background-color: #dd524d;
+    		
+    	}
+    	.mui-segmented-control .mui-control-item {
+			color: #333;
+			border-left:none
+    	}
+    	
+    	
+    	
+    </style>
+    
+</head>
+<body>
+    <!-- 缩放式侧滑（类手机QQ） -->
+    <!-- 侧滑导航根容器 -->
+    <div class="mui-off-canvas-wrap mui-draggable mui-scalable">
+      <!-- 菜单容器 -->
+      <aside class="mui-off-canvas-left mui-transitioning" id="offCanvasSide">
+        <div class="mui-scroll-wrapper">
+          <div class="mui-scroll">
+            <!-- 菜单具体展示内容 -->
+				
+          </div>
+        </div>
+      </aside>
+      <!-- 主页面容器 -->
+      <div class="mui-inner-wrap mui-transitioning">
+        <!-- 主页面标题 -->
+
+        <nav class="mui-bar mui-bar-tab">
+    	    <a class="mui-tab-item mui-active">
+    	    	<span class="mui-icon mui-icon-contact mui-icon-icon-contact-filled"></span>
+    	        <span class="mui-tab-label">车险报价</span>
+    	    </a>
+    	    <a class="mui-tab-item">
+    	        <span class="mui-icon mui-icon-phone"></span>
+    	        <span class="mui-tab-label">报价记录</span>
+    	    </a>
+    	    <a class="mui-tab-item">
+    	        <span class="mui-icon mui-icon-email"></span>
+    	        <span class="mui-tab-label">我的</span>
+    	    </a>
+    	</nav>
+        <div class="mui-content mui-scroll-wrapper">
+          <div class="mui-scroll">
+            <!-- 主界面具体展示内容 -->
+           	<div id="slider" class="mui-slider" >
+           	  <div class="mui-slider-group mui-slider-loop">
+           	    <!-- 第一张 -->
+           	    <div class="mui-slider-item">
+           	      <a href="#">
+           	        <img src="http://www.epicc.com.cn/sybanner/wnqqq/201802/W020180202672995614140.jpg">
+           	      </a>
+           	    </div>
+           	  </div>
+           	</div>
+
+           	<div class="mui-segmented-control">
+           	    <a class="mui-control-item mui-active" href="#item1">车牌号</a>
+           	    <a class="mui-control-item" href="#item2">发动机号，车架号</a>
+           	</div>
+
+          	<div id="slider" class="mui-slider">
+          	    <div class="mui-slider-group">  
+          	        <div id="item1" class="mui-slider-item mui-control-content mui-active">
+						<div class="mui-content">
+							<form id='login-form' class="mui-input-group">
+								<div class="mui-input-row">
+									<label>车牌号</label>
+									<input id='license' type="text" value= "川" class="mui-input-clear mui-input" placeholder="车牌号">
+								</div>
+								
+								<div class="mui-input-row">
+									<label>投保地区</label>
+									<input id='toubao' value ='四川' type="text" class="mui-input-clear mui-input" placeholder="">
+								</div>
+							</form>
+
+							<div class="mui-content-padded">
+								<button  id="button_license" type="button" class="mui-btn mui-btn-danger mui-btn-block" disabled="disabled">下一步</button>
+							</div>
+							<div class="mui-content-padded oauth-area">
+							</div>
+						</div>
+          	            
+          	        </div>
+          	        <div id="item2" class="mui-slider-item mui-control-content">
+          	            <div class="mui-content">
+							<form id='login-form' class="mui-input-group">
+								<div class="mui-input-row">
+									<label>车架号</label>
+									<input id='vin' type="text" class="mui-input-clear mui-input" placeholder="请输入17位车架号">
+								</div>
+								<div class="mui-input-row">
+									<label>发动机号</label>
+									<input id='fadong' type="text" class="mui-input-clear mui-input" placeholder="请输入发动机号">
+								</div>
+								<div class="mui-input-row">
+									<label>投保地区</label>
+									<input id='toubao' value ='四川' type="text" class="mui-input-clear mui-input" placeholder="">
+								</div>
+							</form>
+
+							<div class="mui-content-padded">
+								<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block">下一步</button>
+							</div>
+							<div class="mui-content-padded oauth-area">
+							</div>
+						</div>
+
+          	        </div>
+          	    </div>
+          	</div>
+          	
+          </div>
+        </div>  
+        <div class="mui-off-canvas-backdrop"></div>
+      </div>
+    </div>
+    <script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+    mui.init()
+    </script>
+    
+    <script type="text/javascript">
+    	
+    	var license = document.getElementById('license')
+    	
+    	document.getElementById("license").addEventListener('input',function(){
+
+		if(this.value.length > 6 && this.value.length < 9 )
+		{
+			document.getElementById("button_license").disabled=false;
+		}
+		else
+		{
+			document.getElementById("button_license").disabled=true;
+		}
+	
+});
+    	var button_license = document.getElementById('button_license')
+		button_license.addEventListener("tap",function () {
+		  	
+		  	mui.openWindow({
+						url:'./detail.html',
+			});
+		  	
+		});
+		
+		
+		mui(document.body).on('tap', '.mui-btn', function(e) {
+		    mui(this).button('loading');
+		    setTimeout(function() {
+		        mui(this).button('reset');
+		    }.bind(this), 2000);
+		});
+    	
+    </script>
+    
+</body>
+</html>
