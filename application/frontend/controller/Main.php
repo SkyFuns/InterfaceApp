@@ -47,8 +47,8 @@ class Main extends Base
         $app->post('https://zsidms.cdqidian.cn/zsidms/App.php?method=renewal', array(
             'account' => 'weixin',
             'pwd' => 'wx123456',
-            'vin' => $_POST['vin'],
-            'license_no' => $_POST['license_no']
+            'vin' => $_POST['auto']['vin'],
+            'license_no' => $_POST['auto']['license_no']
         ));
 
         $result = json_decode($app->response,true);
@@ -85,7 +85,6 @@ class Main extends Base
     public function detail()
     {
         $renewal = Session::get('renewal');
-
         if(array_key_exists('insurance_company', $renewal['policyBI']) && !empty($renewal['policyBI']))
         {
             switch ($renewal['policyBI']['insurance_company']) {
@@ -234,7 +233,7 @@ class Main extends Base
                     else if($val['code_name'] == 'BGAI')
                     {
                         $bgai = 1;
-
+                        $this->assign('bgai_amount',$val['amount']);
                         $this->assign('bgai',$bgai);
                     }
                     else if($val['code_name'] == 'BGAI_NDSI')
@@ -265,6 +264,7 @@ class Main extends Base
                     else if($val['code_name'] == 'STSFS')
                     {
                         $stsfs = 1;
+                        $this->assign('stsfs_amount',$val['amount']);
                         $this->assign('stsfs',$stsfs);
                     }
                     else if($val['code_name'] == 'MVLINFTPSI')
@@ -341,8 +341,6 @@ class Main extends Base
      */
     public function preuim()
     {
-        print_r($_POST);
-        die();
         $arr = [];
         foreach($_POST as $key =>$val)
         {
@@ -372,8 +370,8 @@ class Main extends Base
         $arr['auto']['MODEL_CODE'] = $car_info[0];
         $arr['auto']['BUYING_PRICE'] = $car_info[4];
         $discout_price = $this->discoutPirce($_POST['auto'],$arr['business']['BUSINESS_START_TIME']);
-        $arr['auto']['DISCOUNT_PRICE'] = $discout_price;//$car_info[0];
-        $arr['auto']['SEATS'] = $car_info[5];//$car_info[0];
+        $arr['auto']['DISCOUNT_PRICE'] = $discout_price['content'];
+        $arr['auto']['SEATS'] = $car_info[5];;
         $arr['auto']['MODEL_ALIAS'] = $car_info[2];
         $data['vehicle'] = $arr['auto'];
         if(trim($arr['mvtalci']['MVTALCI_START_TIME']) == "")
@@ -404,6 +402,7 @@ class Main extends Base
             $arr['business']['BUSINESS_END_TIME'] = $time['end_time'];
             $data['business'] = $arr['business'];
         }
+
         Session::delete('carInfo');
         Session::delete('premium_parems');
         Session::set('carInfo',trim($_POST['auto']['CAR_DATA_CLIENT']));
@@ -430,9 +429,9 @@ class Main extends Base
 
         if($starttime < $date_y)
         {
-
-            $starttime = $starttime + 1;
-            $endtime = $endtime + 2;
+            $year = $date_y - $starttime;
+            $starttime = $starttime + $year;
+            $endtime = $endtime + $year + 1;
 
             $starttime_m = date("m",strtotime($start_time));
             $starttime_d = date("d",strtotime($start_time)) -1;
@@ -441,7 +440,10 @@ class Main extends Base
 
         }else if($starttime == $date_y)
         {
-            $endtime = $endtime + 1;
+            $starttime_m = date("m",strtotime($start_time));
+            $starttime_d = date("d",strtotime($start_time)) -1;
+            $return['start_time'] = ($endtime) ."-".$starttime_m."-".($starttime_d + 1);
+            $return['end_time'] = ($endtime + 1)."-".$starttime_m."-".$starttime_d;
         }
 
 
@@ -584,13 +586,11 @@ class Main extends Base
      */
     public function discoutPirce($info = array(),$starttime = "")
     {
-
         $app = new Curl();
-
         if(!empty($_POST))
         {
             $car_data = explode('/', $_POST['auto']['CAR_DATA_CLIENT']);
-            $data['purchase_price'] = intval($car_data[3]);
+            $data['purchase_price'] = intval(trim(end($car_data)));
             $data['enroll_date'] = $_POST['auto']['ENROLL_DATE'];
             $data['business_start_date'] = trim($_POST['business']['business_start_time']);
             $data['insurance'] = "SICHUAN_KHYXSC_CICP";

@@ -335,13 +335,13 @@
 		         		<span class="information_key">品牌型号：<span>{$carInfo.vehicle.MODEL}</span></span>
 
 		         		{if isset($preuim.data.MVTALCI)}
-		         		<span class="information_key">商业险折扣系数：<span>{$preuim.data.MVTALCI.MVTALCI_DISCOUNT}</span></span>
-		         		{/if}
-		         		{if isset($preuim.data.BUSINESS)}
-		         		<span class="information_key">商业险折扣系数：<span>{$preuim.data.BUSINESS.BUSINESS_DISCOUNT}</span></span>
+		         		<span class="information_key">交强险折扣系数：<span>{$preuim.data.MVTALCI.MVTALCI_DISCOUNT}</span></span>
 		         		{/if}
 		         		{if isset($preuim.data.MVTALCI)}
 		         		<span class="information_key">交强险起保时间：<span>{$preuim.data.MVTALCI.MVTALCI_START_TIME}</span></span>
+		         		{/if}
+		         		{if isset($preuim.data.BUSINESS)}
+		         		<span class="information_key">商业险折扣系数：<span>{$preuim.data.BUSINESS.BUSINESS_DISCOUNT}</span></span>
 		         		{/if}
 		         		{if isset($preuim.data.BUSINESS)}
 		         		<span class="information_key">商业险起保时间：<span>{$preuim.data.BUSINESS.BUSINESS_START_TIME}</span></span>
@@ -362,7 +362,7 @@
 		         	<div class="line_1"></div>
 		         	<div class="mvtalci_insurance">
 		         		<span>车船税</span>
-		         		<span class="mvtalci_insurance_premium price">{$preuim.data.MVTALCI.TRAVEL_TAX_PREMIUM} <span>元</span></span>
+		         		<span class="mvtalci_insurance_premium price">{$preuim.data.MVTALCI.TRAVEL_TAX_PREMIUM} </span>
 		         	</div>
 		         	<div class="line_1"></div>
 		         	{/if}
@@ -370,7 +370,7 @@
 		         	{if isset($preuim.data.BUSINESS)}
 					<div class="business_insurance" id="business_insurance">
 		         		<span>商业险</span>
-		         		<span class="business_insurance_premium price" id="business_insurance_premium_price">{$preuim.data.BUSINESS.BUSINESS_PREMIUM}</span><span style="float: right; margin-right: -64px; color: #dd524d;">元</span>
+		         		<span class="business_insurance_premium price" id="business_insurance_premium_price">{$preuim.data.BUSINESS.BUSINESS_PREMIUM}</span>
 		         		<span class="business_insurance_premium mui-icon mui-icon-arrowdown" id="totle"></span>
 		         	</div>
 
@@ -488,7 +488,7 @@
 			var mvtalci_price = document.getElementById('mvtalci_insurance_premium_price');
 			var button_calculate = document. getElementById('button_calculate');
 
-			var mvtalci_insurance_premium_price = document.getElementById('mvtalci_insurance_premium_price');
+			//var mvtalci_insurance_premium_price = document.getElementById('mvtalci_insurance_premium_price');
 			var business_preferential = document.getElementById('business_preferential');
 			var mvtalci_preferential = document.getElementById('mvtalci_preferential');
 			var discount_amount = document.getElementById('discount_amount');

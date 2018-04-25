@@ -160,6 +160,7 @@
       </div>
     </div>
     <script src="__THEMES__/js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="__THEMES__/js/jquery_3.3.1.js"></script>
     <script type="text/javascript">
     mui.init()
     </script>
@@ -184,14 +185,28 @@
             {
               document.getElementById(button_id).disabled=true;
             }
-            button_license.addEventListener("tap",function () {
 
-                mui.openWindow({
-                      id:'detail',
-                      url:'{:url("Main/detail")}',
-              });
+              //var license_no = document.getElementById('license_no').value();
+  /*            button_license.addEventListener("tap",function () {
+                $.post('/main/renewal',{'vin':this.value,'license_no':'1231232'},function(msg){
+
+
+                    if(msg.status != 0)
+                    {
+                      mui.openWindow({
+                        id:'detail',
+                        url:'{:url("Main/add_driving")}',
+                      });
+                    }
+                    mui.openWindow({
+                        id:'detail',
+                        url:'{:url("Main/detail")}',
+                    });
+
+                });
+
+              });*/
             });
-          });
           }
           else if(button_id == 'button_vin')
           {
@@ -204,15 +219,12 @@
             {
               document.getElementById(button_id).disabled=true;
             }
-            button_vin.addEventListener("tap",function () {
-                mui.openWindow({
-                      id:'detail',
-                      url:'{:url("Main/detail")}',
-              });
-            });
+
           });
           }
       }
+
+
 
 
       document.getElementById('item1').addEventListener("swipeleft",function(){
@@ -228,10 +240,33 @@
 
 
 		mui(document.body).on('tap', '.mui-btn', function(e) {
-		    mui(this).button('loading');
-		    setTimeout(function() {
-		        mui(this).button('reset');
-		    }.bind(this), 2000);
+
+      $parms = new Object();
+      $parms.license_no = document.getElementById('license').value;
+      $parms.vin =  document.getElementById('vin').value;
+
+
+      mui(this).button('loading');
+        setTimeout(function() {
+            mui(this).button('reset');
+        }.bind(this), 2000);
+
+
+      $.post('/main/renewal',{'auto':$parms},function(msg){
+
+        if(msg.status != 0)
+        {
+          mui.openWindow({
+            url:'{:url("Main/add_driving")}',
+          });
+          return;
+        }
+        mui.openWindow({
+            url:'{:url("Main/detail")}',
+        });
+
+      });
+
 		});
 
     </script>
