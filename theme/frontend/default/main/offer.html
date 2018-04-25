@@ -447,11 +447,15 @@
 		        		<div class="change_car change_time" id="jiaoqiang_selection">
 		        			<img src="__THEMES__/images/calendar.png"  id="calendar" class="calendar"/>
 		        			<span id="jiaoqiang_time">
-		        				{if isset($renewal.policyCI.end_date)}
-		        					{$renewal.policyCI.end_date}
+		        				{if empty($renewal.policyCI) AND empty($renewal.policyBI)}
+		        					{$renewal.start_time}
 		        				{else/}
-		        					{$renewal.policyBI.end_date}
-		        				{/if}
+			        				{if isset($renewal.policyCI.end_date)}
+			        					{$renewal.policyCI.end_date}
+			        				{else/}
+			        					{$renewal.policyBI.end_date}
+			        				{/if}
+			        			{/if}
 		        			</span>
 		        		</div>
 		        		<!-- {if isset($renewal.policyCI.end_date)}
@@ -471,11 +475,15 @@
 		        		<div class="change_car change_time" id="shangye_selection">
 		        			<img src="__THEMES__/images/calendar.png"  id="calendar" class="calendar"/>
 		        			<span id="shangye_time">
-		        			{if isset($renewal.policyBI.end_date)}
-		        				{$renewal.policyBI.end_date}
-		        			{else/}
-		        				{$renewal.policyCI.end_date}
-		        			{/if}
+		        				{if empty($renewal.policyCI) AND empty($renewal.policyBI)}
+		        					{$renewal.start_time}
+		        				{else/}
+				        			{if isset($renewal.policyBI.end_date)}
+				        				{$renewal.policyBI.end_date}
+				        			{else/}
+				        				{$renewal.policyCI.end_date}
+				        			{/if}
+				        		{/if}
 		        			</span>
 		        		</div>
 		        		<!-- {if isset($renewal.policyBI)}
@@ -540,20 +548,20 @@
 					        		<div class="forehead ttbli_preuim">
 					        			{if isset($ttbli)}
 					        				{if $ttbli_amount eq 1}
-						        				<span class="forehead_info" id="ttbli_preuim"><span id="ttblipreuim">100</span>万</span>
+
+						        				<span class="forehead_info" id="ttbli_preuim">100万</span>
 						        			{else/}
-						        				<span class="forehead_info" id="ttbli_preuim"><span id="ttblipreuim">{$ttbli_amount}</span>万</span>
+
+						        				<span class="forehead_info" id="ttbli_preuim">{$ttbli_amount}万</span>
 						        			{/if}
 						        		{else/}
+
 						        			<span class="forehead_info" id="ttbli_preuim">不投保</span>
 						        		{/if}
 						        		<span class="mui-icon mui-icon-arrowdown" style="font-size: 21px; margin: 4px -3px auto; color: #dd524d;"></span>
 					        		</div>
 					        		<div class="del_items">删除</div>
 								</div>
-
-
-
 
 							{if isset($tcpli_driver)}
 								<div class="item_info" style="display: block;" id="TCPLI_DRIVER">
@@ -1057,46 +1065,48 @@
 		 	]);
 
 		 function ttblis($ttblipreuim)
-		 {
-		 	if($ttblipreuim.text() == '5')
-			{
-				var ttbli = '50000';
-			}else if($ttblipreuim.text() == '10')
-			{
-				var ttbli = '100000';
-			}else if($ttblipreuim.text() == '15')
-			{
-				var ttbli = '150000';
-			}else if($ttblipreuim.text() == '20')
-			{
-				var ttbli = '200000';
-			}else if($ttblipreuim.text() == '30')
-			{
-				var ttbli = '300000';
-			}else if($ttblipreuim.text() == '50')
-			{
-				var ttbli = '500000';
-			}else if($ttblipreuim.text() == '100')
-			{
-				var ttbli = '1000000';
-			}else if($ttblipreuim.text() == '150')
-			{
-				var ttbli = '1500000';
-			}else if($ttblipreuim.text() == '20')
-			{
-				var ttbli = '2000000';
-			}else if($ttblipreuim.text() == '1')
-			{
-				var ttbli = '1000000';
-			}
-			return ttbli;
-		 }
+         {
+         	if($ttblipreuim == '5')
+            {
+                var ttbli = '50000';
+            }else if($ttblipreuim == '10')
+            {
+                var ttbli = '100000';
+            }else if($ttblipreuim == '15')
+            {
+                var ttbli = '150000';
+            }else if($ttblipreuim == '20')
+            {
+                var ttbli = '200000';
+            }else if($ttblipreuim == '30')
+            {
+                var ttbli = '300000';
+            }else if($ttblipreuim == '50')
+            {
+                var ttbli = '500000';
+            }else if($ttblipreuim == '100')
+            {
+                var ttbli = '1000000';
+            }else if($ttblipreuim == '150')
+            {
+                var ttbli = '1500000';
+            }else if($ttblipreuim == '20')
+            {
+                var ttbli = '2000000';
+            }else if($ttblipreuim == '1')
+            {
+                var ttbli = '1000000';
+            }
+            return ttbli;
+         }
 
 
-
-		var ttblipreuim = ttblis($("#ttblipreuim"));
+        var ttblipreuim = $("#ttbli_preuim").text();
+		var ttblipreuim = ttblipreuim.split("万");
+		var ttblipreuim = ttblis(ttblipreuim[0]);
 
 		ttbli_preuim.pickers[0].setSelectedValue(ttblipreuim, 200);
+
 		var driver_preuim =  new mui.PopPicker();
 		 	driver_preuim.setData([{value:'0',text:'不投保'},
 		 	{value:'10000',text:'1万'},
@@ -1462,7 +1472,7 @@
 			 * [$ttbli_preuim description]
 			 * @type {[type]}
 			 */
-			$ttbli_preuim = $("#ttbli_preuim").html();
+			$ttbli_preuim = $("#ttbli_preuim").text();
 
 			if($ttbli_preuim == "不投保")
 			{
@@ -1471,8 +1481,11 @@
 			else
 			{
 				$business.business_items.ttbli = 1;
-				var ttblipreuim = ttblis($("#ttblipreuim"));
-				$business.TTBLI_INSURANCE_AMOUNT = parseInt(ttblipreuim);
+
+				var ttblipreuims = $ttbli_preuim.split("万");
+
+				var s = ttblis(ttblipreuims[0]);
+				$business.TTBLI_INSURANCE_AMOUNT = parseInt(s);
 			}
 
 			$ttbli_ndsi = $("#ttbli_ndsi");

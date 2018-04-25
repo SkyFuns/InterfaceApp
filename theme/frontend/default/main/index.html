@@ -7,6 +7,8 @@
     <link rel="stylesheet" type="text/css" href="__THEMES__/css/mui.min.css"/>
     <style>
 
+
+
       .mui-content-padded{
         margin: 26px;
       }
@@ -27,6 +29,8 @@
       .mui-slider-group{
         height: 350px;
       }
+
+
 
     </style>
 
@@ -112,7 +116,7 @@
 							<form id='login-form' class="mui-input-group">
 								<div class="mui-input-row">
 									<label>车牌号</label>
-									<input id='license' type="text" class="mui-input-clear mui-input" placeholder="车牌号" value="川">
+									<input id='license' type="text" class="mui-input-clear mui-input" placeholder="车牌号" value="川" style="position: fixed;">
 								</div>
 
 								<div class="mui-input-row">
@@ -133,7 +137,7 @@
 							<form id='login-form' class="mui-input-group">
 								<div class="mui-input-row">
 									<label>车架号</label>
-									<input id='vin' type="text" class="mui-input-clear mui-input" placeholder="请输入17位车架号">
+									<input id='vin' type="text" class="mui-input-clear mui-input" placeholder="请输入17位车架号" style="position: fixed;">
 								</div>
 								<div class="mui-input-row">
 									<label>投保地区</label>
@@ -162,6 +166,18 @@
     </script>
 
     <script type="text/javascript">
+
+/*      window.addEventListener("dragend",function(){
+  setTimeout(function(){
+       if($(".mui-off-canvas-wrap").hasClass("mui-active")){
+    }else{
+      $("mui-input-row  mui-bar").removeAttr("style");
+    }
+   },500);
+})
+$('input').on('click',function(){
+  $("mui-input-row  mui-bar").removeAttr("style");
+});*/
 
 
       check_length('license','button_license');
@@ -207,12 +223,11 @@
 
       document.getElementById('button_license').addEventListener("tap",function () {
 
-
             $parms = new Object();
             $parms.license_no = $("#license").val();
             $parms.vin =  $("#vin").val();
               $.post('/main/renewal',{'auto':$parms},function(msg){
-               
+
                 if(msg.status == 0)
                 {
                   mui.openWindow({
