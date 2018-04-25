@@ -207,10 +207,12 @@
 
       document.getElementById('button_license').addEventListener("tap",function () {
 
-            $license = $("#license").val();
-            $vin = $("#vin").val();
-              $.post('/main/renewal',{'vin':$vin,'license_no':$license},function(msg){
-                //return;
+
+            $parms = new Object();
+            $parms.license_no = $("#license").val();
+            $parms.vin =  $("#vin").val();
+              $.post('/main/renewal',{'auto':$parms},function(msg){
+               
                 if(msg.status == 0)
                 {
                   mui.openWindow({

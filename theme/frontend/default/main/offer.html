@@ -449,15 +449,18 @@
 		        			<span id="jiaoqiang_time">
 		        				{if isset($renewal.policyCI.end_date)}
 		        					{$renewal.policyCI.end_date}
+		        				{else/}
+		        					{$renewal.policyBI.end_date}
 		        				{/if}
 		        			</span>
 		        		</div>
-		        		{if isset($renewal.policyCI.end_date)}
+		        		<!-- {if isset($renewal.policyCI.end_date)}
 		        			<div class="mui-switch mui-switch-mini jiaoqiang mui-active" id="jiaoqiang">
 		        		{else/}
 		        			<div class="mui-switch mui-switch-mini jiaoqiang" id="jiaoqiang">
-		        		{/if}
-						  <div class="mui-switch-handle"></div>
+		        		{/if} -->
+		        		<div class="mui-switch mui-switch-mini jiaoqiang mui-active" id="jiaoqiang">
+						<div class="mui-switch-handle"></div>
 						</div>
 		        	</div>
 		        	<div class="line_1"></div>
@@ -470,15 +473,18 @@
 		        			<span id="shangye_time">
 		        			{if isset($renewal.policyBI.end_date)}
 		        				{$renewal.policyBI.end_date}
+		        			{else/}
+		        				{$renewal.policyCI.end_date}
 		        			{/if}
 		        			</span>
 		        		</div>
-		        		{if isset($renewal.policyBI)}
+		        		<!-- {if isset($renewal.policyBI)}
 		        			<div class="mui-switch mui-switch-mini mui-active" id="shangye">
 		        		{else/}
 		        			<div class="mui-switch mui-switch-mini" id="shangye">
-		        		{/if}
-						  <div class="mui-switch-handle"></div>
+		        		{/if} -->
+		        		<div class="mui-switch mui-switch-mini mui-active" id="shangye">
+						  	<div class="mui-switch-handle"></div>
 						</div>
 		        	</div>
 		        	<input type="hidden" id="discoutprice">
@@ -761,7 +767,11 @@
 						{/if}
 			        		<span class="item_ins">指定修理厂险</span>
 			        		<div class="forehead stsfs_preuim">
-				        		<span class="forehead_info" id="stsfs_preuim">国产</span>
+			        			{if isset($stsfs)}
+			        				<span class="forehead_info" id="stsfs_preuim">国产</span>
+			        			{else/}
+			        				<span class="forehead_info" id="stsfs_preuim">不投保</span>
+			        			{/if}
 				        		<span class="mui-icon mui-icon-arrowdown" id = "garage_switch" style="font-size: 21px; margin: 4px -3px auto; color: #dd524d;"></span>
 			        		</div>
 			        		<div class="del_items">删除</div>
@@ -974,12 +984,11 @@
 						var new_carinfo = document.getElementById('new_carinfo').value;
 						document.getElementById('car_infos').value = new_carinfo;
 
-					console.log(detail.split("/"));
-					$auto = new Object();
-					$business = new Object();
-					$auto.CAR_DATA_CLIENT = detail;
-					$auto.ENROLL_DATE = $("#brand_registdate").text();
-					$business.business_start_time = $("#shangye_time").text();
+						$auto = new Object();
+						$business = new Object();
+						$auto.CAR_DATA_CLIENT = detail;
+						$auto.ENROLL_DATE = $("#brand_registdate").text();
+						$business.business_start_time = $("#shangye_time").text();
 
 						$.post('/main/discoutPirce',{'auto':$auto,'business':$business},function(msg){
 
@@ -1463,7 +1472,7 @@
 			{
 				$business.business_items.ttbli = 1;
 				var ttblipreuim = ttblis($("#ttblipreuim"));
-				$business.TTBLI_INSURANCE_AMOUNT = ttblipreuim;
+				$business.TTBLI_INSURANCE_AMOUNT = parseInt(ttblipreuim);
 			}
 
 			$ttbli_ndsi = $("#ttbli_ndsi");

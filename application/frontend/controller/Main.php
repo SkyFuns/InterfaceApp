@@ -47,8 +47,8 @@ class Main extends Base
         $app->post('https://zsidms.cdqidian.cn/zsidms/App.php?method=renewal', array(
             'account' => 'weixin',
             'pwd' => 'wx123456',
-            'vin' => $_POST['vin'],
-            'license_no' => $_POST['license_no']
+            'vin' => $_POST['auto']['vin'],
+            'license_no' => $_POST['auto']['license_no']
         ));
 
         $result = json_decode($app->response,true);
@@ -85,7 +85,6 @@ class Main extends Base
     public function detail()
     {
         $renewal = Session::get('renewal');
-
         if(array_key_exists('insurance_company', $renewal['policyBI']) && !empty($renewal['policyBI']))
         {
             switch ($renewal['policyBI']['insurance_company']) {
@@ -342,7 +341,6 @@ class Main extends Base
      */
     public function preuim()
     {
-
         $arr = [];
         foreach($_POST as $key =>$val)
         {
@@ -372,8 +370,8 @@ class Main extends Base
         $arr['auto']['MODEL_CODE'] = $car_info[0];
         $arr['auto']['BUYING_PRICE'] = $car_info[4];
         $discout_price = $this->discoutPirce($_POST['auto'],$arr['business']['BUSINESS_START_TIME']);
-        $arr['auto']['DISCOUNT_PRICE'] = $discout_price['content'];//$car_info[0];
-        $arr['auto']['SEATS'] = $car_info[5];//$car_info[0];
+        $arr['auto']['DISCOUNT_PRICE'] = $discout_price['content'];
+        $arr['auto']['SEATS'] = $car_info[5];;
         $arr['auto']['MODEL_ALIAS'] = $car_info[2];
         $data['vehicle'] = $arr['auto'];
         if(trim($arr['mvtalci']['MVTALCI_START_TIME']) == "")
@@ -588,13 +586,11 @@ class Main extends Base
      */
     public function discoutPirce($info = array(),$starttime = "")
     {
-
         $app = new Curl();
-
         if(!empty($_POST))
         {
             $car_data = explode('/', $_POST['auto']['CAR_DATA_CLIENT']);
-            $data['purchase_price'] = intval($car_data[3]);
+            $data['purchase_price'] = intval(trim(end($car_data)));
             $data['enroll_date'] = $_POST['auto']['ENROLL_DATE'];
             $data['business_start_date'] = trim($_POST['business']['business_start_time']);
             $data['insurance'] = "SICHUAN_KHYXSC_CICP";
