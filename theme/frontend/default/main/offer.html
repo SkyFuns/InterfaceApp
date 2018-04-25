@@ -452,7 +452,7 @@
 		        				{/if}
 		        			</span>
 		        		</div>
-		        		{if isset($renewal.policyCI)}
+		        		{if isset($renewal.policyCI.end_date)}
 		        			<div class="mui-switch mui-switch-mini jiaoqiang mui-active" id="jiaoqiang">
 		        		{else/}
 		        			<div class="mui-switch mui-switch-mini jiaoqiang" id="jiaoqiang">
@@ -649,7 +649,11 @@
 
 					        		<div class="forehead scratch_preuim">
 					        		{if isset($bsdi)}
-						        		<span class="forehead_info" id="scratch_preuim">{$bsdi_amount}</span>
+					        			{if $bsdi_amount eq 1}
+					        				<span class="forehead_info" id="scratch_preuim">2000元</span>
+					        			{else/}
+						        			<span class="forehead_info" id="scratch_preuim">{$bsdi_amount}元</span>
+						        		{/if}
 						        	{else/}
 						        		<span class="forehead_info" id="scratch_preuim">不投保</span>
 						        	{/if}
@@ -664,17 +668,15 @@
 								<div class="item_info" style="display: none;" id="BGAI">
 							{/if}
 					        		<span class="item_ins">玻璃破碎保险</span>
-					        		<span class="radio_inline mui-checkbox">
-					        			{if isset($bgai_ndsi)}
-			                            <input name="radio1" type="checkbox" id="glass_ndsi" checked>
-			                            {else/}
-				                    		<input name="radio1" type="checkbox" id="glass_ndsi">
-				                    	{/if}
-			                            <span class="checkbox_span">不计免赔</span>
-			               			</span>
 
 					        		<div class="forehead glass_preuim">
-						        		<span class="forehead_info" id="glass_preuim">不投保</span>
+					        			{if isset($bgai)}
+					        				{if $bgai_amount eq 1}
+						        				<span class="forehead_info" id="glass_preuim">国产玻璃</span>
+						        			{/if}
+						        		{else/}
+						        			<span class="forehead_info" id="glass_preuim">不投保</span>
+						        		{/if}
 						        		<span class="mui-icon mui-icon-arrowdown" style="font-size: 21px; margin: 4px -3px auto; color: #dd524d;"></span>
 					        		</div>
 					        		<div class="del_items">删除</div>
@@ -758,8 +760,8 @@
 							<div class="item_info" style="display: none;" id="STSFS">
 						{/if}
 			        		<span class="item_ins">指定修理厂险</span>
-			        		<div class="forehead garage_preuim">
-				        		<span class="forehead_info" id="garage_preuim">不投保</span>
+			        		<div class="forehead stsfs_preuim">
+				        		<span class="forehead_info" id="stsfs_preuim">国产</span>
 				        		<span class="mui-icon mui-icon-arrowdown" id = "garage_switch" style="font-size: 21px; margin: 4px -3px auto; color: #dd524d;"></span>
 			        		</div>
 			        		<div class="del_items">删除</div>
@@ -772,7 +774,7 @@
 						{/if}
 			                	<span class="item_ins">修理补偿险</span>
 			                  	<div class="forehead garage_preuim">
-			                    	<span class="forehead_info" id="garage_preuim">不投保</span>
+			                    	<span class="forehead_info" id="">不投保</span>
 			                    	<span class="mui-icon mui-icon-arrowdown" id = "rdcci_switch" style="font-size: 21px; margin: 4px -3px auto; color: #dd524d;"></span>
 			                  	</div>
 			                  	<div class="del_items">删除</div>
@@ -971,7 +973,24 @@
 
 						var new_carinfo = document.getElementById('new_carinfo').value;
 						document.getElementById('car_infos').value = new_carinfo;
-						layer.close(pageii);
+
+					console.log(detail.split("/"));
+					$auto = new Object();
+					$business = new Object();
+					$auto.CAR_DATA_CLIENT = detail;
+					$auto.ENROLL_DATE = $("#brand_registdate").text();
+					$business.business_start_time = $("#shangye_time").text();
+
+						$.post('/main/discoutPirce',{'auto':$auto,'business':$business},function(msg){
+
+							if(msg.status != 0)
+							{
+								layui_open(msg.content);
+								return;
+							}
+							$("#discoutprice").val(msg.content);
+						});
+					layer.close(pageii);
 					});
 
 			});
@@ -1064,6 +1083,8 @@
 			return ttbli;
 		 }
 
+
+
 		var ttblipreuim = ttblis($("#ttblipreuim"));
 
 		ttbli_preuim.pickers[0].setSelectedValue(ttblipreuim, 200);
@@ -1089,22 +1110,46 @@
 
 		var glass_preuim =  new mui.PopPicker();
 		 	glass_preuim.setData([{value:'0',text:'不投保'},
-		 	{value:'domestic',text:'国产玻璃'},
-		 	{value:'import',text:'进口玻璃'}
+		 	{value:'DOMESTIC',text:'国产玻璃'},
+		 	{value:'IMPORTED',text:'进口玻璃'}
 		 	]);
 
 
 		var garage_preuim =  new mui.PopPicker();
 		 	garage_preuim.setData([{value:'0',text:'不投保'},
-		 	{value:'domestic',text:'国产'},
-		 	{value:'import',text:'进口'}
+		 	{value:'DOMESTIC',text:'国产'},
+		 	{value:'IMPORTED',text:'进口'}
 		 	]);
+
+		var stsfs_preuim =  new mui.PopPicker();
+		 	stsfs_preuim.setData([
+		 	{value:'0',text:'不投保'},
+		 	{value:'DOMESTIC',text:'国产'},
+		 	{value:'IMPORTED',text:'进口'}
+			]);
 
 		selectitems('ttbli_preuim',ttbli_preuim,'ttbli_ndsi');
 		selectitems('driver_preuim',driver_preuim,'driver_ndsi');
 		selectitems('passengers_preuim',driver_preuim,'passengers_ndsi');
 		selectitems('scratch_preuim',scratch_preuim,'scratch_ndsi');
-		selectitems('glass_preuim',glass_preuim,'glass_ndsi');
+
+
+		mui(document.body).on('tap', '.glass_preuim', function(e) {
+			glass_preuim.show(function (selectItems) {
+
+				var stsfs_preuims = document.getElementById('glass_preuim');
+				stsfs_preuims.innerText = selectItems[0].text
+			});
+		});
+
+		mui(document.body).on('tap', '.stsfs_preuim', function(e) {
+			stsfs_preuim.show(function (selectItems) {
+
+				var stsfs_preuims = document.getElementById('stsfs_preuim');
+				stsfs_preuims.innerText = selectItems[0].text
+			});
+		});
+
 
 		mui(document.body).on('tap', '.garage_preuim', function(e) {
 			garage_preuim.show(function (selectItems) {
@@ -1368,6 +1413,9 @@
 			$business.business_start_time = $('#shangye_time').html();
 
 			$business.business_items = Object();
+
+			$car_split = $auto.CAR_DATA.split("/");
+
 			/**
 			 * 车损险险种
 			 * [$tvdi_switch description]
@@ -1377,6 +1425,12 @@
 			var isActive = document.getElementById("TVDI_SWITCH").classList.contains("mui-active");
 			if(isActive){
 			  $business.business_items.tvdi = 1;
+
+				if($("#car_info_vehicle").text() == "")
+				{
+					layui_open('车辆信息不能为空');
+					return;
+				}
 			}
 			else
 			{
@@ -1385,27 +1439,7 @@
 			$tvdi_ndsi = $("#tvdi_ndsi");
 			if($tvdi_ndsi.is(':checked')) {
 
-
 				$business.business_items.tvdi_ndsi = 1;
-
-				if($("#car_info_vehicle").text() == "")
-				{
-					layui_open('车辆信息不能为空');
-					return;
-				}
-				$.post('/main/discoutPirce',{'auto':$auto,'business':$business},function(msg){
-
-					if(msg.status != 0)
-					{
-						layui_open(msg.content);
-						return;
-					}
-
-					$("#discoutprice").val(msg.content);
-
-
-				});
-
 			}
 			else
 			{
@@ -1455,7 +1489,9 @@
 			{
 				$business.business_items.tcpli_driver = 1;
 				$driverpreuim = $("#driver_preuim").text();
-				$business.TCPLI_INSURANCE_DRIVER_AMOUNT = $driverpreuim;
+				$newtcpli = $driverpreuim.split("万"); //字符分割
+
+				$business.TCPLI_INSURANCE_DRIVER_AMOUNT = $newtcpli[0] * 10000;
 			}
 
 			$driver_ndsi = $("#driver_ndsi");
@@ -1481,8 +1517,9 @@
 			else
 			{
 				$business.business_items.tcpli_passenger = 1;
-				$business.TCPLI_INSURANCE_PASSENGER_AMOUNT = $passengers_preuim;
-				$business.TCPLI_PASSENGER_COUNT = 4;
+				$newpassengers = $passengers_preuim.split("万"); //字符分割
+				$business.TCPLI_INSURANCE_PASSENGER_AMOUNT = $newpassengers[0] * 10000;
+				$business.TCPLI_PASSENGER_COUNT = $car_split[5] - 1 ;
 			}
 
 			$passengers_ndsi = $("#passengers_ndsi");
@@ -1503,7 +1540,6 @@
 			var isActive = document.getElementById("pilfer_switch").classList.contains("mui-active");
 			if(isActive){
 			  $business.business_items.twcdmvi = 1;
-
 			  $business.TWCDMVI_INSURANCE_AMOUNT = $("#discoutprice").val();
 			}else{
 			  $business.business_items.twcdmvi = 0;
@@ -1518,8 +1554,6 @@
 				$business.business_items.twcdmvi_ndsi = 0;
 			}
 
-
-
 			$passengers_preuim = $("#scratch_preuim").text();
 
 			if($passengers_preuim == "不投保")
@@ -1529,7 +1563,8 @@
 			else
 			{
 				$business.business_items.bsdi = 1;
-				$business.BSDI_INSURANCE_AMOUNT = $passengers_preuim;
+				$newbsdi_preuim =  $passengers_preuim.split("元");
+				$business.BSDI_INSURANCE_AMOUNT = $newbsdi_preuim[0];
 			}
 
 			$pilfer_ndsi = $("#scratch_ndsi");
@@ -1548,6 +1583,14 @@
 			}
 			else
 			{
+				if($glass_preuim == "国产玻璃")
+				{
+					$glass_preuim = "DOMESTIC";
+				}
+				else
+				{
+					$glass_preuim = "IMPORTED";
+				}
 				$business.business_items.bgai = 1;
 				$business.GLASS_ORIGIN = $glass_preuim;
 			}
@@ -1596,7 +1639,7 @@
 			}
 
 
-			$garage_preuim = $("#garage_preuim").text();
+/*			$garage_preuim = $("#garage_preuim").text();
 
 			if($garage_preuim == "不投保")
 			{
@@ -1605,7 +1648,29 @@
 			else
 			{
 				$business.business_items.stsfs = $garage_preuim;
+			}*/
+
+			$stsfspreuim = $("#stsfs_preuim").text();
+
+			if($stsfspreuim == "不投保")
+			{
+				$business.business_items.stsfs = 0;
 			}
+			else
+			{
+				if($stsfspreuim == "国产")
+				{
+					$stsfspreuim = "DOMESTIC";
+				}
+				else
+				{
+					$stsfspreuim = "IMPORTED";
+				}
+
+				$business.STSFS_RATE = $stsfspreuim;
+				$business.business_items.stsfs = 1;
+			}
+
 
 			$.post('/main/preuim',{'auto':$auto,'mvtalci':$mvtalci,'business':$business,'change':$change},function(msg){
 
