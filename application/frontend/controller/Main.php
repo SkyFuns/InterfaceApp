@@ -56,6 +56,7 @@ class Main extends Base
         $renewal = [];
         if ($result['code'] == 0 && !empty($result['data']))
         {
+            $renewal['start_time'] = $result['data']['start_time'];
             $renewal['carInfo'] =   $result['data']['carInfo'];
             $renewal['ownerInfo'] = $result['data']['ownerInfo'];
             $renewal['policyBI'] =  $result['data']['policyBI'];
@@ -85,6 +86,7 @@ class Main extends Base
     public function detail()
     {
         $renewal = Session::get('renewal');
+
         if(array_key_exists('insurance_company', $renewal['policyBI']) && !empty($renewal['policyBI']))
         {
             switch ($renewal['policyBI']['insurance_company']) {
@@ -341,6 +343,8 @@ class Main extends Base
      */
     public function preuim()
     {
+
+
         $arr = [];
         foreach($_POST as $key =>$val)
         {
