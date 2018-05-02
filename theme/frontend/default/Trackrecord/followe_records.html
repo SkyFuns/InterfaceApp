@@ -1,0 +1,263 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="__THEMES__/css/mui.min.css" rel="stylesheet" />
+		<link href="__THEMES__/css/mui.dtpicker.css" rel="stylesheet" />
+		<link href="__THEMES__/css/mui.picker.css" rel="stylesheet" />
+		<link href="__THEMES__/css/mui.poppicker.css" rel="stylesheet" />
+		<link href="__THEMES__/css/layer.css" rel="stylesheet" />
+    	<link href="__THEMES__/layui/css/layui.css" rel="stylesheet" media="all">
+
+		<style>
+
+			body{
+
+				font-family: "微软雅黑";
+				font-weight: 600;
+				font-size:12px;
+			}
+
+			.follow{
+
+				width: 100%;
+				height: 250px;
+			}
+
+			.follow_status{
+
+				margin-top: 15px;
+				margin-left: 20px;
+			}
+			.follow_time{
+				margin-top: 15px;
+				margin-left: 20px;
+			}
+
+			.follow_seleter{
+
+				float: right;
+				margin-right: 12px;
+			}
+
+			.follow_seleters{
+				float: right;
+				margin-right: 12px;
+			}
+
+
+			.line{
+				margin-top: 10px;
+				height:1px;
+				width:100%;
+				background:#cccccc;
+    		}
+
+    		.mui-icon{
+    			font-size:20px;
+    		}
+
+    		.circle {
+                position: fixed;
+                bottom: -10px;
+                width: 100%;
+                height: 65px;
+                z-index: 99;
+                opacity: 0.8;
+       	 	}
+
+       	 	.textarea{
+            width:100%;height:80px;position:absolute;background:none;z-index:9;font-size: 10px;
+            }
+             .note{
+             position:absolute;line-height:20px;padding:3px 5px; margin-left: 20px;
+             }
+
+		</style>
+
+
+
+	</head>
+
+	<body>
+
+		<!-- 主界面菜单同时移动 -->
+		    <!-- 侧滑导航根容器 -->
+		    <div class="mui-off-canvas-wrap mui-draggable">
+		        <!-- 主页面容器 -->
+		        <div class="mui-inner-wrap">
+		            <!-- 主页面标题 -->
+		            <header class="mui-bar mui-bar-nav">
+		                <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		                <h1 class="mui-title">录入跟进</h1>
+		            </header>
+		            <!-- 主页面内容容器 -->
+		            <div class="mui-content mui-scroll-wrapper">
+		                <div class="mui-scroll">
+		                    <!-- 主界面具体展示内容 -->
+
+		                    <div class="follow">
+
+			                    <div class="follow_status">
+			                    	<span class="follow_title">跟进记录</span>
+			                    	<span class="follow_seleter"><span id="fur">请选择</span><span class="mui-icon mui-icon-arrowright"></span></span>
+			                    </div>
+			                    <div class="line"></div>
+
+			                    <div class="follow_time">
+			                    	<div class="follow_time_title" id="follow_time_title">
+			                    		<span>下次跟进时间</span>
+			                    		<span class="follow_seleters"><span id="fur_time">请选择</span><span class="mui-icon mui-icon-arrowright"></span></span>
+			                    	</div>
+			                    </div>
+			                    <div class="line"></div>
+			                    <div class="content" style="position:relative;">
+			                    	<textarea rows="3" cols="20" class="textarea" placeholder="请填写补充内容" id="content"></textarea>
+			                    </div>
+
+
+		                    </div>
+
+		                </div>
+		            </div>
+		       	 <div class="mui-off-canvas-backdrop"></div>
+		        </div>
+		    </div>
+
+			<div class="tab-center">
+				<div class="circle">
+					<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block" id="nextstep" onclick="SendPage()">保存</button>
+				</div>
+			</div>
+
+
+		<script src="__THEMES__/js/mui.min.js"></script>
+		<script src="__THEMES__/js/mui.picker.js"></script>
+		<script src="__THEMES__/js/mui.dtpicker.js"></script>
+		<script src="__THEMES__/js/mui.poppicker.js"></script>
+		<script src="__THEMES__/js/zepto.js"></script>
+		<script src="__THEMES__/js/zepto.touchWipe.js"></script>
+		<script src="__THEMES__/js/layer.js"></script>
+		<script src="__THEMES__/layui/layui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+
+			var follow_seleter = new mui.PopPicker();
+		 	follow_seleter.setData([
+			 	{value:'0',text:'忙碌中待联系'},
+			 	{value:'1',text:'已报价考虑中(普通)'},
+			 	{value:'2',text:'已报价考虑中(重要)'},
+			 	{value:'3',text:'其他'},
+			 	{value:'4',text:'预约到店'},
+			 	{value:'5',text:'已预约出单'},
+			 	{value:'6',text:'成功出单'},
+			 	{value:'7',text:'申请投保'},
+			 	{value:'8',text:'失败'},
+			 	{value:'9',text:'无效数据(停机，空号)'},
+			 	{value:'10',text:'黑名单'},
+		 	]);
+
+
+
+			mui(document.body).on('tap', '.follow_status', function(e) {
+				follow_seleter.show(function (selectItems) {
+
+					var fur = document.getElementById('fur');
+					fur.innerText = selectItems[0].text
+				});
+			});
+
+			dtpicker('follow_time_title','fur_time');
+
+			function dtpicker(id,check_id)
+			{
+				mui(document.body).on('tap', '.'+id, function(e) {
+
+					var myDate = new Date();
+					var year = myDate.getFullYear();
+					var month = myDate.getMonth();
+					var dates = myDate.getDate();
+					var hours = myDate.getHours();
+					var minutes= myDate.getMinutes();
+
+					var months = month +1;
+					if(months < 10)
+					{
+						months = "0" + months;
+					}
+
+					if(dates < 10)
+					{
+						dates = '0' + dates;
+					}
+					if(hours < 10)
+					{
+						hours = '0' + hours;
+					}
+					if(minutes < 10)
+					{
+						minutes = '0' + minutes;
+					}
+					values = year + '-' + months + '-' + dates + ' ' + hours + ':' + minutes
+					var dtpicker = new mui.DtPicker({
+				    	"type": "datetime",//设置日历初始视图模式
+				    	"value": values,//values,
+				    	"beginDate": new Date(1900, 02, 8),//设置开始日期
+				    	"endDate": new Date(2018, 08, 8),//设置结束日期
+				    	"labels": ['年份', '月', '日','时','分'],//设置默认标签区域提示语
+					});
+					dtpicker.show(function(e) {
+					    document.getElementById(check_id).innerText = e;
+					});
+				})
+
+			}
+
+			function SendPage()
+			{
+
+				if($("#fur").text() == '请选择')
+				{
+					alert('跟进状态不能为空');
+					/*layer.open({
+						content: "<font color='#dd524d'>跟进状态不能为空</font>";
+					});*/
+					return;
+				}
+
+				if($("#fur_time").text() == '请选择')
+				{
+					alert('跟进时间不能为空');
+/*					layer.open({
+						content: "<font color='#dd524d'>跟进时间不能为空</font>";
+					});*/
+					return;
+				}
+
+				$arr = new Object();
+				$arr.fur_title = $("#fur").text();
+				$arr.fur_time = $("#fur_time").text();
+				$arr.fur_content = $("#content").val();
+
+				$.post('/Trackrecord/addFur',{'parms':$arr},function(msg){
+						if(msg.status != 0)
+						{
+							alert(msg.content);
+							return;
+						}
+						alert(msg.title);
+
+				});
+
+			}
+
+
+
+
+		</script>
+	</body>
+
+</html>

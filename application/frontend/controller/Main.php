@@ -56,7 +56,8 @@ class Main extends Base
         $renewal = [];
         if ($result['code'] == 0 && !empty($result['data']))
         {
-            $renewal['start_time'] = $result['data']['start_time'];
+            $renewal['bi_start_time'] = $result['data']['bi_start_time'];
+            $renewal['ci_start_time'] = $result['data']['ci_start_time'];
             $renewal['carInfo'] =   $result['data']['carInfo'];
             $renewal['ownerInfo'] = $result['data']['ownerInfo'];
             $renewal['policyBI'] =  $result['data']['policyBI'];
@@ -119,6 +120,9 @@ class Main extends Base
     public function offer()
     {
         $renewal = Session::get('renewal');
+
+        $id_card = substr_replace($renewal['ownerInfo']['identify_no'],'*',0,8);
+
 
         if(isset($renewal['policyBI']) && !empty($renewal['policyBI']))
         {
@@ -287,8 +291,7 @@ class Main extends Base
         {
             $renewal['policyCI']['end_date'] = date('Y-m-d',strtotime($renewal['policyCI']['end_date']));
         }
-
-
+        $this->assign('id_card',$id_card);
         $this->assign('renewal',$renewal);
         return $this->fetch("offer");
     }
@@ -300,6 +303,28 @@ class Main extends Base
 
     public function offerRecord()
     {
+        $username = Session::get('username');
+        if(empty($username))
+        {
+            return ret(1,'请求失败','已超时,请重新登录');
+        }
+        $user['username'] = $username;
+        $users = db('user')->where($user)->field('id')->find();
+
+        $parms['uid'] = $users['id'];
+        $Calculaterecord = db('Calculaterecord')->where($parms)->order('modify_time desc')->select();
+
+        if(empty($Calculaterecord))
+        {
+            return ret(0,'请求成功','没有查询到任何记录');
+        }
+        foreach ($Calculaterecord as $k => $v) {
+            $Calculaterecord[$k]['carculat_parms'] = json_decode($v['carculat_parms'],true);
+            $Calculaterecord[$k]['carcula_record'] = json_decode($v['carcula_record'],true);
+            $Calculaterecord[$k]['renewal'] = json_decode($v['renewal'],true);
+        }
+
+        $this->assign('result',$Calculaterecord);
         return $this->fetch("offer_record");
     }
 
@@ -343,7 +368,6 @@ class Main extends Base
      */
     public function preuim()
     {
-
 
         $arr = [];
         foreach($_POST as $key =>$val)
@@ -457,20 +481,50 @@ class Main extends Base
 
     public function accurate()
     {
+
+        if(!empty($_POST['id']))
+        {
+            $arr['id'] = $_POST['id'];
+            $Calculaterecord = db('Calculaterecord')->where($arr)->find();
+
+            if(!empty($Calculaterecord))
+            {
+                Session::set('premium_parems',json_decode($Calculaterecord['carculat_parms'],true));
+                Session::set('premium',json_decode($Calculaterecord['carcula_record'],true));
+                return ret(0,'请求成功');
+            }
+            return ret(1,'请求失败','登录超时,请重新登录');
+        }
+
+        $nots = input('nots');
         $insurance = Session::get('premium_parems');
+        if(isset($nots) && !empty($nots))
+        {
+            $premium = Session::get('premium');
+            $this->assign('premium',$premium);
+            $this->assign('nots',$nots);
+        }
+
         $this->assign('insurance',$insurance);
         return $this->fetch("accurate");
     }
 
     public function computationalCost()
     {
+
         $insurance = Session::get('premium_parems');
 
         if(empty($insurance))
         {
-
             return ret(1,'请求失败','请重新提交险种信息');
         }
+
+/*        if($_POST['license_no'] == $insurance['vehicle']['LICENSE_NO'])
+        {
+            $result = Session::get('premium');
+            return ret(0,'请求成功',$result);
+        }*/
+
         $data = [
             'insurance' => 'SICHUAN_KHYXSC_CICP',
             'vehicle' => $insurance['vehicle'],
@@ -499,6 +553,32 @@ class Main extends Base
 
         Session::delete('premium');
         Session::set('premium',$result);
+
+        $username = Session::get('username');
+        if(empty($username))
+        {
+            return ret(1,'请求失败','已超时,请重新登录');
+        }
+        $user['username'] = $username;
+        $users = db('user')->where($user)->field('id')->find();
+
+        if(empty($users))
+        {
+            return ret(1,'请求失败','已超时,请重新登录');
+        }
+
+        $parms['uid'] = $users['id'];
+        $parms['renewal'] = json_encode(Session::get('renewal'));
+        $parms['carculat_parms'] = json_encode($insurance);
+        $parms['carcula_record']  =  json_encode($result);
+
+        $Calculaterecord = model('Calculaterecord');
+        $Calculaterecord->data($parms);
+        $Calculaterecord->save();
+        if(empty($Calculaterecord->id))
+        {
+            return ret(1,'请求失败','请核实数据是否规范');
+        }
         return ret(0,'请求成功',$result);
     }
 
@@ -513,7 +593,6 @@ class Main extends Base
 
         $premium = Session::get('premium');
         $carInfo = Session::get('premium_parems');
-
         if(isset($premium['data']['BUSINESS']) && !empty($premium['data']['BUSINESS']) && isset($premium['data']['MVTALCI']) && !empty($premium['data']['MVTALCI']))
         {
             $premiums = $premium['data']['BUSINESS']['BUSINESS_PREMIUM'] + $premium['data']['MVTALCI']['MVTALCI_PREMIUM'];
