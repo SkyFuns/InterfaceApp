@@ -12,7 +12,9 @@
 
 			.recordinfo{
 				width: 100%;
-				padding-top:35px;
+				height: 100%;
+				padding-top:76px;
+				padding-bottom:52px;
 			}
 
 			.record{
@@ -83,24 +85,91 @@
 				    font-size: 13px;
 			}
 
+			.mui-input-row.mui-search{
+				background-color: white;
+				position: fixed;
+				width: 100%;
+				height: 38px;
+				z-index: 99999999;
+			}
+
+			.mui-table-view{
+
+			    position: relative;
+			    margin-top: 60px;
+			    margin-bottom: 10px;
+			    padding-left: 0;
+			    list-style: none;
+			    background-color: #fff;
+			}
+
+			.mui-scroll-wrapper{
+				top: 22px;
+			}
+			.mui-bar-nav~.mui-content .mui-pull-top-pocket{
+				top:55px;
+			}
+
+
 
 		</style>
 	</head>
 
 	<body>
-		<div class="mui-input-row mui-search" style="background-color: white;position: fixed;width: 100%;">
-		    <input type="search" class="mui-input-clear" placeholder="请输入车牌号" id="search">
-		</div>
+			<header class="mui-bar mui-bar-nav">
+		      <h1 class="mui-title">算价记录</h1>
+		    </header>
 
 		<div class="mui-content">
+			<div class="mui-input-row mui-search">
+		    	<input type="search" class="mui-input-clear" placeholder="请输入车牌号" id="search">
+			</div>
+			<!--下拉刷新容器-->
+			<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+			  <div class="mui-scroll">
+			    <!--数据列表-->
+			    <ul class="mui-table-view mui-table-view-chevron">
+			      {foreach $result as $vo}
+				    <div class="record" id="{$vo.id}">
+				    	<div class="car_info">
+				    		<span class="license">{$vo.carculat_parms.vehicle.LICENSE_NO}</span>
+				    		<span class="brand">({$vo.carculat_parms.vehicle.MODEL})</span>
+				    		<!-- <span class="due_time">距到期<span class="day_num">39</span>天</span> -->
+				    	</div>
+				    	<div class="segmentation"></div>
+				    	<div class="car_premium">
+				    		{if $vo.renewal.policyBI.insurance_company eq 'PICC'}
+				    			<span class="company">中国人保</span>
+				    		{elseif $vo.renewal.policyBI.insurance_company eq 'CPIC'}
+				    			<span class="company">中国太平洋</span>
+				    		{elseif $vo.renewal.policyBI.insurance_company eq 'CICP'}
+				    			<span class="company">中华联合</span>
+				    		{/if}
+
+				    			{if !empty($vo.carcula_record.data.MVTALCI) AND !empty($vo.carcula_record.data.BUSINESS)}
+				    				<span class="premium">￥{$vo.carcula_record.data.MVTALCI.MVTALCI_PREMIUM + $vo.carcula_record.data.BUSINESS.BUSINESS_PREMIUM}</span>
+				    			{elseif !empty($vo.carcula_record.data.MVTALCI) AND empty($vo.carcula_record.data.BUSINESS)}
+				    				<span class="premium">￥{$vo.carcula_record.data.MVTALCI.MVTALCI_PREMIUM}</span>
+				    			{elseif empty($vo.carcula_record.data.MVTALCI) AND !empty($vo.carcula_record.data.BUSINESS)}
+				    				<span class="premium">￥{$vo.carcula_record.data.BUSINESS.BUSINESS_PREMIUM}</span>
+				    			{/if}
+
+				    		<span class="status">未核保</span>
+				    	</div>
+				    </div>
+			    {/foreach}
+			    <input type="hidden" value="{$pages}" id="pages">
+			    </ul>
+			  </div>
+			</div>
 		    <!-- 底部菜单选项 -->
            	<nav class="mui-bar mui-bar-tab">
-	        	<a class="mui-tab-item mui-active" id ='1'>
+	        	<a class="mui-tab-item" id ='1'>
 	    	    	<span class="mui-icon mui-icon-paperplane"></span>
 	    	        <span class="mui-tab-label">车险报价</span>
 	    	    </a>
 	    	    <a class="mui-tab-item" id ='2'>
-	    	    	<span class="mui-icon mui-icon-paperplane"></span>
+	    	    	<span class="mui-icon mui-icon-compose mui-active"></span>
 	    	        <span class="mui-tab-label">报价记录</span>
 	    	    </a>
 	    	    <a class="mui-tab-item" id ='3'>
@@ -108,162 +177,130 @@
 	    	        <span class="mui-tab-label">个人中心</span>
 	    	    </a>
 	    	</nav>
-		    <div class="recordinfo">
-			    <div class="record">
-			    	<div class="car_info">
-			    		<span class="license">苏A12345</span>
-			    		<span class="brand">(北京现代BH12323)</span>
-			    		<span class="due_time">距到期<span class="day_num">39</span>天</span>
-			    	</div>
-			    	<div class="segmentation"></div>
-			    	<div class="car_premium">
-			    		<span class="company">人保车险</span>
-			    		<span class="premium">￥1317.54</span>
-			    		<span class="status">未核保</span>
-			    	</div>
-			    </div>
-			    <div class="record">
-			    	<div class="car_info">
-			    		<span class="license">苏A12345</span>
-			    		<span class="brand">(北京现代BH12323)</span>
-			    		<span class="due_time">距到期<span class="day_num">39</span>天</span>
-			    	</div>
-			    	<div class="segmentation"></div>
-			    	<div class="car_premium">
-			    		<span class="company">人保车险</span>
-			    		<span class="premium">￥1317.54</span>
-			    		<span class="status">未核保</span>
-			    	</div>
-			    </div>
-			    <div class="record">
-			    	<div class="car_info">
-			    		<span class="license">苏A12345</span>
-			    		<span class="brand">(北京现代BH12323)</span>
-			    		<span class="due_time">距到期<span class="day_num">39</span>天</span>
-			    	</div>
-			    	<div class="segmentation"></div>
-			    	<div class="car_premium">
-			    		<span class="company">人保车险</span>
-			    		<span class="premium">￥1317.54</span>
-			    		<span class="status">未核保</span>
-			    	</div>
-			    </div>
-			    <div class="record">
-			    	<div class="car_info">
-			    		<span class="license">苏A12345</span>
-			    		<span class="brand">(北京现代BH12323)</span>
-			    		<span class="due_time">距到期<span class="day_num">39</span>天</span>
-			    	</div>
-			    	<div class="segmentation"></div>
-			    	<div class="car_premium">
-			    		<span class="company">人保车险</span>
-			    		<span class="premium">￥1317.54</span>
-			    		<span class="status">未核保</span>
-			    	</div>
-			    </div>
-			    <div class="record">
-			    	<div class="car_info">
-			    		<span class="license">苏A12345</span>
-			    		<span class="brand">(北京现代BH12323)</span>
-			    		<span class="due_time">距到期<span class="day_num">39</span>天</span>
-			    	</div>
-			    	<div class="segmentation"></div>
-			    	<div class="car_premium">
-			    		<span class="company">人保车险</span>
-			    		<span class="premium">￥1317.54</span>
-			    		<span class="status">未核保</span>
-			    	</div>
-			    </div>
-			    <div class="record">
-			    	<div class="car_info">
-			    		<span class="license">苏A12345</span>
-			    		<span class="brand">(北京现代BH12323)</span>
-			    		<span class="due_time">距到期<span class="day_num">39</span>天</span>
-			    	</div>
-			    	<div class="segmentation"></div>
-			    	<div class="car_premium">
-			    		<span class="company">人保车险</span>
-			    		<span class="premium">￥1317.54</span>
-			    		<span class="status">未核保</span>
-			    	</div>
-			    </div>
-			    <div class="record">
-			    	<div class="car_info">
-			    		<span class="license">苏A12345</span>
-			    		<span class="brand">(北京现代BH12323)</span>
-			    		<span class="due_time">距到期<span class="day_num">39</span>天</span>
-			    	</div>
-			    	<div class="segmentation"></div>
-			    	<div class="car_premium">
-			    		<span class="company">人保车险</span>
-			    		<span class="premium">￥1317.54</span>
-			    		<span class="status">未核保</span>
-			    	</div>
-			    </div>
-			    <div class="record">
-			    	<div class="car_info">
-			    		<span class="license">苏A12345</span>
-			    		<span class="brand">(北京现代BH12323)</span>
-			    		<span class="due_time">距到期<span class="day_num">39</span>天</span>
-			    	</div>
-			    	<div class="segmentation"></div>
-			    	<div class="car_premium">
-			    		<span class="company">人保车险</span>
-			    		<span class="premium">￥1317.54</span>
-			    		<span class="status">未核保</span>
-			    	</div>
-			    </div>
-			    <div class="record">
-			    	<div class="car_info">
-			    		<span class="license">苏A12345</span>
-			    		<span class="brand">(北京现代BH12323)</span>
-			    		<span class="due_time">距到期<span class="day_num">39</span>天</span>
-			    	</div>
-			    	<div class="segmentation"></div>
-			    	<div class="car_premium">
-			    		<span class="company">人保车险</span>
-			    		<span class="premium">￥1317.54</span>
-			    		<span class="status">未核保</span>
-			    	</div>
-			    </div>
-
-
-
-
-
-
-
-		    </div>
-
 		</div>
 
 		<script src="__THEMES__/js/mui.min.js"></script>
 		<script src="__THEMES__/js/jquery_3.3.1.js"></script>
 		<script type="text/javascript">
-			mui.init()
+			mui.init({
+			  pullRefresh : {
+			    container:"#refreshContainer",//下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
 
-			var search = document.getElementById('search');
-			search.addEventListener('input',function(e){
+			     up : {
+			    	height:50,//可选.默认50.触发上拉加载拖动距离
+			    	auto:false,//可选,默认false.自动上拉加载一次
+			    	contentrefresh : "正在加载...",//可选，正在加载状态时，上拉加载控件上显示的标题内容
+			    	contentnomore:'没有更多数据了',//可选，请求完毕若没有更多数据时显示的提醒内容；
+			    	callback :upFn //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+			    },
 
-				var value = this.value;
-
-				if($(".record"))
-				{
-					$(".record").each(function(e) {
-
-					});
-
-
-/*					if(value != "" && value == $(".license").text())
-					{
-						alert($('.license').parent().parent());
-					}*/
-
-				}
-
-
-
+			    down : {
+			     	height:50,//可选,默认50.触发下拉刷新拖动距离,
+			     	auto: false,//可选,默认false.首次加载自动下拉刷新一次
+			     	contentdown : "下拉可以刷新",//可选，在下拉可刷新状态时，下拉刷新控件上显示的标题内容
+			     	contentover : "释放立即刷新",//可选，在释放可刷新状态时，下拉刷新控件上显示的标题内容
+			     	contentrefresh : "正在刷新...",//可选，正在刷新状态时，下拉刷新控件上显示的标题内容
+			     	callback :downFn //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+			    }
+			  }
 			});
+
+
+			function upFn()
+			{
+				$pages = parseInt($('#pages').val()) + 1;
+				$.get("/main/offerRecord?pages="+$pages,function(msg){
+
+
+/*					<div class="record" id="{$vo.id}">
+				    	<div class="car_info">
+				    		<span class="license">{$vo.carculat_parms.vehicle.LICENSE_NO}</span>
+				    		<span class="brand">({$vo.carculat_parms.vehicle.MODEL})</span>
+				    		<!-- <span class="due_time">距到期<span class="day_num">39</span>天</span> -->
+				    	</div>
+				    	<div class="segmentation"></div>
+				    	<div class="car_premium">
+				    		{if $vo.renewal.policyBI.insurance_company eq 'PICC'}
+				    			<span class="company">中国人保</span>
+				    		{elseif $vo.renewal.policyBI.insurance_company eq 'CPIC'}
+				    			<span class="company">中国太平洋</span>
+				    		{elseif $vo.renewal.policyBI.insurance_company eq 'CICP'}
+				    			<span class="company">中华联合</span>
+				    		{/if}
+
+				    			{if !empty($vo.carcula_record.data.MVTALCI) AND !empty($vo.carcula_record.data.BUSINESS)}
+				    				<span class="premium">￥{$vo.carcula_record.data.MVTALCI.MVTALCI_PREMIUM + $vo.carcula_record.data.BUSINESS.BUSINESS_PREMIUM}</span>
+				    			{elseif !empty($vo.carcula_record.data.MVTALCI) AND empty($vo.carcula_record.data.BUSINESS)}
+				    				<span class="premium">￥{$vo.carcula_record.data.MVTALCI.MVTALCI_PREMIUM}</span>
+				    			{elseif empty($vo.carcula_record.data.MVTALCI) AND !empty($vo.carcula_record.data.BUSINESS)}
+				    				<span class="premium">￥{$vo.carcula_record.data.BUSINESS.BUSINESS_PREMIUM}</span>
+				    			{/if}
+
+				    		<span class="status">未核保</span>
+				    	</div>
+				    </div>*/
+				})
+
+
+				//当上拉没有数据时，则为true
+				this.endPullupToRefresh(true|false);
+			}
+
+			function downFn(){
+
+				setTimeout(function () {
+
+	              	mui('#refreshContainer').pullRefresh().endPulldownToRefresh(); //关闭顶部下拉
+	          	}, 1500);
+			}
+
+
+			mui(".mui-table-view").on('tap','.record',function(){
+     			var id = this.getAttribute("id");
+     			$.post('/main/accurate',{'id':id},function(msg){
+
+					if(msg.status != 0)
+					{
+						alert(msg.content);
+					}
+
+					mui.openWindow({
+						url:"/main/accurate/nots/"+id+".html",
+					});
+				})
+			});
+
+
+/*			function record(e)
+			{
+				var id = e;
+				$.post('/main/accurate',{'id':id},function(msg){
+
+					if(msg.status != 0)
+					{
+						alert(msg.content);
+					}
+
+					mui.openWindow({
+						url:"/main/accurate/nots/"+id+".html",
+					});
+				})
+
+
+			}*/
+
+			var contentWebview = null;
+			//监听标题栏的双击事件
+			document.querySelector('header').addEventListener('doubletap',function () {
+			  if(contentWebview==null){
+			    contentWebview = plus.webview.currentWebview().children()[0];
+			  }
+			  //内容区滚动到顶部
+			  contentWebview.evalJS("mui('#pullrefresh').pullRefresh().scrollTo(0,0,100)");
+			});
+
+
+
 
 
 

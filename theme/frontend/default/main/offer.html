@@ -71,7 +71,7 @@
 			.car_info{
 
 				width: 100%;
-				height: 30px;
+				height: 35px;
 				margin-top:2px;
 				margin-left: 12px;
 			}
@@ -330,6 +330,7 @@
      	}
 
      	.span-userinfo{
+     		padding-top: 6px;
      		padding-left: 12px;
      	}
      	.layui-m-layerchild.layui-m-anim-up{
@@ -407,14 +408,14 @@
 		        	<div class="span-userinfo">
 		        		{if isset($renewal.ownerInfo)}
 		        		<span class="user_span">车主姓名: <span class="span_username" id="span_username">{$renewal.ownerInfo.owner}</span></span>
-		        		<span class="user_span">身份证/机构代码:<span class="span_idcard" id="span_idcard">{$renewal.ownerInfo.identify_no}</span></span>
-		        		<span class="user_span">手机号:<span class="span_phone" id="span_phone">18357436594</span></span>
+		        		<span class="user_span">身份证/机构代码:<input type="hidden" id ="span_idcard" value = "{$renewal.ownerInfo.identify_no}"><span class="span_idcard">{$id_card}</span></span>
+		        		<span class="user_span" style="display: none">手机号:<span class="span_phone" id="span_phone" style="display: none">18357436594</span></span>
 		        		{else/}
 		        		<span class="user_span">车主姓名: <span class="span_username" id="span_username"></span></span>
-		        		<span class="user_span">身份证/机构代码:<span class="span_idcard" id="span_idcard"></span></span>
+		        		<span class="user_span">身份证/机构代码:<input type="hidden" id ="span_idcard"><span class="span_idcard"></span></span>
 		        		<span class="user_span">手机号:<span class="span_phone" id="span_phone"></span></span>
 		        		{/if}
-		        		<button type="button" class="mui-btn mui-btn-danger mui-btn-outlined" id="editor_user" style="margin: -37px 10px; padding: 4px;">
+		        		<button type="button" class="mui-btn mui-btn-danger mui-btn-outlined" id="editor_user" style="margin: -28px 10px; padding: 4px;">
 		            		<span class="mui-icon mui-icon-compose"><span class="mui-icon-compose-model">编辑车主信息</span></span>
 						</button>
 						<div class="line"></div>
@@ -878,14 +879,14 @@
 
 
 			var span_username = document.getElementById('span_username').innerHTML;
-			var span_idcard = document.getElementById('span_idcard').innerHTML;
-			var span_phone = document.getElementById('span_phone').innerHTML;
+			var span_idcard = document.getElementById('span_idcard').value;
+			//var span_phone = document.getElementById('span_phone').innerHTML;
 
 
 			var str = '<div class="span-userinfo" style="width:350px; height:150px";>' +
 		        		'<span class="user_span" style="color:#5a5a5a">车主姓名: <input type="text" id="save_username" value="'+span_username+'" style="width:38%;height:10px;margin-left:20px;color:#878787"></span></span>'+
 		        		'<span class="user_span" style="color:#5a5a5a">身份证号码:<input type="text" id="save_idcard" value="'+span_idcard+'" style="width:38%;height:10px;margin-left:10px;color:#878787"></span></span>'+
-		        		'<span class="user_span" style="color:#5a5a5a">手机号:<input type="text"  id="save_phone" value="'+span_phone+'" style="width:38%;height:10px;margin-left:33px;color:#878787"></span></span>'+
+		        		/*'<span class="user_span" style="color:#5a5a5a">手机号:<input type="text"  id="save_phone" value="'+span_phone+'" style="width:38%;height:10px;margin-left:33px;color:#878787"></span></span>'+*/
 		        		'<button type="button" class="mui-btn mui-btn-danger mui-btn-outlined" id="click_save" style="float:right;margin-right:12px;margin-top:-47px;">'+
 		            		'<span class="mui-icon mui-icon-compose"><span class="mui-icon-compose-model">保存</span></span>'+
 						'</button>'+
@@ -902,8 +903,8 @@
 		    mui(document.body).on('tap', '#click_save', function(e) {
 
 		    	document.getElementById('span_username').innerHTML = document.getElementById('save_username').value;
-				document.getElementById('span_idcard').innerHTML = document.getElementById('save_idcard').value;
-				document.getElementById('span_phone').innerHTML = document.getElementById('save_phone').value;
+				document.getElementById('span_idcard').value = document.getElementById('save_idcard').value;
+				//document.getElementById('span_phone').innerHTML = document.getElementById('save_phone').value;
 				layer.close(save_userinfo);
 		    })
 		});
@@ -979,10 +980,10 @@
 
 					var list = document.querySelector('.models');
 					list.addEventListener('selected',function(e){
-
+						var ap  = e.detail.el.innerText.split("/");
+						$("#brand_model").text(ap[0]);
 						document.getElementById('new_carinfo').value = e.detail.el.getAttribute('value');
 						document.getElementById('detail').value = e.detail.el.innerText;
-
 					});
 
 					mui(document.body).on('tap', '#button_model', function(e) {
@@ -1422,7 +1423,7 @@
 			$auto.VIN_NO = $('#brand_vin').html();
 			$auto.ENROLL_DATE = $('#brand_registdate').html();
 			$auto.OWNER = $('#span_username').html();
-			$auto.IDENTIFY_NO = $('#span_idcard').html();
+			$auto.IDENTIFY_NO = $('#span_idcard').val();
 			$auto.MOBILE = $('#span_phone').html();
 			$auto.ENGINE_NO = '{$renewal.carInfo.engine_no}';
 			$auto.CAR_DATA = $('#car_infos').val();
@@ -1440,16 +1441,29 @@
 			 * [$tvdi_switch description]
 			 * @type {[type]}
 			 */
+			if($("#car_info_vehicle").text() == "")
+			{
+				layui_open('车辆信息不能为空');
+				return;
+			}
+
+			if($("#span_username").text() == "")
+			{
+				layui_open('车主姓名不能为空');
+				return;
+			}
+
+
+			if($("#span_idcard").val() == "")
+			{
+				layui_open('身份证号码不能为空');
+				return;
+			}
+
 
 			var isActive = document.getElementById("TVDI_SWITCH").classList.contains("mui-active");
 			if(isActive){
-			  $business.business_items.tvdi = 1;
-
-				if($("#car_info_vehicle").text() == "")
-				{
-					layui_open('车辆信息不能为空');
-					return;
-				}
+			  	$business.business_items.tvdi = 1;
 			}
 			else
 			{
