@@ -139,14 +139,26 @@
 			       		{$renewal.policyBI.insurance_company}
 			       	</span>
 			       	{/if}
-			       	{if $renewal.policyCI}
+
+			       	{if !empty($renewal.policyCI)}
 			       	<span class="span-car-info">交强险保单号 :
+			       		{empty name = "policyCI.policy_no"}
+			       			暂无
+			       		{else}
 			       			{$renewal.policyCI.policy_no}
+			       		{/empty}
+
 			       	</span>
 			       	{/if}
-			       	{if $renewal.policyBI}
+
+			       	{if !empty($renewal.policyBI)}
 			       	<span class="span-car-info">商业险保单号 :
-			       		 {$renewal.policyBI.policy_no}
+			       		{empty name = "renewal.policyBI.policy_no"}
+			       			暂无
+			       		{else}
+			       			{$renewal.policyBI.policy_no}
+			       		{/empty}
+			       		
 			       	</span>
 			       	{/if}
 			       	<!-- <button type="button" class="mui-btn mui-btn-green" style="margin-left: -80px; margin-top: 69px; line-height: 35px; box-shadow:0px 0px 10px #999999" disabled>未到期</button> -->

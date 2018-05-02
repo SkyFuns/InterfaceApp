@@ -6,6 +6,7 @@ use think\Loader;
 use request\Curl;
 use think\Cookie;
 use think\Session;
+use think\Request;
 
 class Main extends Base
 {
@@ -311,9 +312,25 @@ class Main extends Base
         $user['username'] = $username;
         $users = db('user')->where($user)->field('id')->find();
 
-        $parms['uid'] = $users['id'];
-        $Calculaterecord = db('Calculaterecord')->where($parms)->order('modify_time desc')->select();
+        if(empty($_GET['pages']))
+        {
+            $pages = 0;
+        }
+        else
+        {
+            $pages = $_GET['pages'];
 
+        }
+
+        $parms['uid'] = $users['id'];
+        $Calculaterecord = db('Calculaterecord')->where($parms)->order('modify_time desc')->limit($pages,7)->select();
+        if (Request::instance()->isAjax()){
+            if(empty($Calculaterecord))
+            {
+                return ret(0,'请求成功','没有查询到任何记录');
+            }
+            return ret(0,'请求成功',$Calculaterecord);
+        }
         if(empty($Calculaterecord))
         {
             return ret(0,'请求成功','没有查询到任何记录');
@@ -323,7 +340,7 @@ class Main extends Base
             $Calculaterecord[$k]['carcula_record'] = json_decode($v['carcula_record'],true);
             $Calculaterecord[$k]['renewal'] = json_decode($v['renewal'],true);
         }
-
+        $this->assign('pages',$pages);
         $this->assign('result',$Calculaterecord);
         return $this->fetch("offer_record");
     }

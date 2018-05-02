@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title></title>
+		<title>报价详情</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="__THEMES__/css/mui.min.css" rel="stylesheet" />
 		<link href="__THEMES__/css/layer.css" rel="stylesheet" />
@@ -40,7 +40,7 @@
 			}
 
 			.top_img{
-				width: 78px;
+				width: 120px;
 				padding: 10px;
 			}
 
@@ -67,7 +67,7 @@
     		.information{
 
     			width: 100%;
-    			height: 120px;
+    			height: 150px;
 				padding: 16px 13px;
     		}
 
@@ -325,7 +325,6 @@
 		        <!-- 主界面具体展示内容 -->
 		         	<div class="top">
 		         		<img src="__THEMES__/images/cicp.jpg"  class="top_img" />
-		         		<span class="top_title">中华联合</span>
 		         		<span class="top_totleprice" style="color: #FF5053;">￥ <span id="totle_price">{$premiums}</span></span>
 		         	</div>
 		         	<div class="line_1"></div>
@@ -431,7 +430,7 @@
 
 		         	<div class="tab-center" style="margin-top: 40px;">
 						<div class="add_quotation">
-							<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block quotation" id="nextstep" onclick="SendPage()"><span class="mui-icon mui-icon-compose"></span>跟进记录</button>
+							<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block quotation" id="nextfur" onclick="SendFur()"><span class="mui-icon mui-icon-compose"></span>跟进记录</button>
 						</div>
 						<div class="send_message">
 							<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block quotation" id="nextstep" onclick="SendPage()"><span class="mui-icon mui-icon-email"></span>发送短信</button>
@@ -532,8 +531,6 @@
 			{
 				document.getElementById('premium_rate_business').style.display='none';
 			}
-
-
 
 			button_calculate.addEventListener("tap",function () {
 
@@ -637,7 +634,7 @@
 			document.getElementById('Shut_down').addEventListener("tap",function () {
 
 				mui.openWindow({
-		          	url:'{:url("Index/main")}',
+		          	url:'{:url("Main/index")}',
 		          	styles:{
 			            top:'mui-inner-wrap mui-transitioning',//新页面顶部位置
 			            bottom:'mui-off-canvas-backdrop',//新页面底部位置
@@ -661,7 +658,13 @@
 
 
 
+			function SendFur()
+			{
 
+				mui.openWindow({
+					url:'{:url("Trackrecord/followe_records")}',
+				});
+			}
 
 
 
