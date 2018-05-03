@@ -442,7 +442,7 @@
 		        	</div>
 
 
-		        	<div class="change_car jiaoqiang" style="display:block;">
+		        	<div class="change_car jiaoqiang" style="display:block;" id="jq_time">
 		        		<a class="chang_car line"></a>
 		        		<span class="change_car info">交强险</span>
 		        		<div class="change_car change_time" id="jiaoqiang_selection">
@@ -470,7 +470,7 @@
 		        	</div>
 		        	<div class="line_1"></div>
 
-		        	<div class="change_car shangye">
+		        	<div class="change_car shangye" id="sy_time">
 		        		<a class="chang_car line"></a>
 		        		<span class="change_car info">商业险</span>
 		        		<div class="change_car change_time" id="shangye_selection">
@@ -885,7 +885,7 @@
 
 			var str = '<div class="span-userinfo" style="width:350px; height:150px";>' +
 		        		'<span class="user_span" style="color:#5a5a5a">车主姓名: <input type="text" id="save_username" value="'+span_username+'" style="width:38%;height:10px;margin-left:20px;color:#878787"></span></span>'+
-		        		'<span class="user_span" style="color:#5a5a5a">身份证号码:<input type="text" id="save_idcard" value="'+span_idcard+'" style="width:38%;height:10px;margin-left:10px;color:#878787"></span></span>'+
+		        		'<span class="user_span" style="color:#5a5a5a">身份证号码:<input type="number" id="save_idcard" value="'+span_idcard+'" style="width:38%;height:10px;margin-left:10px;color:#878787"></span></span>'+
 		        		/*'<span class="user_span" style="color:#5a5a5a">手机号:<input type="text"  id="save_phone" value="'+span_phone+'" style="width:38%;height:10px;margin-left:33px;color:#878787"></span></span>'+*/
 		        		'<button type="button" class="mui-btn mui-btn-danger mui-btn-outlined" id="click_save" style="float:right;margin-right:12px;margin-top:-47px;">'+
 		            		'<span class="mui-icon mui-icon-compose"><span class="mui-icon-compose-model">保存</span></span>'+
@@ -1178,9 +1178,45 @@
 			});
 		});
 
+		mui(document.body).on('tap', '#jq_time', function(e) {
+			var value = document.getElementById('jiaoqiang_time').innerText;
+			var dtpicker = new mui.DtPicker({
+		    	type: "date",//设置日历初始视图模式
+		    	value: value,
+		    	beginDate: new Date(1900, 02, 8),//设置开始日期
+		    	endDate: new Date(2018, 08, 8),//设置结束日期
+		    	labels: ['年份', '月', '日'],//设置默认标签区域提示语
+			});
+			dtpicker.show(function(e) {
+			    document.getElementById('jiaoqiang_time').innerText = e;
+			});
+		});
+
+
+		mui(document.body).on('tap', '#sy_time', function(e) {
+			var value = document.getElementById('shangye_time').innerText;
+			var dtpicker = new mui.DtPicker({
+		    	type: "date",//设置日历初始视图模式
+		    	value: value,
+		    	beginDate: new Date(1900, 02, 8),//设置开始日期
+		    	endDate: new Date(2018, 08, 8),//设置结束日期
+		    	labels: ['年份', '月', '日'],//设置默认标签区域提示语
+			});
+			dtpicker.show(function(e) {
+			    document.getElementById('shangye_time').innerText = e;
+			});
+		});
+
+
+
+
+
+
 		function dtpicker(id,check_id)
 		{
+
 			document.getElementById(id).addEventListener("toggle",function(event){
+
 			  	if(event.detail.isActive)
 			  	{
 					var value = document.getElementById(check_id).innerText;

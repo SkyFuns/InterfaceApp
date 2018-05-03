@@ -311,10 +311,10 @@ class Main extends Base
         }
         $user['username'] = $username;
         $users = db('user')->where($user)->field('id')->find();
-
+        $totle = 7;
         if(empty($_GET['pages']))
         {
-            $pages = 0;
+            $pages = 1;
         }
         else
         {
@@ -323,11 +323,19 @@ class Main extends Base
         }
 
         $parms['uid'] = $users['id'];
-        $Calculaterecord = db('Calculaterecord')->where($parms)->order('modify_time desc')->limit($pages,7)->select();
+        $Calculaterecord = db('Calculaterecord')->where($parms)->order('modify_time desc')->page($pages,7)->select();
+
         if (Request::instance()->isAjax()){
             if(empty($Calculaterecord))
             {
-                return ret(0,'请求成功','没有查询到任何记录');
+                return ret(1,'请求失败','没有查询到任何记录');
+            }
+
+            foreach ($Calculaterecord as $k => $v) {
+                $Calculaterecord[$k]['create_time'] = date("Y-m-d",strtotime($v['create_time']));
+                $Calculaterecord[$k]['carculat_parms'] = json_decode($v['carculat_parms'],true);
+                $Calculaterecord[$k]['carcula_record'] = json_decode($v['carcula_record'],true);
+                $Calculaterecord[$k]['renewal'] = json_decode($v['renewal'],true);
             }
             return ret(0,'请求成功',$Calculaterecord);
         }
@@ -336,6 +344,7 @@ class Main extends Base
             return ret(0,'请求成功','没有查询到任何记录');
         }
         foreach ($Calculaterecord as $k => $v) {
+            $Calculaterecord[$k]['create_time'] = date("Y-m-d",strtotime($v['create_time']));
             $Calculaterecord[$k]['carculat_parms'] = json_decode($v['carculat_parms'],true);
             $Calculaterecord[$k]['carcula_record'] = json_decode($v['carcula_record'],true);
             $Calculaterecord[$k]['renewal'] = json_decode($v['renewal'],true);
