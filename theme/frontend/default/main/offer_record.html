@@ -128,13 +128,13 @@
 			<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
 			  <div class="mui-scroll">
 			    <!--数据列表-->
-			    <ul class="mui-table-view mui-table-view-chevron">
+			    <ul class="mui-table-view mui-table-view-chevron" id="mui-table-view-chevron">
 			      {foreach $result as $vo}
 				    <div class="record" id="{$vo.id}">
 				    	<div class="car_info">
 				    		<span class="license">{$vo.carculat_parms.vehicle.LICENSE_NO}</span>
 				    		<span class="brand">({$vo.carculat_parms.vehicle.MODEL})</span>
-				    		<!-- <span class="due_time">距到期<span class="day_num">39</span>天</span> -->
+				    		<span class="due_time"><span class="day_num">{$vo.create_time}</span></span>
 				    	</div>
 				    	<div class="segmentation"></div>
 				    	<div class="car_premium">
@@ -211,39 +211,48 @@
 				$pages = parseInt($('#pages').val()) + 1;
 				$.get("/main/offerRecord?pages="+$pages,function(msg){
 
+					if(msg.status != 0)
+					{
+						mui('#refreshContainer').pullRefresh().endPullupToRefresh(true);
+					}
 
-/*					<div class="record" id="{$vo.id}">
-				    	<div class="car_info">
-				    		<span class="license">{$vo.carculat_parms.vehicle.LICENSE_NO}</span>
-				    		<span class="brand">({$vo.carculat_parms.vehicle.MODEL})</span>
-				    		<!-- <span class="due_time">距到期<span class="day_num">39</span>天</span> -->
-				    	</div>
-				    	<div class="segmentation"></div>
-				    	<div class="car_premium">
-				    		{if $vo.renewal.policyBI.insurance_company eq 'PICC'}
-				    			<span class="company">中国人保</span>
-				    		{elseif $vo.renewal.policyBI.insurance_company eq 'CPIC'}
-				    			<span class="company">中国太平洋</span>
-				    		{elseif $vo.renewal.policyBI.insurance_company eq 'CICP'}
-				    			<span class="company">中华联合</span>
-				    		{/if}
+					$html = "";
+					for(var e in msg.content)
+					{
+						var data =   msg.content[e].carcula_record.data;
+						$html +=	'<div class="record" id="'+msg.content[e].id+'">'+
+							    	'<div class="car_info">'+
+							    		'<span class="license">'+msg.content[e].carculat_parms.vehicle.LICENSE_NO+'</span>'+
+							    		'<span class="brand">('+msg.content[e].carculat_parms.vehicle.MODEL+')</span>'+
+							    		'<span class="due_time"><span class="day_num">'+msg.content[e].create_time+'</span></span>'+
+							    	'</div>' +
+							    	'<div class="segmentation"></div>' +
+							    	'<div class="car_premium">';
+							    		$html += '<span class="company">中国人保</span>';
 
-				    			{if !empty($vo.carcula_record.data.MVTALCI) AND !empty($vo.carcula_record.data.BUSINESS)}
-				    				<span class="premium">￥{$vo.carcula_record.data.MVTALCI.MVTALCI_PREMIUM + $vo.carcula_record.data.BUSINESS.BUSINESS_PREMIUM}</span>
-				    			{elseif !empty($vo.carcula_record.data.MVTALCI) AND empty($vo.carcula_record.data.BUSINESS)}
-				    				<span class="premium">￥{$vo.carcula_record.data.MVTALCI.MVTALCI_PREMIUM}</span>
-				    			{elseif empty($vo.carcula_record.data.MVTALCI) AND !empty($vo.carcula_record.data.BUSINESS)}
-				    				<span class="premium">￥{$vo.carcula_record.data.BUSINESS.BUSINESS_PREMIUM}</span>
-				    			{/if}
+							    		if(data.hasOwnProperty('MVTALCI') && data.hasOwnProperty('BUSINESS'))
+							    		{
+							    			$html += '<span class="premium">￥ ' + (parseFloat(data.MVTALCI.MVTALCI_PREMIUM)  +  parseFloat(data.BUSINESS.BUSINESS_PREMIUM)) + '</span>';
+							    		}
+							    		else if(!data.hasOwnProperty('MVTALCI') && data.hasOwnProperty('BUSINESS'))
+							    		{
+							    			$html += '<span class="premium">￥ ' + parseFloat(data.BUSINESS.BUSINESS_PREMIUM) + '</span>';
+							    		}
+							    		else if(data.hasOwnProperty('MVTALCI') && !data.hasOwnProperty('BUSINESS'))
+							    		{
+							    			$html += '<span class="premium">￥ ' + parseFloat(data.MVTALCI.MVTALCI_PREMIUM) + '</span>';
+							    		}
+						$html += '<span class="status">未核保</span></div></div>';
+					}
 
-				    		<span class="status">未核保</span>
-				    	</div>
-				    </div>*/
+					$("#mui-table-view-chevron").append($html);
+					$('#pages').val($pages)
+					mui('#refreshContainer').pullRefresh().endPullupToRefresh(false);
 				})
 
 
 				//当上拉没有数据时，则为true
-				this.endPullupToRefresh(true|false);
+
 			}
 
 			function downFn(){
@@ -299,6 +308,8 @@
 			  contentWebview.evalJS("mui('#pullrefresh').pullRefresh().scrollTo(0,0,100)");
 			});
 
+
+			//search
 
 
 

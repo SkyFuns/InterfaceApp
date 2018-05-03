@@ -105,6 +105,7 @@
 
     			height: 43px;
     			padding: 13px 15px;
+    			margin-right:9px;
     		}
 
     		.mvtalci_insurance_premium{
@@ -113,7 +114,7 @@
     		}
     		.business_insurance_premium{
     			float: right;
-    			margin-right: 30px;
+    			margin-right: 10px;
     		}
 
     		.total_amount_premium{
@@ -123,11 +124,9 @@
 
     		.business_insurance_premium.mui-icon{
 
-    			margin-right: -85px;
-    			margin-top: -2px;
-    			color: #dd524d;
-
-
+			    margin-right: -96px;
+			    margin-top: -2px;
+			    color: #dd524d;
     		}
 
 			.mui-table-view{
@@ -306,6 +305,18 @@
 
        	 	}
 
+       	 	.rmb_class{
+       	 		float: right;
+    			margin-left: 2px;
+    			color: #dd524d;
+       	 	}
+       	 	.totle_syinsurance{
+				float: right;
+			    width: 100px;
+			    padding-right: 14px;
+			    margin-right: -3px;
+       	 	}
+
 
 		</style>
 
@@ -356,12 +367,12 @@
 		         	{if isset($preuim.data.MVTALCI)}
 		         	<div class="mvtalci_insurance" id="mvtalci_insurance">
 		         		<span>交强险</span>
-		         		<span class="mvtalci_insurance_premium price" id="mvtalci_insurance_premium_price" style="margin-right: 0px;">{$preuim.data.MVTALCI.MVTALCI_PREMIUM}</span>
+		         		<span class="rmb_class">元</span><span class="mvtalci_insurance_premium price" id="mvtalci_insurance_premium_price" style="margin-right: 0px;">{$preuim.data.MVTALCI.MVTALCI_PREMIUM}</span>
 		         	</div>
 		         	<div class="line_1"></div>
 		         	<div class="mvtalci_insurance">
 		         		<span>车船税</span>
-		         		<span class="mvtalci_insurance_premium price">{$preuim.data.MVTALCI.TRAVEL_TAX_PREMIUM} </span>
+		         		<span class="rmb_class">元</span><span class="mvtalci_insurance_premium price">{$preuim.data.MVTALCI.TRAVEL_TAX_PREMIUM} </span>
 		         	</div>
 		         	<div class="line_1"></div>
 		         	{/if}
@@ -369,8 +380,10 @@
 		         	{if isset($preuim.data.BUSINESS)}
 					<div class="business_insurance" id="business_insurance">
 		         		<span>商业险</span>
-		         		<span class="business_insurance_premium price" id="business_insurance_premium_price">{$preuim.data.BUSINESS.BUSINESS_PREMIUM}</span>
-		         		<span class="business_insurance_premium mui-icon mui-icon-arrowdown" id="totle"></span>
+		         		<div class="totle_syinsurance">
+			         		<span style="margin-left:-4px;float: right; color: #dd524d;">元</span><span class="business_insurance_premium price" id="business_insurance_premium_price">{$preuim.data.BUSINESS.BUSINESS_PREMIUM}</span>
+			         		<span class="business_insurance_premium mui-icon mui-icon-arrowdown" id="totle"></span>
+		         		</div>
 		         	</div>
 
 		         	<div class="business_insurance_items" style="display: none;" id="business_insurance_items">
@@ -433,17 +446,17 @@
 							<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block quotation" id="nextfur" onclick="SendFur()"><span class="mui-icon mui-icon-compose"></span>跟进记录</button>
 						</div>
 						<div class="send_message">
-							<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block quotation" id="nextstep" onclick="SendPage()"><span class="mui-icon mui-icon-email"></span>发送短信</button>
+							<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block quotation" id="nextstep" onclick="SendMessage()"><span class="mui-icon mui-icon-email"></span>发送短信</button>
 						</div>
 						<div class="send_weixin">
 
-							<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block quotation" id="nextstep" onclick="SendPage()"><span class="mui-icon mui-icon-weixin"></span>微信</button>
+							<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block quotation" id="nextstep" onclick="SendWeixin()"><span class="mui-icon mui-icon-weixin"></span>微信</button>
 						</div>
 						<div class="insured">
-							<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block offer" id="nextstep" onclick="SendPage()">申请投保</button>
+							<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block offer" id="nextstep" onclick="SendInsurance()">申请投保</button>
 						</div>
 						<div class="circle">
-							<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block offer" id="nextstep" onclick="SendPage()">重新报价</button>
+							<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block offer" id="nextstep" onclick="ToInsure()">重新报价</button>
 						</div>
 					</div>
 
@@ -656,13 +669,39 @@
 			    })
 			});
 
+			function SendMessage()
+			{
+				layer.open({
+					  	content: "<font color ='#dd524d' size ='3'>抱歉，暂时还没有开放！</font>"
+				});
+			}
 
+			function SendWeixin()
+			{
+				layer.open({
+					  	content: "<font color ='#dd524d' size ='3'>抱歉，暂时还没有开放！</font>"
+				});
+			}
+
+			function SendInsurance()
+			{
+				layer.open({
+					  	content: "<font color ='#dd524d' size ='3'>抱歉，暂时还没有开放！</font>"
+				});
+			}
 
 			function SendFur()
 			{
 
 				mui.openWindow({
 					url:'{:url("Trackrecord/followe_records")}',
+				});
+			}
+
+			function ToInsure()
+			{
+				mui.openWindow({
+					url:'{:url("main/accurate")}',
 				});
 			}
 

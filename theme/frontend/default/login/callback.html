@@ -1,0 +1,44 @@
+<html>
+   <head>
+     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	 <title> QQConnect JSDK - redirectURI </title>
+	 <style type="text/css">
+		html, body{font-size:14px; line-height:180%;}
+	 </style>
+
+   </head>
+   <body>
+
+	<div>
+		<h3>数据传输中，请稍后...</h3>
+	</div>
+
+   </body>
+</html>
+
+<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" charset="utf-8" data-callback="true"></script>
+
+<script type="text/javascript">
+
+	window.onload = function(){
+
+				if(QC.Login.check()){
+					alert(1);
+				    /*QC.Login.getMe(function(openId, accessToken){
+				    	alert(openId);
+				        alert(["当前用户的", "openId为："+openId, "accessToken为："+accessToken].join("\n"));
+				    });*/
+				    //OpenID是每个QQ唯一的，可用于绑定会员，请在本页配置数据库，写入用户表！
+				    //同时先加入用户表查询判断，如果用户表里面存在OpenID,则无需重新授权也无需入库，登录后直接跳转后台，
+				}
+				else
+				{
+					alert(2);
+				}
+
+		}
+
+
+
+
+</script>

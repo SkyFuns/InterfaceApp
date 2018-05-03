@@ -13,6 +13,14 @@ class Login extends FrontendBase
         return $this->fetch("login");
     }
 
+    public function callback()
+    {
+        //openid
+        $openid = input('get.openid');
+        echo $openid;
+        return $this->fetch("callback");
+    }
+
     protected function setPasswordAttr($value)
     {
         return '###' . md5($value . DATA_ENCRYPT_KEY);
