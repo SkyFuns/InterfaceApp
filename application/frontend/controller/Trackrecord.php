@@ -9,6 +9,15 @@ class Trackrecord extends FrontendBase{
 
     public function followe_records()
     {
+        $nots = input('nots');
+        if(isset($nots) && !empty($nots))
+        {
+            $this->assign('nots',$nots);
+        }
+        else
+        {
+            $this->assign('nots','');
+        }
         return $this->fetch("followe_records");
     }
 
@@ -38,25 +47,21 @@ class Trackrecord extends FrontendBase{
         {
             return ret(1,'请求失败','已超时,请重新登录');
         }
-        $Calculate['uid'] = $users['id'];
+/*        $Calculate['uid'] = $users['id'];
+        $Calculaterecord = db('Calculaterecord')->where($Calculate)->field('id')->find();*/
 
-        $Calculaterecord = db('Calculaterecord')->where($Calculate)->field('id')->find();
-
-        if(!empty($Calculaterecord))
+        $cal_parms['cid'] = $_POST['parms']['fur_cid'];
+        $cal_parms['title'] = $_POST['parms']['fur_title'];
+        $cal_parms['time'] = $_POST['parms']['fur_time'];
+        $cal_parms['content'] = $_POST['parms']['fur_content'];
+        $trackrecord = model('Trackrecord');
+        $trackrecord->data($cal_parms);
+        $trackrecord->save();
+        if(empty($trackrecord->id))
         {
-            $cal_parms['cid'] = $Calculaterecord['id'];
-            $cal_parms['title'] = $_POST['parms']['fur_title'];
-            $cal_parms['time'] = $_POST['parms']['fur_time'];
-            $cal_parms['content'] = $_POST['parms']['fur_content'];
-            $trackrecord = model('Trackrecord');
-            $trackrecord->data($cal_parms);
-            $trackrecord->save();
-            if(empty($trackrecord->id))
-            {
-                return ret(1,'请求失败','请核实数据是否规范');
-            }
-            return ret(0,'请求成功');
+            return ret(1,'请求失败','请核实数据是否规范');
         }
+        return ret(0,'请求成功');
 
 
 

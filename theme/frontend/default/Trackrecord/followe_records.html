@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title></title>
+		<title>增加跟踪记录</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="__THEMES__/css/mui.min.css" rel="stylesheet" />
 		<link href="__THEMES__/css/mui.dtpicker.css" rel="stylesheet" />
@@ -117,7 +117,7 @@
 			                    <div class="content" style="position:relative;">
 			                    	<textarea rows="3" cols="20" class="textarea" placeholder="请填写补充内容" id="content"></textarea>
 			                    </div>
-
+			                    <input type="hidden" id="nots" value="{$nots}">
 
 		                    </div>
 
@@ -241,7 +241,12 @@
 				$arr.fur_title = $("#fur").text();
 				$arr.fur_time = $("#fur_time").text();
 				$arr.fur_content = $("#content").val();
-
+				$nots = $("#nots").val();
+				if( $nots != "")
+				{
+					$arr.fur_cid = $nots;
+				}
+				
 				$.post('/Trackrecord/addFur',{'parms':$arr},function(msg){
 						if(msg.status != 0)
 						{

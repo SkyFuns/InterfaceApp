@@ -459,7 +459,7 @@
 							<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block offer" id="nextstep" onclick="ToInsure()">重新报价</button>
 						</div>
 					</div>
-
+					<input type="hiiden" id="nots" value="{$nots}">
 		      </div>
 		    </div>
 		    <div class="mui-off-canvas-backdrop"></div>
@@ -469,6 +469,7 @@
 		<script src="__THEMES__/js/mui.min.js"></script>
 		<script src="__THEMES__/js/layer.js"></script>
 		<script src="__THEMES__/layui/layui.js"></script>
+		<script src="__THEMES__/js/jquery_3.3.1.js"></script>
 		<script type="text/javascript">
 
 			mui.init({
@@ -692,16 +693,26 @@
 
 			function SendFur()
 			{
+				$nots = $("#nots").val();
 
-				mui.openWindow({
-					url:'{:url("Trackrecord/followe_records")}',
-				});
+				if( $nots != "")
+				{
+					mui.openWindow({
+						url:'/Trackrecord/followe_records/nots/{$nots}.html',
+					});
+				}
+				else
+				{
+					mui.openWindow({
+						url:'{:url("Trackrecord/followe_records")}',
+					});
+				}
 			}
 
 			function ToInsure()
 			{
 				mui.openWindow({
-					url:'{:url("main/accurate")}',
+					url:'/Main/offer/nots/{$nots}.html',
 				});
 			}
 
