@@ -5,6 +5,7 @@ use app\frontend\model\User;
 use think\Cookie;
 use think\Loader;
 use think\Session;
+use request\Curl;
 
 class Login extends FrontendBase
 {
@@ -15,11 +16,43 @@ class Login extends FrontendBase
 
     public function callback()
     {
-        //openid
-        $openid = input('get.openid');
-        echo $openid;
         return $this->fetch("callback");
     }
+
+
+    public function qqLogin()
+    {
+
+        if(isset($_POST['parms']['openid']) && !empty($_POST['parms']['openid']))
+        {
+
+            $data['openid'] = $_POST['parms']['openid'];
+            //$data['accessToken'] = $_POST['parms']['accessToken'];
+            $user = db('user')->where($data)->find();
+
+            if(empty($user))
+            {
+                Session::set('qq_openid',$data['openid']);
+            }
+            else
+            {
+                Session::set('qq_openid',$user['openid']);
+            }
+            return ret(0,'请求成功','');
+        }
+    }
+
+    function information()
+    {
+        $qq_openid = Session::get('qq_openid');
+        if(empty($qq_openid))
+        {
+            return ret(1,'请求失败','请重新登录');
+        }
+        
+    }
+
+
 
     protected function setPasswordAttr($value)
     {

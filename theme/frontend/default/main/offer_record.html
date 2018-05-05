@@ -35,6 +35,7 @@
 			    float: right;
 			    padding-right: 10px;
 			    color: #646464;
+			    margin-top: -20px;
 			}
 			.status{
 				float: right;
@@ -80,9 +81,14 @@
 				color: red;
 			}
 			.brand{
-				    padding-left: 15px;
+				    padding-left: 8px;
 				    color: #909090;
 				    font-size: 13px;
+				    display: block;
+				    width: 135px;
+				    overflow: hidden;
+				    white-space: nowrap;
+				    text-overflow: ellipsis;
 			}
 
 			.mui-input-row.mui-search{
@@ -121,9 +127,9 @@
 		    </header>
 
 		<div class="mui-content">
-			<div class="mui-input-row mui-search">
-		    	<input type="search" class="mui-input-clear" placeholder="请输入车牌号" id="search">
-			</div>
+			<div class="mui-input-row mui-search" id="searchForm">
+    <input type="search" id="searchInput" onkeyup="enterSearch()" class="mui-input-clear" placeholder="搜索车型">
+</div>
 			<!--下拉刷新容器-->
 			<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
 			  <div class="mui-scroll">
@@ -133,8 +139,8 @@
 				    <div class="record" id="{$vo.id}">
 				    	<div class="car_info">
 				    		<span class="license">{$vo.carculat_parms.vehicle.LICENSE_NO}</span>
-				    		<span class="brand">({$vo.carculat_parms.vehicle.MODEL})</span>
-				    		<span class="due_time"><span class="day_num">{$vo.create_time}</span></span>
+				    		<span class="brand" >({$vo.carculat_parms.vehicle.MODEL})</span>
+				    		<span class="due_time" ><span class="day_num">{$vo.create_time}</span></span>
 				    	</div>
 				    	<div class="segmentation"></div>
 				    	<div class="car_premium">
@@ -309,7 +315,22 @@
 			});
 
 
-			//search
+			function enterSearch(e) {
+
+			   // $("#searchInput").blur();
+			    $search = $("#searchInput").val();
+			    if($search != "")
+			    {
+			    	$.post('/main/recordSearch',{'license_no':$search},function(msg){
+
+			    		alert(msg);
+
+			    	});
+			    }
+
+
+
+			}
 
 
 

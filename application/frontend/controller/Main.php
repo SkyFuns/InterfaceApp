@@ -76,6 +76,16 @@ class Main extends Base
         return $this->fetch("add_driving");
     }
 
+    public function recordSearch()
+    {
+
+        //'SELECT carInfo, JSON_EXTRACT(c, "$.id"), g';
+
+
+
+
+    }
+
     public function submit_driving()
     {
         Session::delete('renewal');
@@ -120,11 +130,24 @@ class Main extends Base
 
     public function offer()
     {
-        $renewal = Session::get('renewal');
+        $nots = input('nots');
+        if(isset($nots) && !empty($nots))
+        {
+            $parms['id'] = $nots;
+            $Calculaterecord = db('Calculaterecord')->where($parms)->find();
+            if(!empty($Calculaterecord))
+            {
+                $renewal = json_decode($Calculaterecord['renewal'],true);
+                $this->assign('nots',$nots);
+            }
+        }
+        else
+        {
+            $renewal = Session::get('renewal');
+        }
 
+        
         $id_card = substr_replace($renewal['ownerInfo']['identify_no'],'*',0,8);
-
-
         if(isset($renewal['policyBI']) && !empty($renewal['policyBI']))
         {
             foreach($renewal['policyBI']['items'] as $key => $val)
@@ -523,18 +546,34 @@ class Main extends Base
         }
 
         $nots = input('nots');
-        $insurance = Session::get('premium_parems');
         if(isset($nots) && !empty($nots))
         {
-            $premium = Session::get('premium');
-            $this->assign('premium',$premium);
-            $this->assign('nots',$nots);
-        }
+            $parms['id'] = $nots;
+            $Calculaterecord = db('Calculaterecord')->where($parms)->find();
+            if(!empty($Calculaterecord))
+            {
+                $trackparms['cid'] = $Calculaterecord['id'];
+                $trackrecord = db('Trackrecord')->where($trackparms)->select();
 
-        $this->assign('insurance',$insurance);
+                $this->assign('trackrecord',$trackrecord);
+                $this->assign('nots',$nots);
+                $this->assign('premium',json_decode($Calculaterecord['carcula_record'],true));
+                $this->assign('insurance',json_decode($Calculaterecord['carculat_parms'],true));
+            }
+        }
+        else
+        {
+            $this->assign('premium',Session::get('premium'));
+            $this->assign('insurance',Session::get('premium_parems'));
+        }
         return $this->fetch("accurate");
     }
-
+    /**
+     * computationalCost     请求算价
+     * @dateTime 2018-05-05
+     * @license  license
+     * @return   [type]     [description]
+     */
     public function computationalCost()
     {
 
@@ -605,6 +644,8 @@ class Main extends Base
         {
             return ret(1,'请求失败','请核实数据是否规范');
         }
+
+        $result['data']['CALCULA_ID'] = $Calculaterecord->id;
         return ret(0,'请求成功',$result);
     }
 
@@ -678,7 +719,15 @@ class Main extends Base
                 unset($premium['data']['BUSINESS']['BUSINESS_ITEMS'][$k]);
             }
         }
-
+        $nots = input('nots');
+        if(isset($nots) && !empty($nots))
+        {
+            $this->assign('nots',$nots);
+        }
+        else
+        {
+            $this->assign('nots',"");
+        }
         $this->assign('count_ndsi',$count_ndsi);
         $this->assign('premiums',$premiums);
         $this->assign('carInfo',$carInfo);

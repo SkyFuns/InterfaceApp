@@ -1,7 +1,7 @@
 <html>
    <head>
      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	 <title> QQConnect JSDK - redirectURI </title>
+	 <title>QQ快速登录</title>
 	 <style type="text/css">
 		html, body{font-size:14px; line-height:180%;}
 	 </style>
@@ -11,23 +11,50 @@
 
 	<div>
 		<h3>数据传输中，请稍后...</h3>
+
+		<span>openid: <span id="openid"></span></span>
+		<span>accessToken: <span id="accessToken"></span></span>
+
 	</div>
 
    </body>
 </html>
 
 <script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" charset="utf-8" data-callback="true"></script>
-
+<script type="text/javascript" src="__THEMES__/js/jquery_3.3.1.js"></script>
 <script type="text/javascript">
 
 	window.onload = function(){
 
 				if(QC.Login.check()){
-					alert(1);
-				    /*QC.Login.getMe(function(openId, accessToken){
-				    	alert(openId);
-				        alert(["当前用户的", "openId为："+openId, "accessToken为："+accessToken].join("\n"));
-				    });*/
+
+
+
+
+
+
+				    QC.Login.getMe(function(openId, accessToken){
+
+
+
+/*					    $.get('https://graph.qq.com/user/get_user_info?access_token='+accessToken+'oauth_consumer_key=1106804303'+'openid='+openId+'format=json',function(msg){
+					    	alert(msg);
+						})*/
+				        var parms = new Object();
+				        parms.openid = openId;
+				        parms.accessToken = accessToken;
+				        $("#openid").text(openId);
+				        $("#accessToken").text(accessToken);
+				        $.post('/login/qqLogin',{'parms':parms},function(msg){
+
+				        	if(msg.status == 0)
+				        	{
+				        		window.location.href="{:url('Login/information')}";
+				        	}
+
+				        });
+
+				    });
 				    //OpenID是每个QQ唯一的，可用于绑定会员，请在本页配置数据库，写入用户表！
 				    //同时先加入用户表查询判断，如果用户表里面存在OpenID,则无需重新授权也无需入库，登录后直接跳转后台，
 				}

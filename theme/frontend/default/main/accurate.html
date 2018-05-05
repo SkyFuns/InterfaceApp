@@ -101,6 +101,20 @@
     			background-color:rgba(0, 0, 0, 0.55);
     		}
 
+    		.mui-bar-nav.mui-bar .mui-icon{
+
+    			margin:2px 0px;
+    		}
+
+    		.mui-segmented-control .mui-control-item.mui-active{
+
+    			background-color: #dd524d;
+    		}
+    		.mui-segmented-control .mui-control-item{
+    			color: #dd524d;
+    			border-left:#dd524d;
+    		}
+
 
 		</style>
 
@@ -113,33 +127,108 @@
 		    <header class="mui-bar mui-bar-nav">
 		        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 		        <h1 class="mui-title">精准报价</h1>
-
-<!-- 		        <div id="slider" class="mui-slider">
-				    <div id="sliderSegmentedControl" class="mui-segmented-control">
-				        <a class="mui-control-item mui-active" href="#item1">选项卡1</a>
-				        <a class="mui-control-item" href="#item2">选项卡2</a>
+		        <span class="mui-icon mui-icon-closeempty mui-pull-right" id="Shut_down"></span>
+		        {if isset($nots)}
+		        <div id="slider" class="mui-slider">
+				    <div id="sliderSegmentedControl" class="mui-segmented-control" style="border: 1px solid #dd524d;">
+				        <a class="mui-control-item mui-active" href="#item1">精确算价</a>
+				        <a class="mui-control-item" href="#item2">跟进记录</a>
 				    </div>
 				    <div class="mui-content-padded">
 				        <div id="item1" class="mui-control-content mui-active">
-				            <ul class="mui-table-view">
-				                <li class="mui-table-view-cell" v-for="item in items">
-				                    1111111111
-				                </li>
-				            </ul>
-				        </div>
-				        <div id="item2" class="mui-control-content">
-				            <ul class="mui-table-view">
-				                <li class="mui-table-view-cell">
-				                    222222222
-				                </li>
-				            </ul>
-				        </div>
-				    </div>
-				</div> -->
+				            <ul class="mui-table-view" style="background-color:unset;">
+				                <li class="mui-table-view-cell" v-for="item in items" style="padding: 0px 0px;">
+									<div class="table">
+							        	<div class="license">
+							        		<span class="license left">车牌号</span>
+							        		<span class="license right" id="license_no">{$insurance.vehicle.LICENSE_NO}</span>
+							        	</div>
+
+							       		<div class="license">
+							        		<span class="license left">车主姓名</span>
+							        		<span class="license right">{$insurance.vehicle.OWNER}</span>
+							        	</div>
 
 
-		        <span class="mui-icon mui-icon-closeempty mui-pull-right" id="Shut_down"></span>
+							       		<div class="license">
+							        		<span class="license left">品牌型号</span>
+							        		<span class="license right">{$insurance.vehicle.MODEL}</span>
+							        	</div>
+
+							        	{if isset($insurance.mvtalci)}
+							        	<div class="license">
+							        		<span class="license left">交强险起保时间</span>
+							        		<span class="license right">{$insurance.mvtalci.MVTALCI_START_TIME}</span>
+							        	</div>
+							        	{/if}
+
+							        	{if isset($insurance.business)}
+							        	<div class="license">
+							        		<span class="license left">商业险起保时间</span>
+							        		<span class="license right">{$insurance.business.BUSINESS_START_TIME}</span>
+							        	</div>
+							        	{/if}
+							        </div>
+
+							        <div class="results">
+							        		{if isset($nots)}
+							        			<input type="hidden" id="nots" value="{$nots}">
+							        		{else/}
+							        			<input type="hidden" id="nots" value="no">
+							        		{/if}
+							        		<div class="respectively cicp" id="respectively_cicp" style="display: block;">
+							        			<img src="__THEMES__/images/cicp.jpg"  class="respectively_img"/>
+							        			<span class="respectively_title"></span>
+							        			<span class="respectively_price" id="respectively_price">
+							        			￥ {if !empty($premium.data.MVTALCI) AND !empty($premium.data.BUSINESS)}
+							        					{$premium.data.MVTALCI.MVTALCI_PREMIUM + $premium.data.BUSINESS.BUSINESS_PREMIUM}
+							        				{elseif empty($premium.data.MVTALCI) AND !empty($premium.data.BUSINESS)}
+							        					{$premium.data.BUSINESS.BUSINESS_PREMIUM}
+							        				{elseif !empty($premium.data.MVTALCI) AND empty($premium.data.BUSINESS)}
+							        					{$premium.data.MVTALCI.MVTALCI_PREMIUM}
+							        				{/if}
+							        			</span>
+							        			<span class="respectively_details">算价详情</span>
+							        			<span class="mui-icon mui-icon-arrowright" style="margin: 2px 0px;margin-right: -90px;"></span>
+							        		</div>
+							        </div>
+									                </li>
+									            </ul>
+									        </div>
+									        <div id="item2" class="mui-control-content">
+									            <ul class="mui-table-view">
+									                <li class="mui-table-view-cell">
+									                    <div class="genzhong">
+
+															<ul class="mui-table-view">
+
+																{foreach $trackrecord as $k => $v}
+
+														        <li class="mui-table-view-cell mui-collapse">
+														            <a class="mui-navigate-right" href="#" style="font-size: 13px;font-family:'微软雅黑'">记录时间：<span>{$v.create_time}</span><br />客户意向:<span>{$v.title}</span></a>
+														            <div class="mui-collapse-content">
+														                <p style="word-wrap:break-word">{$v.content}</p>
+														            </div>
+														        </li>
+														        {/foreach}
+
+
+															</ul>
+
+									                    </div>
+									                </li>
+									            </ul>
+									        </div>
+									    </div>
+									</div>
+
+								{/if}
+
 		    </header>
+
+
+
+		    {if !isset($nots)}
 		    <div class="mui-content mui-scroll-wrapper">
 		      <div class="mui-scroll">
 		        <!-- 主界面具体展示内容 -->
@@ -196,19 +285,16 @@
 		        			<span class="respectively_details">算价详情</span>
 		        			<span class="mui-icon mui-icon-arrowright"></span>
 		        		</div>
-<!-- 		        		<div class="line_1"></div>
-		        		<div class="respectively cpic" id="respectively_cpic" style="display: none;">
-		        			<img src="__THEMES__/images/cpic.png"  class="respectively_img"/>
-		        			<span class="respectively_title">太平洋</span>
-		        			<span class="respectively_price"></span>
-		        			<span class="respectively_details">算价详情</span>
-		        			<span class="mui-icon mui-icon-arrowright"></span>
-		        		</div> -->
 		        </div>
 		      </div>
 		    </div>
 		    <div class="mui-off-canvas-backdrop"></div>
 		  </div>
+		  {/if}
+		  <input type="hidden" id="parnots">
+
+
+
 		</div>
 
 		<script src="__THEMES__/js/mui.min.js"></script>
@@ -277,19 +363,17 @@
 							var cost =  msg.content.data.BUSINESS.BUSINESS_PREMIUM + msg.content.data.MVTALCI.MVTALCI_PREMIUM;
 
 						}
-
-						if(("MVTALCI" in msg.content.data))
+						else if(("MVTALCI" in msg.content.data))
 						{
 							var cost =   msg.content.data.MVTALCI.MVTALCI_PREMIUM;
 
 						}
-
-						if(("BUSINESS" in msg.content.data))
+						else if(("BUSINESS" in msg.content.data))
 						{
 							var cost =  msg.content.data.BUSINESS.BUSINESS_PREMIUM;
 
 						}
-
+						$("#parnots").val(msg.content.data.CALCULA_ID);
 
 						$("#respectively_price").html("￥ " + cost);
 					})
@@ -298,16 +382,20 @@
 
 					var vely_cicp = document.getElementById('respectively_cicp');
 					vely_cicp.addEventListener("tap",function () {
+						$parnots = $("#parnots").val();
+						if($parnots == "")
+						{
+							$parnots = $("#nots").val();
+						}
 
 						mui.openWindow({
-						    	url:"{:url('Main/accurate_details')}",
+						    	url:'/Main/accurate_details/nots/'+$parnots+'.html',
 							    styles:{
 							      top:'mui-off-canvas-wrap mui-draggable',//新页面顶部位置
 							      bottom:'mui-off-canvas-backdrop',//新页面底部位置
 							      width:'100%',//新页面宽度，默认为100%
 							      height:'100%',//新页面高度，默认为100%
 							    },
-							    extras:{},
 							    createNew:false,//是否重复创建同样id的webview，默认为false:不重复创建，直接显示
 							    show:{
 							      autoShow:true,//页面loaded事件发生后自动显示，默认为true
@@ -325,9 +413,7 @@
 			document.getElementById('Shut_down').addEventListener("tap",function () {
 
 				mui.openWindow({
-
 		          	url:'{:url("Main/offer")}',
-
 				});
 
 			});
