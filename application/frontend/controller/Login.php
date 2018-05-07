@@ -94,7 +94,7 @@ class Login extends FrontendBase
         $password = $this->setPasswordAttr($_POST['password']);
         if($_POST['authorizationcode'] != 9999)
         {
-            return ret(1, '邀请码不符合规则');
+            return ret(1, '授权码不符合规则');
         }
         $authorizationcode = $this->setPasswordAttr($_POST['authorizationcode']);
         $data = [

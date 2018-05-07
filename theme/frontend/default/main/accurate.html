@@ -373,9 +373,10 @@
 							var cost =  msg.content.data.BUSINESS.BUSINESS_PREMIUM;
 
 						}
+						var costs = cost.toFixed(2);
 						$("#parnots").val(msg.content.data.CALCULA_ID);
 
-						$("#respectively_price").html("￥ " + cost);
+						$("#respectively_price").html("￥ " + costs);
 					})
 				}
 			});
@@ -417,6 +418,9 @@
 				});
 
 			});
+
+
+			
 
 		</script>
 

@@ -7,6 +7,7 @@ use request\Curl;
 use think\Cookie;
 use think\Session;
 use think\Request;
+use think\DB;
 
 class Main extends Base
 {
@@ -78,12 +79,37 @@ class Main extends Base
 
     public function recordSearch()
     {
+        $username = Session::get('username');
+        if(empty($username))
+        {
+            return ret(1,'请求失败','已超时,请重新登录');
+        }
+        $user['username'] = $username;
+        $users = db('user')->where($user)->field('id')->find();
+        $license_no = input('license_no');
+        if(empty($license_no) && $license_no == "")
+        {
+            $parms['uid'] = $users['id'];
+            $pages = input('pages');
+            $result = db('Calculaterecord')->where($parms)->order('modify_time desc')->page($pages,7)->select();
+        }
+        else
+        {
+            $result = Db::query("select * from app_calculaterecord where uid = ".$users['id']." and renewal->'$.carInfo.license_no' like '%".$license_no."%'");
+        }
 
-        //'SELECT carInfo, JSON_EXTRACT(c, "$.id"), g';
+        foreach ($result as $k => $v) {
+                $result[$k]['create_time'] = date("Y-m-d",strtotime($v['create_time']));
+                $result[$k]['carculat_parms'] = json_decode($v['carculat_parms'],true);
+                $result[$k]['carcula_record'] = json_decode($v['carcula_record'],true);
+                $result[$k]['renewal'] = json_decode($v['renewal'],true);
+            }
 
-
-
-
+        if(!empty($result))
+        {
+            return ret(0,'查询成功',$result);
+        }
+        return ret(1,'查询成功','没有查询到任何记录');
     }
 
     public function submit_driving()
@@ -146,7 +172,6 @@ class Main extends Base
             $renewal = Session::get('renewal');
         }
 
-        
         $id_card = substr_replace($renewal['ownerInfo']['identify_no'],'*',0,8);
         if(isset($renewal['policyBI']) && !empty($renewal['policyBI']))
         {
@@ -398,14 +423,13 @@ class Main extends Base
             return ret(1, $validate->getError());
         }
 
-       $app = new Curl();
-       $result = $app->post('VehicleInfo',$data);
-
-       if(!$result)
-       {
+        $app = new Curl();
+        $result = $app->post('VehicleInfo',$data);
+        if(!$result)
+        {
             return ret(1,'请求失败',$app->errorMsgs());
-       }
-       return ret(0,'请求成功',$result['data']);
+        }
+        return ret(0,'请求成功',$result['data']);
 
     }
 
