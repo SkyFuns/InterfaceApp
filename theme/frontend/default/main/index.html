@@ -211,12 +211,6 @@ $('input').on('click',function(){
             {
               document.getElementById(button_id).disabled=true;
             }
-            button_vin.addEventListener("tap",function () {
-                mui.openWindow({
-                      id:'detail',
-                      url:'{:url("Main/detail")}',
-              });
-            });
           });
           }
       }
@@ -226,6 +220,30 @@ $('input').on('click',function(){
             $parms = new Object();
             $parms.license_no = $("#license").val();
             $parms.vin =  $("#vin").val();
+
+              $.post('/main/renewal',{'auto':$parms},function(msg){
+
+                if(msg.status == 0)
+                {
+                  mui.openWindow({
+                      url:'{:url("Main/detail")}',
+                  });
+                }
+                else
+                {
+                  mui.openWindow({
+                      url:'{:url("Main/add_driving")}',
+                  });
+                }
+              });
+      });
+
+      document.getElementById('button_vin').addEventListener("tap",function () {
+
+            $parms = new Object();
+            $parms.license_no = $("#license").val();
+            $parms.vin =  $("#vin").val();
+
               $.post('/main/renewal',{'auto':$parms},function(msg){
 
                 if(msg.status == 0)
@@ -243,6 +261,9 @@ $('input').on('click',function(){
               });
 
       });
+
+
+
 
 
       document.getElementById('item1').addEventListener("swipeleft",function(){

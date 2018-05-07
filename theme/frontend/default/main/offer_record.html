@@ -128,44 +128,45 @@
 
 		<div class="mui-content">
 			<div class="mui-input-row mui-search" id="searchForm">
-    <input type="search" id="searchInput" onkeyup="enterSearch()" class="mui-input-clear" placeholder="搜索车型">
-</div>
+    			<input type="search" id="searchInput" onkeyup="enterSearchs();" class="mui-input-clear" placeholder="搜索车型">
+			</div>
 			<!--下拉刷新容器-->
 			<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
 			  <div class="mui-scroll">
 			    <!--数据列表-->
 			    <ul class="mui-table-view mui-table-view-chevron" id="mui-table-view-chevron">
-			      {foreach $result as $vo}
-				    <div class="record" id="{$vo.id}">
-				    	<div class="car_info">
-				    		<span class="license">{$vo.carculat_parms.vehicle.LICENSE_NO}</span>
-				    		<span class="brand" >({$vo.carculat_parms.vehicle.MODEL})</span>
-				    		<span class="due_time" ><span class="day_num">{$vo.create_time}</span></span>
-				    	</div>
-				    	<div class="segmentation"></div>
-				    	<div class="car_premium">
-				    		{if $vo.renewal.policyBI.insurance_company eq 'PICC'}
-				    			<span class="company">中国人保</span>
-				    		{elseif $vo.renewal.policyBI.insurance_company eq 'CPIC'}
-				    			<span class="company">中国太平洋</span>
-				    		{elseif $vo.renewal.policyBI.insurance_company eq 'CICP'}
-				    			<span class="company">中华联合</span>
-				    		{/if}
+			      	{foreach $result as $vo}
+					    <div class="record" id="{$vo.id}">
+					    	<div class="car_info">
+					    		<span class="license">{$vo.carculat_parms.vehicle.LICENSE_NO}</span>
+					    		<span class="brand" >({$vo.carculat_parms.vehicle.MODEL})</span>
+					    		<span class="due_time" ><span class="day_num">{$vo.create_time}</span></span>
+					    	</div>
+					    	<div class="segmentation"></div>
+					    	<div class="car_premium">
+					    		{if $vo.renewal.policyBI.insurance_company eq 'PICC'}
+					    			<span class="company">中国人保</span>
+					    		{elseif $vo.renewal.policyBI.insurance_company eq 'CPIC'}
+					    			<span class="company">中国太平洋</span>
+					    		{elseif $vo.renewal.policyBI.insurance_company eq 'CICP'}
+					    			<span class="company">中华联合</span>
+					    		{/if}
 
-				    			{if !empty($vo.carcula_record.data.MVTALCI) AND !empty($vo.carcula_record.data.BUSINESS)}
-				    				<span class="premium">￥{$vo.carcula_record.data.MVTALCI.MVTALCI_PREMIUM + $vo.carcula_record.data.BUSINESS.BUSINESS_PREMIUM}</span>
-				    			{elseif !empty($vo.carcula_record.data.MVTALCI) AND empty($vo.carcula_record.data.BUSINESS)}
-				    				<span class="premium">￥{$vo.carcula_record.data.MVTALCI.MVTALCI_PREMIUM}</span>
-				    			{elseif empty($vo.carcula_record.data.MVTALCI) AND !empty($vo.carcula_record.data.BUSINESS)}
-				    				<span class="premium">￥{$vo.carcula_record.data.BUSINESS.BUSINESS_PREMIUM}</span>
-				    			{/if}
+					    			{if !empty($vo.carcula_record.data.MVTALCI) AND !empty($vo.carcula_record.data.BUSINESS)}
+					    				<span class="premium">￥{$vo.carcula_record.data.MVTALCI.MVTALCI_PREMIUM + $vo.carcula_record.data.BUSINESS.BUSINESS_PREMIUM}</span>
+					    			{elseif !empty($vo.carcula_record.data.MVTALCI) AND empty($vo.carcula_record.data.BUSINESS)}
+					    				<span class="premium">￥{$vo.carcula_record.data.MVTALCI.MVTALCI_PREMIUM}</span>
+					    			{elseif empty($vo.carcula_record.data.MVTALCI) AND !empty($vo.carcula_record.data.BUSINESS)}
+					    				<span class="premium">￥{$vo.carcula_record.data.BUSINESS.BUSINESS_PREMIUM}</span>
+					    			{/if}
 
-				    		<span class="status">未核保</span>
-				    	</div>
-				    </div>
-			    {/foreach}
-			    <input type="hidden" value="{$pages}" id="pages">
+					    		<span class="status">未核保</span>
+					    	</div>
+					    </div>
+			    	{/foreach}
 			    </ul>
+			    <input type="hidden" value="{$pages}" id="pages">
+			    <input type="hidden" id="like" value="">
 			  </div>
 			</div>
 		    <!-- 底部菜单选项 -->
@@ -214,8 +215,19 @@
 
 			function upFn()
 			{
+				$search = $("#searchInput").val();
+				if($search != "")
+				{
+					mui('#refreshContainer').pullRefresh().endPullupToRefresh(true);
+				}
+				else
+				{
+					mui('#refreshContainer').pullRefresh().endPullupToRefresh(false);
+				}
 				$pages = parseInt($('#pages').val()) + 1;
-				$.get("/main/offerRecord?pages="+$pages,function(msg){
+				url = "/main/offerRecord?pages="+$pages;
+
+				$.get(url,function(msg){
 
 					if(msg.status != 0)
 					{
@@ -238,21 +250,23 @@
 
 							    		if(data.hasOwnProperty('MVTALCI') && data.hasOwnProperty('BUSINESS'))
 							    		{
-							    			$html += '<span class="premium">￥ ' + (parseFloat(data.MVTALCI.MVTALCI_PREMIUM)  +  parseFloat(data.BUSINESS.BUSINESS_PREMIUM)) + '</span>';
+							    			$html += '<span class="premium">￥ ' + ((parseFloat(data.MVTALCI.MVTALCI_PREMIUM)  +  parseFloat(data.BUSINESS.BUSINESS_PREMIUM)).toFixed(2)) + '</span>';
 							    		}
 							    		else if(!data.hasOwnProperty('MVTALCI') && data.hasOwnProperty('BUSINESS'))
 							    		{
-							    			$html += '<span class="premium">￥ ' + parseFloat(data.BUSINESS.BUSINESS_PREMIUM) + '</span>';
+							    			$html += '<span class="premium">￥ ' + (parseFloat(data.BUSINESS.BUSINESS_PREMIUM).toFixed(2)) + '</span>';
 							    		}
 							    		else if(data.hasOwnProperty('MVTALCI') && !data.hasOwnProperty('BUSINESS'))
 							    		{
-							    			$html += '<span class="premium">￥ ' + parseFloat(data.MVTALCI.MVTALCI_PREMIUM) + '</span>';
+							    			$html += '<span class="premium">￥ ' + (parseFloat(data.MVTALCI.MVTALCI_PREMIUM).toFixed(2)) + '</span>';
 							    		}
 						$html += '<span class="status">未核保</span></div></div>';
 					}
 
 					$("#mui-table-view-chevron").append($html);
-					$('#pages').val($pages)
+					$('#pages').val($pages);
+
+
 					mui('#refreshContainer').pullRefresh().endPullupToRefresh(false);
 				})
 
@@ -285,25 +299,6 @@
 				})
 			});
 
-
-/*			function record(e)
-			{
-				var id = e;
-				$.post('/main/accurate',{'id':id},function(msg){
-
-					if(msg.status != 0)
-					{
-						alert(msg.content);
-					}
-
-					mui.openWindow({
-						url:"/main/accurate/nots/"+id+".html",
-					});
-				})
-
-
-			}*/
-
 			var contentWebview = null;
 			//监听标题栏的双击事件
 			document.querySelector('header').addEventListener('doubletap',function () {
@@ -314,26 +309,81 @@
 			  contentWebview.evalJS("mui('#pullrefresh').pullRefresh().scrollTo(0,0,100)");
 			});
 
-
-			function enterSearch(e) {
-
-			   // $("#searchInput").blur();
+			function enterSearchs() {
 			    $search = $("#searchInput").val();
-			    if($search != "")
+			    $like = $("#like").val();
+			    if($like == "")
 			    {
-			    	$.post('/main/recordSearch',{'license_no':$search},function(msg){
-
-			    		alert(msg);
-
-			    	});
+			    	$pages = 1;
 			    }
+			    	$.post('/main/recordSearch',{'license_no':$search,'pages':$pages},function(msg){
 
+			    		if(msg.status != 0)
+			    		{
+			    			alert(msg.content);
+			    			mui('#refreshContainer').pullRefresh().endPullupToRefresh(true);
+			    		}
+			    		mui('#refreshContainer').pullRefresh().endPullupToRefresh(false);
+			    		$html = "";
+						for(var e in msg.content)
+						{
+							var data =   msg.content[e].carcula_record.data;
+							$html +=	'<div class="record" id="'+msg.content[e].id+'">'+
+								    	'<div class="car_info">'+
+								    		'<span class="license">'+msg.content[e].carculat_parms.vehicle.LICENSE_NO+'</span>'+
+								    		'<span class="brand">('+msg.content[e].carculat_parms.vehicle.MODEL+')</span>'+
+								    		'<span class="due_time"><span class="day_num">'+msg.content[e].create_time+'</span></span>'+
+								    	'</div>' +
+								    	'<div class="segmentation"></div>' +
+								    	'<div class="car_premium">';
+								    		$html += '<span class="company">中国人保</span>';
 
+								    		if(data.hasOwnProperty('MVTALCI') && data.hasOwnProperty('BUSINESS'))
+								    		{
+								    			$html += '<span class="premium">￥ ' + ((parseFloat(data.MVTALCI.MVTALCI_PREMIUM)  +  parseFloat(data.BUSINESS.BUSINESS_PREMIUM)).toFixed(2)) + '</span>';
+								    		}
+								    		else if(!data.hasOwnProperty('MVTALCI') && data.hasOwnProperty('BUSINESS'))
+								    		{
+								    			$html += '<span class="premium">￥ ' + (parseFloat(data.BUSINESS.BUSINESS_PREMIUM).toFixed(2)) + '</span>';
+								    		}
+								    		else if(data.hasOwnProperty('MVTALCI') && !data.hasOwnProperty('BUSINESS'))
+								    		{
+								    			$html += '<span class="premium">￥ ' + (parseFloat(data.MVTALCI.MVTALCI_PREMIUM).toFixed(2)) + '</span>';
+								    		}
+							$html += '<span class="status">未核保</span></div></div>';
+						}
+						$("#mui-table-view-chevron").html($html);
+						$("#like").val($search);
+
+		    	});
 
 			}
 
+			mui(".mui-bar-tab").on('tap','.mui-tab-item',function(){
+		        var id = this.getAttribute("id");
 
+		        mui.openWindow({
+		        	url:urls(id),
+		        });
+		    });
 
+		    function urls(id)
+		    {
+		        //传值给详情页面，通知加载新数据
+		        if(id == 1)
+		        {
+		          var url = '{:url("Main/index")}';
+		        }
+		        else if(id == 2 )
+		        {
+		          var url = '{:url("Main/offerrecord")}';
+		        }
+		        else if(id == 3 )
+		        {
+		          var url = '#';
+		        }
+		        return url;
+		      }
 
 
 		</script>

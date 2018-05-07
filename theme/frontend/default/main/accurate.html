@@ -270,7 +270,7 @@
 		        		{else/}
 		        			<input type="hidden" id="nots" value="no">
 		        		{/if}
-		        		<div class="respectively cicp" id="respectively_cicp" style="display: block;">
+		        		<div class="respectively cicp" id="respectively_cicp" style="display: block;" value="">
 		        			<img src="__THEMES__/images/cicp.jpg"  class="respectively_img"/>
 		        			<span class="respectively_title"></span>
 		        			<span class="respectively_price" id="respectively_price">
@@ -345,6 +345,7 @@
 								title:'算价信息',
 						  		content: "<font color ='#dd524d' size ='3'>"+msg.content+"</font>"
 							});
+							$("#respectively_cicp").attr('value','no');
 							$("#respectively_price").html("￥ 0.00");
 							return;
 						}
@@ -355,6 +356,7 @@
 								title:'算价信息',
 						  		content: "<font color ='#dd524d' size ='3'>"+msg.content.data.MESSAGE+"</font>"
 							});
+							$("#respectively_cicp").attr('value','no');
 							return;
 						}
 
@@ -373,41 +375,44 @@
 							var cost =  msg.content.data.BUSINESS.BUSINESS_PREMIUM;
 
 						}
+						var costs = cost.toFixed(2);
 						$("#parnots").val(msg.content.data.CALCULA_ID);
 
-						$("#respectively_price").html("￥ " + cost);
+						$("#respectively_price").html("￥ " + costs);
 					})
 				}
 			});
 
 					var vely_cicp = document.getElementById('respectively_cicp');
-					vely_cicp.addEventListener("tap",function () {
-						$parnots = $("#parnots").val();
-						if($parnots == "")
-						{
-							$parnots = $("#nots").val();
-						}
-
-						mui.openWindow({
-						    	url:'/Main/accurate_details/nots/'+$parnots+'.html',
-							    styles:{
-							      top:'mui-off-canvas-wrap mui-draggable',//新页面顶部位置
-							      bottom:'mui-off-canvas-backdrop',//新页面底部位置
-							      width:'100%',//新页面宽度，默认为100%
-							      height:'100%',//新页面高度，默认为100%
-							    },
-							    createNew:false,//是否重复创建同样id的webview，默认为false:不重复创建，直接显示
-							    show:{
-							      autoShow:true,//页面loaded事件发生后自动显示，默认为true
-							      aniShow:'slide-in-right',//页面显示动画，默认为”slide-in-right“；
-							      duration:'200'//页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
-							    },
-							    waiting:{
-							      autoShow:true,//自动显示等待框，默认为true
-							      title:'正在加载...',//等待对话框上显示的提示内容
-							      options:{}
-							    }
-							})
+						vely_cicp.addEventListener("tap",function () {
+							if(vely_cicp.getAttribute("value") != "no")
+							{
+								$parnots = $("#parnots").val();
+								if($parnots == "")
+								{
+									$parnots = $("#nots").val();
+								}
+								mui.openWindow({
+							    	url:'/Main/accurate_details/nots/'+$parnots+'.html',
+								    styles:{
+								      top:'mui-off-canvas-wrap mui-draggable',//新页面顶部位置
+								      bottom:'mui-off-canvas-backdrop',//新页面底部位置
+								      width:'100%',//新页面宽度，默认为100%
+								      height:'100%',//新页面高度，默认为100%
+								    },
+								    createNew:false,//是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+								    show:{
+								      autoShow:true,//页面loaded事件发生后自动显示，默认为true
+								      aniShow:'slide-in-right',//页面显示动画，默认为”slide-in-right“；
+								      duration:'200'//页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
+								    },
+								    waiting:{
+								      autoShow:true,//自动显示等待框，默认为true
+								      title:'正在加载...',//等待对话框上显示的提示内容
+								      options:{}
+								    }
+								})
+							}
 						});
 
 			document.getElementById('Shut_down').addEventListener("tap",function () {
@@ -417,6 +422,9 @@
 				});
 
 			});
+
+
+
 
 		</script>
 
