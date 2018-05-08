@@ -380,15 +380,33 @@
 		        	<!-- 主界面具体展示内容 -->
 			        <div class="span-car">
 			        	<span style="display: block; width: 100%; float:left;" >车牌号:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				       		 <span id="brand_license">{$renewal.carInfo.license_no}</span>
+				       		<span id="brand_license">
+					       		{notempty name ="premium_parems.vehicle.LICENSE_NO"}
+					       		 	{$premium_parems.vehicle.LICENSE_NO}
+					       		{else/}
+					       			{$renewal.carInfo.license_no}
+					       		{/notempty}
+				       		</span>
 				       	</span>
 
 			        	<span style="display: block; width: 100%; float:left;" >车架号 : &nbsp;&nbsp;&nbsp;&nbsp;
-				       		<span id= "brand_vin">{$renewal.carInfo.vin_no}</span>
+				       		<span id= "brand_vin">
+					       		{notempty name ="premium_parems.vehicle.VIN_NO"}
+					       		 	{$premium_parems.vehicle.VIN_NO}
+					       		{else/}
+					       			{$renewal.carInfo.vin_no}
+					       		{/notempty}
+				       		</span>
 				       	</span>
 
 				       	<span style="display: block; width: 100%; float:left;">品牌型号 :&nbsp;&nbsp;
-				       		<span id = "brand_model">{$renewal.carInfo.model}</span>
+				       		<span id = "brand_model">
+				       			{notempty name ="premium_parems.vehicle.MODEL"}
+				       		 		{$premium_parems.vehicle.MODEL}
+				       			{else/}
+				       				{$renewal.carInfo.model}
+				       			{/notempty}
+				       		</span>
 				       	</span>
 				       	<span style="display: block;">注册日期 :&nbsp;&nbsp;
 				       		<span id="brand_registdate">{$renewal.carInfo.enroll_date}</span>
@@ -407,13 +425,24 @@
 
 		        	<div class="span-userinfo">
 		        		{if isset($renewal.ownerInfo)}
-		        		<span class="user_span">车主姓名: <span class="span_username" id="span_username">{$renewal.ownerInfo.owner}</span></span>
-		        		<span class="user_span">身份证/机构代码:<input type="hidden" id ="span_idcard" value = "{$renewal.ownerInfo.identify_no}"><span class="span_idcard">{$id_card}</span></span>
-		        		<span class="user_span" style="display: none">手机号:<span class="span_phone" id="span_phone" style="display: none">18357436594</span></span>
+		        			{notempty name ="premium_parems.vehicle.OWNER"}
+				       		 	<span class="user_span">车主姓名: <span class="span_username" id="span_username">{$premium_parems.vehicle.OWNER}</span></span>
+				       		{else/}
+				       			<span class="user_span">车主姓名: <span class="span_username" id="span_username">{$renewal.ownerInfo.owner}</span></span>
+				       		{/notempty}
+
+			        		{notempty name ="premium_parems.vehicle.IDENTIFY_NO"}
+				       		 	<span class="user_span">身份证/机构代码:<input type="hidden" id ="span_idcard" value = "{$premium_parems.vehicle.IDENTIFY_NO}">
+				       		{else/}
+				       			<span class="user_span">身份证/机构代码:<input type="hidden" id ="span_idcard" value = "{$renewal.ownerInfo.identify_no}">
+				       		{/notempty}
+
+			        		<span class="span_idcard">{$id_card}</span></span>
+			        		<span class="user_span" style="display: none">手机号:<span class="span_phone" id="span_phone" style="display: none">18357436594</span></span>
 		        		{else/}
-		        		<span class="user_span">车主姓名: <span class="span_username" id="span_username"></span></span>
-		        		<span class="user_span">身份证/机构代码:<input type="hidden" id ="span_idcard"><span class="span_idcard"></span></span>
-		        		<span class="user_span">手机号:<span class="span_phone" id="span_phone"></span></span>
+			        		<span class="user_span">车主姓名: <span class="span_username" id="span_username"></span></span>
+			        		<span class="user_span">身份证/机构代码:<input type="hidden" id ="span_idcard"><span class="span_idcard"></span></span>
+			        		<span class="user_span" style="display: none">手机号:<span class="span_phone" id="span_phone" style="display: none">18357436594</span></span>
 		        		{/if}
 		        		<button type="button" class="mui-btn mui-btn-danger mui-btn-outlined" id="editor_user" style="margin: -28px 10px; padding: 4px;">
 		            		<span class="mui-icon mui-icon-compose"><span class="mui-icon-compose-model">编辑车主信息</span></span>
@@ -425,8 +454,19 @@
 		       			<span class="car_info_select">请选择<a><span class="mui-icon mui-icon-forward"></span></a></span>
 
 		       		</div>
-		       		<span class="car_info_vehicle" id="car_info_vehicle"></span>
-		       		<input type= "hidden" id="car_infos">
+
+		       		{notempty name ="premium_parems.vehicle.CAR_DATA_CLIENT"}
+		       			<span class="car_info_vehicle" id="car_info_vehicle">{$premium_parems.vehicle.CAR_DATA_CLIENT}</span>
+		       		{else/}
+		       			<span class="car_info_vehicle" id="car_info_vehicle"></span>
+		       		{/notempty}
+
+		       		{notempty name ="premium_parems.vehicle.CAR_DATA"}
+		       			<input type= "hidden" id="car_infos" value="{$premium_parems.vehicle.CAR_DATA}">
+		       		{else/}
+		       			<input type= "hidden" id="car_infos" value="">
+		       		{/notempty}
+
 		        	<div class="change_car">
 		        		<a class="chang_car line"></a>
 		        		<span class="change_car info">过户车</span>
@@ -495,7 +535,14 @@
 						  	<div class="mui-switch-handle"></div>
 						</div>
 		        	</div>
-		        	<input type="hidden" id="discoutprice">
+
+		        	{notempty name ="premium_parems.vehicle.DISCOUNT_PRICE"}
+
+		        		<input type="hidden" id="discoutprice" value="{$premium_parems.vehicle.DISCOUNT_PRICE}">
+		        	{else/}
+		        		<input type="hidden" id="discoutprice" value="">
+		        	{/notempty}
+
 		        	<div class="item">
 
 		        			<!--为防止出现第一个没有找到DIV的BUG-->
@@ -814,7 +861,7 @@
 
 		<div class="tab-center">
 			<div class="circle">
-				<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block" id="nextstep" onclick="SendPage()">下一步</button>
+				<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block" id="nextstep">下一步</button>
 			</div>
 		</div>
 
@@ -1063,7 +1110,7 @@
 			 	{value:'500000',text:'50万'},
 			 	{value:'1000000',text:'100万'},
 			 	{value:'2000000',text:'200万'},
-			 	{value:'5000000',text:'500万'}
+			 	{value:'5000000',text:'500万'},
 		 	]);
 
 		 function ttblis($ttblipreuim)
@@ -1092,7 +1139,7 @@
             }else if($ttblipreuim == '150')
             {
                 var ttbli = '1500000';
-            }else if($ttblipreuim == '20')
+            }else if($ttblipreuim == '200')
             {
                 var ttbli = '2000000';
             }else if($ttblipreuim == '1')
@@ -1446,9 +1493,8 @@
 
 		});
 
-
-        function SendPage(pageId, linkUrl, pageParam) {
-
+		mui(document.body).on('tap', '#nextstep', function(e) {
+			
         	var $auto = new Object();
         	var $user = new Object();
         	var $mvtalci= new Object();
@@ -1534,7 +1580,6 @@
 				$business.business_items.ttbli = 1;
 
 				var ttblipreuims = $ttbli_preuim.split("万");
-
 				var s = ttblis(ttblipreuims[0]);
 				$business.TTBLI_INSURANCE_AMOUNT = parseInt(s);
 			}
@@ -1744,7 +1789,7 @@
 				$business.business_items.stsfs = 1;
 			}
 
-
+			mui(this).button('loading');
 			$.post('/main/preuim',{'auto':$auto,'mvtalci':$mvtalci,'business':$business,'change':$change},function(msg){
 
 				if(msg.status == 0)
@@ -1757,7 +1802,7 @@
 				layui_open(msg.content);
 			});
 
-        }
+        });
 
 		</script>
 

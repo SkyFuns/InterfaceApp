@@ -459,7 +459,7 @@
 							<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block offer" id="nextstep" onclick="ToInsure()">重新报价</button>
 						</div>
 					</div>
-					<input type="hiiden" id="nots" value="{$nots}">
+					<input type="hidden" id="nots" value="{$nots}">
 		      </div>
 		    </div>
 		    <div class="mui-off-canvas-backdrop"></div>
@@ -588,7 +588,7 @@
 					{
 						var abs = Number(business_discout_price);
 						var totle_prices = (Number(totle_price.innerHTML) - abs).toFixed(2);
-			    		discount_amount.innerHTML = abs;
+			    		discount_amount.innerHTML = abs.toFixed(2);
 			    		preferential_price.innerHTML = totle_prices;
 					}
 				}else if("undefined" == typeof business_preferential || business_preferential.value == "" && "undefined" != typeof mvtalci_preferential && mvtalci_preferential.value != "")
