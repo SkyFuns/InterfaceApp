@@ -375,10 +375,10 @@
 							var cost =  msg.content.data.BUSINESS.BUSINESS_PREMIUM;
 
 						}
-						var costs = cost.toFixed(2);
+
 						$("#parnots").val(msg.content.data.CALCULA_ID);
 
-						$("#respectively_price").html("￥ " + costs);
+						$("#respectively_price").html("￥ " + cost);
 					})
 				}
 			});
@@ -392,6 +392,7 @@
 								{
 									$parnots = $("#nots").val();
 								}
+								$("#respectively_price").html("<font color= '#dd524d'>正在加载中....</font>");
 								mui.openWindow({
 							    	url:'/Main/accurate_details/nots/'+$parnots+'.html',
 								    styles:{

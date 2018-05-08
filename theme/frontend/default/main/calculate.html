@@ -174,7 +174,7 @@
 
 		<div class="tab-center">
 			<div class="circle">
-				<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block" id="nextstep" onclick="SendPage()">提交报价</button>
+				<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-danger mui-btn-block" id="nextstep">提交报价</button>
 			</div>
 		</div>
 
@@ -183,12 +183,12 @@
 		<script type="text/javascript">
 			mui.init()
 
-			function SendPage()
-			{
+			mui(document.body).on('tap', '#nextstep', function(e) {
+				mui(this).button('loading');
 				mui.openWindow({
                     url: '{:url("Main/accurate")}',
                	});
-			}
+			});
 
 
 		</script>

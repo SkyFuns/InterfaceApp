@@ -38,6 +38,10 @@ class Main extends Base
 
     public function index()
     {
+        Session::delete('carInfo');
+        Session::delete('premium_parems');
+        Session::delete('premium');
+        Session::delete('renewal');
         return $this->fetch("index");
     }
 
@@ -341,6 +345,13 @@ class Main extends Base
             $renewal['policyCI']['end_date'] = date('Y-m-d',strtotime($renewal['policyCI']['end_date']));
         }
         $this->assign('id_card',$id_card);
+
+        $premium_parems = Session::get('premium_parems');
+        if(isset($premium_parems) && !empty($premium_parems))
+        {
+            $this->assign('premium_parems',$premium_parems);
+        }
+
         $this->assign('renewal',$renewal);
         return $this->fetch("offer");
     }
@@ -408,13 +419,27 @@ class Main extends Base
      * @license  license
      * @return   json     返回车辆信息
      */
-    public function vehicle()
+    public function vehicle($parms = array())
     {
-        $data = [
-            'insurance' => 'SICHUAN_KHYXSC_CICP',
-            'model' => $_POST['model'],
-            'vin' => $_POST['vin'],
-        ];
+
+        if(!empty($parms))
+        {
+            $data = [
+                'insurance' => 'SICHUAN_KHYXSC_CICP',
+                'model' => trim(!isset($parms['model'])?"111":$parms['model']),
+                'vin' => trim(!isset($parms['vin'])?"":$parms['vin']),
+                'modelCode' => trim(!isset($parms['modelcode'])?"":$parms['modelcode']),
+            ];
+        }
+        else
+        {
+            $data = [
+                'insurance' => 'SICHUAN_KHYXSC_CICP',
+                'model' => trim($_POST['model']),
+                'vin' => trim($_POST['vin']),
+            ];
+        }
+
 
         $validate = Loader::validate('Purchase');
 
@@ -425,6 +450,7 @@ class Main extends Base
 
         $app = new Curl();
         $result = $app->post('VehicleInfo',$data);
+
         if(!$result)
         {
             return ret(1,'请求失败',$app->errorMsgs());
@@ -441,7 +467,6 @@ class Main extends Base
      */
     public function preuim()
     {
-
         $arr = [];
         foreach($_POST as $key =>$val)
         {
@@ -468,12 +493,18 @@ class Main extends Base
 
         $car_info = explode('/', $_POST['auto']['CAR_DATA']);
 
+        $arr['auto']['MODEL'] = $car_info[1];
         $arr['auto']['MODEL_CODE'] = $car_info[0];
         $arr['auto']['BUYING_PRICE'] = $car_info[4];
         $discout_price = $this->discoutPirce($_POST['auto'],$arr['business']['BUSINESS_START_TIME']);
         $arr['auto']['DISCOUNT_PRICE'] = $discout_price['content'];
         $arr['auto']['SEATS'] = $car_info[5];;
         $arr['auto']['MODEL_ALIAS'] = $car_info[2];
+        $arr['auto']['LICENSE_NO'] = trim($_POST['auto']['LICENSE_NO']);
+        $arr['auto']['VIN_NO'] = trim($_POST['auto']['VIN_NO']);
+
+        $arr['ownerInfo']['owner'] = $_POST['auto']['OWNER'];
+        $arr['ownerInfo']['identify_no'] = $_POST['auto']['IDENTIFY_NO'];
         $data['vehicle'] = $arr['auto'];
         if(trim($arr['mvtalci']['MVTALCI_START_TIME']) == "")
         {
@@ -506,7 +537,7 @@ class Main extends Base
 
         Session::delete('carInfo');
         Session::delete('premium_parems');
-        Session::set('carInfo',trim($_POST['auto']['CAR_DATA_CLIENT']));
+        #Session::set('carInfo',trim($_POST['auto']['CAR_DATA_CLIENT']));
         Session::set('premium_parems',$data);
 
         return ret(0,'请求成功');
@@ -608,12 +639,6 @@ class Main extends Base
             return ret(1,'请求失败','请重新提交险种信息');
         }
 
-/*        if($_POST['license_no'] == $insurance['vehicle']['LICENSE_NO'])
-        {
-            $result = Session::get('premium');
-            return ret(0,'请求成功',$result);
-        }*/
-
         $data = [
             'insurance' => 'SICHUAN_KHYXSC_CICP',
             'vehicle' => $insurance['vehicle'],
@@ -628,17 +653,52 @@ class Main extends Base
             $data['business'] = $insurance['business'];
         }
 
-        $app = new Curl();
-        $result = $app->post('quickPremium',$data);
+        $curl = new Curl();
+        $result = $curl->post('quickPremium',$data);
 
-        if(!$result)
+        if(isset($result['data']['MESSAGE']) && !empty($result['data']['MESSAGE']) && strstr($result['data']['MESSAGE'],'行业车型编码'))
         {
-           return ret(1,'请求失败',$app->errorMsgs());
+
+            $jsonmsg = explode("\n", $result['data']['MESSAGE']);
+            $ss = explode('行业车型编码：', $jsonmsg[7]);
+            if(isset($ss[1]) && !empty($ss[1]))
+            {
+                $pas['modelcode'] = $ss[1];
+                $vehicle = $this->vehicle($pas);
+                if(!empty($vehicle['content']) && $vehicle['content']['totalPage'] > 0)
+                {
+
+                    foreach($vehicle['content']['rows'] as $key => $val)
+                    {
+                        $insurance['vehicle']['CAR_DATA'] = $val['vehicleId']."/".$val['vehicleName']."/".$val['vehicleAlias']."/".$val['vehicleDisplacement']."/".$val['vehiclePrice']."/".$val['vehicleSeat']."/".$val['vehicleModelcode'];
+                        $insurance['vehicle']['CAR_DATA_CLIENT'] = $val['vehicleName']."/".$val['vehicleAlias']."/".$val['vehicleDisplacement']."/".$val['vehiclePrice'];
+                        $insurance['vehicle']['MODEL_CODE'] = $val['vehicleId'];
+                        $insurance['vehicle']['BUYING_PRICE'] = $val['vehiclePrice'];
+
+                    }
+                        $discout_price['CAR_DATA_CLIENT'] = $insurance['vehicle']['CAR_DATA_CLIENT'];
+                        $discout_price['ENROLL_DATE'] = $insurance['vehicle']['ENROLL_DATE'];
+                        $discout_prices = $this->discoutPirce($discout_price,$insurance['business']['BUSINESS_START_TIME']);
+                        $insurance['vehicle']['DISCOUNT_PRICE'] = $discout_prices;
+                        Session::set('premium_parems',$insurance);
+                        return ret(1,'请求失败','已自动过滤成正确车型,请返回险种页面重新提交报价');
+                }
+            }
         }
-        if(empty($result['data']['MVTALCI']) && empty($result['data']['BUSINESS']))
+        else if(isset($result['data']['MESSAGE']) && strstr($result['data']['MESSAGE'],'终保'))
+        {
+           return ret(1,'请求失败',$result['data']['MESSAGE']);
+        }
+        else if(isset($result['data']['MVTALCI']) && empty($result['data']['MVTALCI']) && isset($result['data']['BUSINESS']) && empty($result['data']['BUSINESS']))
         {
             return ret(1,'请求失败',$result['data']['MESSAGE']);
         }
+        else if(isset($result['data']['MESSAGE']) && !empty($result['data']['MESSAGE']) && $result['data']['MESSAGE'] != "交易成功")
+        {
+            return ret(1,'请求失败',$result['data']['MESSAGE']);
+        }
+
+
 
         Session::delete('premium');
         Session::set('premium',$result);
@@ -648,6 +708,7 @@ class Main extends Base
         {
             return ret(1,'请求失败','已超时,请重新登录');
         }
+
         $user['username'] = $username;
         $users = db('user')->where($user)->field('id')->find();
 
@@ -769,7 +830,7 @@ class Main extends Base
     public function discoutPirce($info = array(),$starttime = "")
     {
         $app = new Curl();
-        if(!empty($_POST))
+        if(isset($_POST['auto']) && !empty($_POST['auto']))
         {
             $car_data = explode('/', $_POST['auto']['CAR_DATA_CLIENT']);
             $data['purchase_price'] = intval(trim(end($car_data)));
@@ -785,8 +846,6 @@ class Main extends Base
             }
             return ret(0,'请求成功',$result['data']);
         }
-
-
         $car_data = explode('/', $info['CAR_DATA_CLIENT']);
         $data['purchase_price'] = intval($car_data[3]);
         $data['enroll_date'] = $info['ENROLL_DATE'];
