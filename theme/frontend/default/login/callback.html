@@ -28,14 +28,7 @@
 
 				if(QC.Login.check()){
 
-
-
-
-
-
 				    QC.Login.getMe(function(openId, accessToken){
-
-
 
 /*					    $.get('https://graph.qq.com/user/get_user_info?access_token='+accessToken+'oauth_consumer_key=1106804303'+'openid='+openId+'format=json',function(msg){
 					    	alert(msg);
@@ -47,11 +40,12 @@
 				        $("#accessToken").text(accessToken);
 				        $.post('/login/qqLogin',{'parms':parms},function(msg){
 
-				        	if(msg.status == 0)
+				        	if(msg.status != 0)
 				        	{
 				        		window.location.href="{:url('Login/information')}";
+				        		return;
 				        	}
-
+				        	window.location.href="{:url('Main/index')}";
 				        });
 
 				    });

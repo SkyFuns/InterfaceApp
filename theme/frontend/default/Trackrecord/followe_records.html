@@ -246,7 +246,6 @@
 				{
 					$arr.fur_cid = $nots;
 				}
-				
 				$.post('/Trackrecord/addFur',{'parms':$arr},function(msg){
 						if(msg.status != 0)
 						{
@@ -254,13 +253,12 @@
 							return;
 						}
 						alert(msg.title);
-
+						mui.openWindow({
+							url:'/Main/accurate_details/nots/{$nots}.html',
+						});
 				});
 
 			}
-
-
-
 
 		</script>
 	</body>
