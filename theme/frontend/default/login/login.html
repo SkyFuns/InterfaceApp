@@ -78,6 +78,7 @@
 			border-color:#dd524d;
 		}
 		.login-form{
+			width: 220px;
 			min-height:345px;
 			position:relative;
 			-webkit-perspective:1000px;
@@ -257,7 +258,27 @@
 		.agreement{
 
 			float: right;
+			font-size: 13px;
+		}
 
+
+
+		.login-form .group .res_checks:checked + label .icons{
+			background:#e47d79;
+		}
+		.login-form .group .res_checks:checked + label .icons:before{
+			-webkit-transform:scale(1) rotate(45deg);
+			    -ms-transform:scale(1) rotate(45deg);
+			        transform:scale(1) rotate(45deg);
+		}
+		.login-form .group .res_checks:checked + label .icons:after{
+			-webkit-transform:scale(1) rotate(-45deg);
+			    -ms-transform:scale(1) rotate(-45deg);
+			        transform:scale(1) rotate(-45deg);
+		}
+
+		.login-form .group .res_checks:checked + label{
+			color:#e47d79;
 		}
 
 
@@ -285,14 +306,14 @@
 							<label for="pass" class="label">授权码</label>
 							<input  type="text" id="authorizationcode" class="input"  style="color: #dd524d;">
 						</div>
-						<div class="group">
+						<div class="group" style="font-size:13px;">
 							<input id="check" type="checkbox" class="check" checked>
 							<label for="check"><span class="icon" style="margin-right: 5px"></span>记住密码</label>
 							<span id="qqLoginBtn"></span>
 							<div class="agreement">
 								<input id="checks" type="checkbox" class="check" checked>
-    							<label for="checks"><span class="icon" style="margin-right: 5px" id="parment"></span>软件使用协议</label>
-    							<span style="color:#dd524d" id="agreements">详情</span>
+    							<label for="checks"><span class="icon" style="margin-right: 5px" id="login_parment"></span>软件使用协议</label>
+    							<span style="color:#dd524d" class="agreements">详情</span>
 							</div>
 						</div>
 						<div class="group" id="index_button">
@@ -302,9 +323,6 @@
 						<div class="foot-lnk">
 							<a href="#forgot">忘记了密码?</a>
 						</div>
-
-
-
 					</div>
 					<div class="sign-up-htm">
 						<div class="group">
@@ -323,6 +341,15 @@
 							<label for="pass" class="label">授权码</label>
 							<input  type="text" id="login_authorizationcode" class="input" style="color: #dd524d;">
 						</div>
+
+						<div class="group">
+							<div class="agreement" style="margin-bottom:15px;">
+									<input id="res_checks" type="checkbox" class="check" checked>
+	    							<label for="res_checks"><span class="icon" style="margin-right: 5px" id="registered_parment"></span>软件使用协议</label>
+	    							<span style="color:#dd524d" class="agreements">详情</span>
+							</div>
+						</div>
+
 						<div class="group" id="login_button">
 							<input type="submit" class="button" value="注册" style="width: 100%;height: 50px">
 						</div>
@@ -342,9 +369,6 @@
 <script type="text/javascript" src="__THEMES__/js/jquery_3.3.1.js"></script>
 <script src="__THEMES__/js/layer.js"></script>
 <script src="__THEMES__/layui/layui.js"></script>
-
-
-
 <script type="text/javascript">
 
 	$title = "免责声明";
@@ -353,7 +377,7 @@
  			"软件报价结果仅供参考，最终以出单系统价格为准。"+
  			"如果您继续使用，则请勾选同意软件使用的协议。";
 
-	$("#agreements").click(function(){
+	$(".agreements").click(function(){
 		layer.open({
 				title:$title,
 				content: $content
@@ -362,9 +386,9 @@
 
 	$("#index_button").click(function(){
 
-		$par = $("#parment").css("background-color");
+		$par = $("#login_parment").css("background-color");
 
-		if($par == "rgba(255, 255, 255, 0.1)")
+		if($par == "rgba(255, 255, 255, 0.0980392)")
 		{
 			layer.open({
 				title:$title,
@@ -411,55 +435,59 @@
 
 		$login_username = $("#login_username").val();
 
-		$login_password = $("#login_password").val();
-
-		$login_autopassword = $("#login_autopassword").val();
-
-		$login_authorizationcode = $("#login_authorizationcode").val();
-
 		if($login_username == "")
 		{
 			layer.open({
 				content: "<font color='#dd524d'>请保证用户名不为空</font>"
 			});
+			return;
 		}
-
+		$login_password = $("#login_password").val();
 		if($login_password == "")
 		{
 			layer.open({
 				content: "<font color='#dd524d'>请保证密码不为空</font>"
 			});
+			return;
 		}
-
+		$login_autopassword = $("#login_autopassword").val();
 		if($login_autopassword == "")
 		{
 			layer.open({
 				content: "<font color='#dd524d'>请保证确认密码不为空</font>"
 			});
+			return;
 		}
-
+		$login_authorizationcode = $("#login_authorizationcode").val();
 		if($login_authorizationcode == "")
 		{
 			layer.open({
 				content: "<font color='#dd524d'>请保证授权码不为空</font>"
 			});
+			return;
 		}
-
 		if($login_password != $login_autopassword)
 		{
 			layer.open({
 				content: "<font color='#dd524d'>两次输入密码不一致</font>"
 			});
+			return;
 		}
+		$respar = $("#registered_parment").css("background-color");
 
+		if($respar == "rgba(255, 255, 255, 0.0980392)")
+		{
+			layer.open({
+				title:$title,
+				content: $content
+			});
+			return;
+		}
 		$.post('/login/register',{'username':$login_username,'password':$login_password,'authorizationcode':$login_authorizationcode},function(msg){
 
 			layer.open({
 					content: "<font color='#dd524d'>"+msg.title+"</font>"
-				});
-
+			});
 		});
 	});
-
-
 </script>
