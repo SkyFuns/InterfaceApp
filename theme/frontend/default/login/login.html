@@ -115,6 +115,68 @@
 			opacity:0.8;
 			font-family: "微软雅黑";
 		}
+
+
+		.login-form .group label .icons{
+			width:15px;
+			height:15px;
+			border-radius:2px;
+			position:relative;
+			display:inline-block;
+			background:rgba(255,255,255,.1);
+		}
+
+
+		.login-form .group label .icons:before,
+		.login-form .group label .icons:after{
+			content:'';
+			width:10px;
+			height:2px;
+			background:#fff;
+			position:absolute;
+			-webkit-transition:all .2s ease-in-out 0s;
+			        transition:all .2s ease-in-out 0s;
+		}
+		.login-form .group label .icons:before{
+			left:3px;
+			width:5px;
+			bottom:6px;
+			-webkit-transform:scale(0) rotate(0);
+			    -ms-transform:scale(0) rotate(0);
+			        transform:scale(0) rotate(0);
+		}
+		.login-form .group label .icons:after{
+			top:6px;
+			right:0;
+			-webkit-transform:scale(0) rotate(0);
+			    -ms-transform:scale(0) rotate(0);
+			        transform:scale(0) rotate(0);
+		}
+
+		.login-form .group .checks:checked + label .icons{
+			background:#e47d79;
+		}
+		.login-form .group .checks:checked + label .icons:before{
+			-webkit-transform:scale(1) rotate(45deg);
+			    -ms-transform:scale(1) rotate(45deg);
+			        transform:scale(1) rotate(45deg);
+		}
+		.login-form .group .checks:checked + label .icons:after{
+			-webkit-transform:scale(1) rotate(-45deg);
+			    -ms-transform:scale(1) rotate(-45deg);
+			        transform:scale(1) rotate(-45deg);
+		}
+
+		.login-form .group .checks:checked + label{
+			color:#e47d79;
+		}
+
+
+
+
+
+
+
 		.login-form .group label .icon{
 			width:15px;
 			height:15px;
@@ -148,9 +210,7 @@
 			    -ms-transform:scale(0) rotate(0);
 			        transform:scale(0) rotate(0);
 		}
-		.login-form .group .check:checked + label{
-			color:#e47d79;
-		}
+
 		.login-form .group .check:checked + label .icon{
 			background:#e47d79;
 		}
@@ -164,6 +224,10 @@
 			    -ms-transform:scale(1) rotate(-45deg);
 			        transform:scale(1) rotate(-45deg);
 		}
+
+		.login-form .group .check:checked + label{
+			color:#e47d79;
+		}
 		.login-html .sign-in:checked + .tab + .sign-up + .tab + .login-form .sign-in-htm{
 			-webkit-transform:rotate(0);
 			    -ms-transform:rotate(0);
@@ -174,6 +238,8 @@
 			    -ms-transform:rotate(0);
 			        transform:rotate(0);
 		}
+
+
 
 		.hr{
 			height:2px;
@@ -188,6 +254,14 @@
 			caret-color: #dd524d;
 		    font-family: "微软雅黑";
 		}
+		.agreement{
+
+			float: right;
+
+		}
+
+
+
 	</style>
 </head>
 <body>
@@ -213,8 +287,13 @@
 						</div>
 						<div class="group">
 							<input id="check" type="checkbox" class="check" checked>
-							<label for="check"><span class="icon"></span>记住密码</label>
+							<label for="check"><span class="icon" style="margin-right: 5px"></span>记住密码</label>
 							<span id="qqLoginBtn"></span>
+							<div class="agreement">
+								<input id="checks" type="checkbox" class="check" checked>
+    							<label for="checks"><span class="icon" style="margin-right: 5px" id="parment"></span>软件使用协议</label>
+    							<span style="color:#dd524d" id="agreements">详情</span>
+							</div>
 						</div>
 						<div class="group" id="index_button">
 							<input type="submit" class="button" value="登录" style="width: 100%;height: 50px;background-color: #dd524d;">
@@ -224,7 +303,7 @@
 							<a href="#forgot">忘记了密码?</a>
 						</div>
 
-						
+
 
 					</div>
 					<div class="sign-up-htm">
@@ -258,7 +337,7 @@
 	</div>
 </body>
 </html>
-<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="1106804303" data-callback="true" data-redirecturi="http://dm5aq2.natappfree.cc/login/callback" charset="utf-8"></script>
+<!-- <script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="1106804303" data-callback="true" data-redirecturi="http://duir9q.natappfree.cc/login/callback" charset="utf-8"></script> -->
 
 <script type="text/javascript" src="__THEMES__/js/jquery_3.3.1.js"></script>
 <script src="__THEMES__/js/layer.js"></script>
@@ -268,17 +347,55 @@
 
 <script type="text/javascript">
 
+	$title = "免责声明";
+	$content = "本软件仅提供给有保险资质的签约单位使用，如果您不是签约单位员工，请不要使用，避免账号异常。"+
+			"软件故障由您单位管理人员统一上报处理。"+
+ 			"软件报价结果仅供参考，最终以出单系统价格为准。"+
+ 			"如果您继续使用，则请勾选同意软件使用的协议。";
 
-	    QC.Login({btnId:"qqLoginBtn"});
-
-
+	$("#agreements").click(function(){
+		layer.open({
+				title:$title,
+				content: $content
+		});
+	});
 
 	$("#index_button").click(function(){
 
-		var username = $("#username").val();
-		var pass = $("#password").val();
-		var authorizationcode = $("#authorizationcode").val();
+		$par = $("#parment").css("background-color");
 
+		if($par == "rgba(255, 255, 255, 0.1)")
+		{
+			layer.open({
+				title:$title,
+				content: $content
+			});
+			return;
+		}
+		var username = $("#username").val();
+		if(username == "")
+		{
+			layer.open({
+				content: '用户名不能为空'
+			});
+			return;
+		}
+		var pass = $("#password").val();
+		if(pass == "")
+		{
+			layer.open({
+				content: '密码不能为空'
+			});
+			return;
+		}
+		var authorizationcode = $("#authorizationcode").val();
+		if(authorizationcode == "")
+		{
+			layer.open({
+				content: '授权码不能为空'
+			});
+			return;
+		}
 		$.post('/login/index',{'username':username,'password':pass,'authorizationcode':authorizationcode},function(msg){
 
 			if(msg.status != 0)

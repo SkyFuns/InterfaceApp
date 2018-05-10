@@ -362,17 +362,17 @@
 
 						if(("BUSINESS" in msg.content.data) && ("MVTALCI" in msg.content.data))
 						{
-							var cost =  msg.content.data.BUSINESS.BUSINESS_PREMIUM + msg.content.data.MVTALCI.MVTALCI_PREMIUM;
+							var cost =  (parseFloat(msg.content.data.BUSINESS.BUSINESS_PREMIUM) + parseFloat(msg.content.data.MVTALCI.MVTALCI_PREMIUM)).toFixed(2);
 
 						}
 						else if(("MVTALCI" in msg.content.data))
 						{
-							var cost =   msg.content.data.MVTALCI.MVTALCI_PREMIUM;
+							var cost =   parseFloat(msg.content.data.MVTALCI.MVTALCI_PREMIUM);
 
 						}
 						else if(("BUSINESS" in msg.content.data))
 						{
-							var cost =  msg.content.data.BUSINESS.BUSINESS_PREMIUM;
+							var cost =  parseFloat(msg.content.data.BUSINESS.BUSINESS_PREMIUM);
 
 						}
 

@@ -33,23 +33,25 @@ class Login extends FrontendBase
             if(empty($user))
             {
                 Session::set('qq_openid',$data['openid']);
+                return ret(1,'请求失败','');
             }
             else
             {
                 Session::set('qq_openid',$user['openid']);
+                return ret(0,'请求成功',$user);
             }
-            return ret(0,'请求成功','');
+            
         }
     }
 
-    function information()
+    public function information()
     {
         $qq_openid = Session::get('qq_openid');
         if(empty($qq_openid))
         {
             return ret(1,'请求失败','请重新登录');
         }
-        
+        return $this->fetch("information");
     }
 
 

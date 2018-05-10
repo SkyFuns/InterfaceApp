@@ -990,6 +990,18 @@
 					$model_str+= '<a class="mui-navigate-right">'+app[e]['vehicleName']+'/'+app[e]['vehicleAlias']+'/'+app[e]['vehicleDisplacement']+'/'+app[e]['vehiclePrice']+'</a>';
 			    	$model_str +='</li>';
 				}
+
+				$str = "{$renewal.carInfo.buying_price}";
+				if($str != 0)
+				{
+					$prices = '参考购置价:{$renewal.carInfo.buying_price}';
+				}
+				else
+				{
+					$prices = "";
+				}
+
+
 		            var pageii = layer.open({
 					type: 1
 					,title:'选择报价车型'
@@ -1002,7 +1014,7 @@
 							'</fieldset>'+
 							'<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">'+
 								'<div class="layui-tab-content" style="height: 100px;">'+
-								'<span style="margin-left:15px;color: #dd524d;">参考购置价:{$renewal.carInfo.buying_price}</span>'+
+								'<span style="margin-left:15px;color: #dd524d;">'+$prices+'</span>'+
 								    '<div class="layui-tab-item layui-show">'+
 									    '<div class="offer_models">'+
 
@@ -1494,7 +1506,7 @@
 		});
 
 		mui(document.body).on('tap', '#nextstep', function(e) {
-			
+
         	var $auto = new Object();
         	var $user = new Object();
         	var $mvtalci= new Object();

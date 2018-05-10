@@ -496,9 +496,10 @@ class Main extends Base
         $arr['auto']['MODEL'] = $car_info[1];
         $arr['auto']['MODEL_CODE'] = $car_info[0];
         $arr['auto']['BUYING_PRICE'] = $car_info[4];
+
         $discout_price = $this->discoutPirce($_POST['auto'],$arr['business']['BUSINESS_START_TIME']);
         $arr['auto']['DISCOUNT_PRICE'] = $discout_price['content'];
-        $arr['auto']['SEATS'] = $car_info[5];;
+        $arr['auto']['SEATS'] = $car_info[5];
         $arr['auto']['MODEL_ALIAS'] = $car_info[2];
         $arr['auto']['LICENSE_NO'] = trim($_POST['auto']['LICENSE_NO']);
         $arr['auto']['VIN_NO'] = trim($_POST['auto']['VIN_NO']);
@@ -537,7 +538,6 @@ class Main extends Base
 
         Session::delete('carInfo');
         Session::delete('premium_parems');
-        #Session::set('carInfo',trim($_POST['auto']['CAR_DATA_CLIENT']));
         Session::set('premium_parems',$data);
 
         return ret(0,'请求成功');
